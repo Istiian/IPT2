@@ -1,0 +1,144 @@
+:root{
+    --headingFont: "Poppins";
+    --bodyFont: "Roboto";
+    --accent: #EFA73F;
+    --secondary: #012362;
+    --primary: #fff;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    min-height: none;
+    min-width: none;
+    /* background: #eee; */
+    display: flex;
+    font-family: sans-serif;
+    
+    
+
+}
+.container{
+    min-height: none;
+    border-radius: 4px;
+   margin: auto;
+    position: relative;
+    top: 200px;
+    width: 600px;
+    height: 1px;
+    
+   
+}
+.container form .form-group {
+    position: relative;
+    top: -40px;
+    width: 90%; /* Adjust width to extend but stay responsive */
+    height: 400px;
+    margin: 0 auto; /* Center align the form group */
+    padding: 20px;
+    background: white;
+    border-radius: 40px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, .3);
+    background-image: 
+        linear-gradient(transparent 50%, white 50%),
+        url("/images/cmu.png");
+    background-size: 100% 45%;
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+.container form h1{
+    position: relative;
+    top: 20px;
+    text-align: center;
+    margin-bottom:24px;
+    color: white;
+    font-size: 25px;
+}
+.userform{
+    position: relative;
+    top: 60px;
+    left: 2px;
+width: 510px;
+height: 30px;
+background: white;
+border-radius: 4px;
+border: 1px solid silver;
+margin: 10px 0 18px 0;
+padding: 0 10px;
+}
+.passform{
+    position: relative;
+    top: 60px;
+    left: 2px;
+width: 510px;
+height: 30px;
+background: white;
+border-radius: 4px;
+border: 1px solid silver;
+margin: 10px 0 18px 0;
+padding: 0 10px;
+}
+.button{
+    position: relative;
+    top: 40px;
+    left: 150px;
+    border-radius: 20px;
+    font-size: 30px;
+    width: 200px;
+    margin: auto;
+    color: white;
+    background-color: orange;
+    text-align: center;
+    border: none;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+.button:hover{
+    scale: 95%;
+}
+.user{
+    position: relative;
+    top:70px;
+    font-size: 25px;
+}
+
+.pass{
+    position: relative;
+    top:70px;
+    font-size: 25px;
+}
+
+.rq1{
+    color: red;
+    position:relative;
+    top: -60px;
+    left: -0px;
+    font-size: 12px;
+    visibility: hidden;
+}
+
+.rq2{
+    color: red;
+    position:relative;
+    font-size: 12px;
+    top: 15px;
+    left: -0px;
+    visibility: hidden;
+}
+
+.forpass {
+    color: black;
+    position: relative;
+    left: 195px;
+    top: 50px;
+    text-align: center;
+}
+
+.forpass .forgot-password {
+    color: #858585;
+    text-decoration: none; 
+}
