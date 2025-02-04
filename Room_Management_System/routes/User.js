@@ -39,10 +39,11 @@ router.post("/Login", async (req, res) => {
             result[0].Year,
             result[0].Section
         )
-        if (user.VerifyPassword(Inputed.password)) {
+        console.log(await user.VerifyPassword(Inputed.password))
+        if (await user.VerifyPassword(Inputed.password)) {
             console.log("welcome")
         } else {
-            res.redirect("/Login");
+            console.log("Not Welcome")
         }
 
     } else {
