@@ -5,18 +5,20 @@
 }
 
 :root {
-    --headingFont: "Poppins";
-    --bodyFont: "Roboto";
-    --accent: #EFA73F;
+    --headingFont: "Poppins", "Arial";
+    --bodyFont: "Roboto", "Arial";
+    --accent: #DAA520;
     --secondary: #012362;
     --primary: #fff;
 }
-
+.body{
+    background-color: #f9f9f9;
+}
 .SignUpContainer {
     width: 90%;
     max-width: 700px;
     height: auto;
-    border: 1px solid black;
+    
     display: block;
     margin: 100px auto;
     border-radius: 15px;
@@ -87,7 +89,7 @@ select {
     visibility: hidden;
 }
 
-.SubmitBtn{
+input[type =submit]{
     width: 95%;
     color: var(--primary);
     background-color: var(--accent);

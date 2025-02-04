@@ -1,8 +1,13 @@
+
 var express = require("express");
 var router = express.Router();
 
 router.get("/", function(req, res) {
-    res.render("SignUp");
+    const created = req.query.Created;
+    const message = req.query.Message;
+    
+    res.render('SignUp', { created, message });
+    
 });
 
 module.exports = router;
