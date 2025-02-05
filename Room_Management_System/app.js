@@ -5,21 +5,23 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mysql = require('mysql2');
 const bcrypt = require('bcrypt');
-
+const methodOverride = require("method-override");
 var app = express();
 
 var SignUpRouter = require('./routes/SignUp');
 var LoginRouter = require('./routes/Login');
 var UserRouter = require('./routes/User');
 var AdminRouter = require('./routes/Admin');
+var ChangePassRouter = require("./routes/ChangePass")
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
+app.use(methodOverride('_method')); // makes method patch, delete, put works
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -28,6 +30,7 @@ app.use('/SignUp', SignUpRouter);
 app.use('/Login', LoginRouter)
 app.use('/User', UserRouter)
 app.use('/Admin', AdminRouter)
+app.use('/ChangePass', ChangePassRouter)
 
 
 // catch 404 and forward to error handler

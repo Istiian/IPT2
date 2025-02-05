@@ -1,0 +1,115 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --headingFont: "Poppins", "Arial";
+    --bodyFont: "Roboto", "Arial";
+    --accent: #DAA520;
+    --secondary: #012362;
+    --primary: #fff;
+}
+.body{
+    background-color: #f9f9f9;
+}
+.SignUpContainer {
+    width: 90%;
+    max-width: 700px;
+    height: auto;
+    
+    display: block;
+    margin: 100px auto;
+    border-radius: 15px;
+    box-shadow: 7px 5px 19px 0px rgba(0,0,0,0.52);
+
+}
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+.Heading{
+    font-size: 35px;
+    font-family: var(--headingFont);
+    margin-top: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.inputRow {
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    flex-wrap: wrap;
+}
+
+.inputContainer.Uni {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    
+}
+
+.inputContainer.Bi {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+    
+}
+
+.inputContainer.Tri {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+
+.inputContainer label {
+    font-family: var(--headingFont);
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--secondary);
+}
+
+.inputContainer input,
+select {
+    font-size: 14px;
+    padding: 4px 5px;
+    margin: 4px 0px 2px;
+    font-family: var(--bodyFont);
+}
+
+.inputContainer small {
+    font-family: var(--bodyFont);
+    color: red;
+    font-size: 10px;
+    visibility: hidden;
+}
+
+input[type =submit]{
+    width: 95%;
+    color: var(--primary);
+    background-color: var(--accent);
+    font-family: var(--bodyFont);
+    font-size: 15px;
+    font-weight: 600;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--accent);
+    transition: 0.3s ease;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+.SubmitBtn:hover{
+    scale: 98%;
+}
+
+@media screen and (max-width: 450px){
+    .inputContainer.Tri, .inputContainer.Bi{
+        width: 100%;
+    }
+
+}
