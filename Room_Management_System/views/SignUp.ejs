@@ -11,7 +11,7 @@
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
         rel="stylesheet">
 </head> -->
-<link rel="stylesheet" href="/stylesheets/SignUp.css">
+    <link rel="stylesheet" href="/stylesheets/SignUp.css">
 
 <body>
 
@@ -21,10 +21,10 @@
         </script>
     <% } %> -->
 
-    
+
     <div class="SignUpContainer">
 
-        <form action="/Admin/CreateAccount" method="post">
+        <form action="/AdminRoute/CreateAccount" method="post">
 
             <h1 class="Heading">Create A New Account</h1>
 
@@ -54,26 +54,28 @@
 
                 <div class="inputContainer Tri">
                     <label for="Course">Course:</label>
-                    <select name="Course" id="" required>
+                    <select name="Course" id="Course" required>
                         <option value=""></option>
-                        <option value="Bachelor of Science in Information Technology">Bachelor of Science in Information Technology</option>
+                        <option value="Bachelor of Science in Information Technology">Bachelor of Science in Information
+                            Technology</option>
                         <option value="Bachelor of Science in Accountancy">Bachelor of Science in Accountancy</option>
                         <option value="Bachelor of Science in Criminology">Bachelor of Science in Criminology</option>
                         <option value="Bachelor of Arts in Journalism">Bachelor of Arts in Journalism</option>
-                        <option value="Bachelor of Arts in Public Administration">Bachelor of Arts in Public Administration</option>
+                        <option value="Bachelor of Arts in Public Administration">Bachelor of Arts in Public
+                            Administration</option>
                     </select>
                     <small>Required</small>
                 </div>
 
                 <div class="inputContainer Tri">
                     <label for="">Year:</label>
-                    <input type="text" required name="Year">
+                    <input type="text" required name="Year" id="Year">
                     <small>Required</small>
                 </div>
 
                 <div class="inputContainer Tri">
                     <label for="">Section:</label>
-                    <input type="text" required name="Section">
+                    <input type="text" required name="Section" id="Section">
                     <small>Required</small>
                 </div>
 
@@ -99,12 +101,12 @@
 
                 <div class="inputContainer Uni">
                     <label for="Username">Username:</label>
-                    <input type="text" name="Username" required>
+                    <input type="text" name="Username" required id="Username">
                     <small>Required</small>
                 </div>
 
             </div>
-            
+
             <div class="inputRow">
 
                 <div class="inputContainer Uni">
@@ -120,7 +122,55 @@
         </form>
     </div>
 
-    
+    <script>
+        const CourseInput = document.getElementById("Course");
+        const UsernameInput = document.getElementById("Username");
+        const YearInput = document.getElementById("Year");
+        const SectionInput = document.getElementById("Section");
+
+        let inputValues = {
+            SY: "2425",
+            course: "",
+            year: "",
+            section: ""
+        };
+
+        CourseInput.onchange = () => {
+            switch (CourseInput.value) {
+                case "Bachelor of Science in Information Technology":
+                    inputValues.course = "BSIT";
+                    break;
+                case "Bachelor of Science in Accountancy":
+                    inputValues.course = "BSA";
+                    break;
+                case "Bachelor of Science in Criminology":
+                    inputValues.course = "BSCrim";
+                    break;
+                case "Bachelor of Arts in Journalism":
+                    inputValues.course = "BAJ";
+                    break;
+                case "Bachelor of Arts in Public Administration":
+                    inputValues.course = "BAPA";
+                    break;
+                default:
+                    inputValues.course = "";
+            }
+
+            UsernameInput.value =inputValues.SY + inputValues.course + inputValues.year + inputValues.section;
+            console.log(inputValues.course);
+        };
+
+        function InputListener(input, key) {
+            input.addEventListener("input", () => {
+                inputValues[key] = input.value;
+                UsernameInput.value = inputValues.SY +inputValues.course + inputValues.year + inputValues.section;
+            });
+        }
+
+        InputListener(YearInput, "year");
+        InputListener(SectionInput, "section");
+
+    </script>
 </body>
 
 </html>

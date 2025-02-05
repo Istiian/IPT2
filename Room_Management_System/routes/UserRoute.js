@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 var mysql = require('mysql2/promise');
 const bcrypt = require('bcrypt');
-
+const User = require("../models/User");
 
 router.get("/", function (req, res) {
     res.send("Success")
@@ -51,33 +51,33 @@ router.post("/Login", async (req, res) => {
     }
 })
 
-const privateData = new WeakMap();
+// const privateData = new WeakMap();
 
-class User {
+// class User {
 
-    constructor(username, password, course, year, section) {
-        this.username = username,
-        privateData.set(this, { password }),
-        this.course = course,
-        this.year = year,
-        this.section = section
-    }
+//     constructor(username, password, course, year, section) {
+//         this.username = username,
+//         privateData.set(this, { password }),
+//         this.course = course,
+//         this.year = year,
+//         this.section = section
+//     }
 
-    getPassword() {
-        return privateData.get(this).password;
-    }
+//     getPassword() {
+//         return privateData.get(this).password;
+//     }
 
-    async VerifyPassword(password) {
-        try {
-            //Compare if the encrypted password from db matches the user's inputted password
-            const isMatch = await bcrypt.compare(password,  this.getPassword());
-            return isMatch;
-        } catch (error) {
-            console.error("Pass verification error!", error)
-            return false;
-        }
-    }
-}
+//     async VerifyPassword(password) {
+//         try {
+//             //Compare if the encrypted password from db matches the user's inputted password
+//             const isMatch = await bcrypt.compare(password,  this.getPassword());
+//             return isMatch;
+//         } catch (error) {
+//             console.error("Pass verification error!", error)
+//             return false;
+//         }
+//     }
+// }
 
 
 module.exports = router

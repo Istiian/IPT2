@@ -8,11 +8,11 @@ const bcrypt = require('bcrypt');
 const methodOverride = require("method-override");
 var app = express();
 
-var SignUpRouter = require('./routes/SignUp');
-var LoginRouter = require('./routes/Login');
-var UserRouter = require('./routes/User');
-var AdminRouter = require('./routes/Admin');
-var ChangePassRouter = require("./routes/ChangePass")
+var SignUpRouter = require('./routes/SignUpRoute');
+var LoginRouter = require('./routes/LoginRoute');
+var UserRouter = require('./routes/UserRoute');
+var AdminRouter = require('./routes/AdminRoute');
+var ChangePassRouter = require("./routes/ChangePassRoute")
 
 
 // view engine setup
@@ -26,11 +26,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/SignUp', SignUpRouter);
-app.use('/Login', LoginRouter)
-app.use('/User', UserRouter)
-app.use('/Admin', AdminRouter)
-app.use('/ChangePass', ChangePassRouter)
+app.use('/SignUpRoute', SignUpRouter);
+app.use('/LoginRoute', LoginRouter)
+app.use('/UserRoute', UserRouter)
+app.use('/AdminRoute', AdminRouter)
+app.use('/ChangePassRoute', ChangePassRouter)
 
 
 // catch 404 and forward to error handler
