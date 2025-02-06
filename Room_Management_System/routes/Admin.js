@@ -12,7 +12,7 @@ const bcrypt = require('bcrypt');
             password: '12345',
             database: 'room_management'
         });
-        console.log('Admin: Connection Success');
+        // console.log('Admin: Connection Success');
     } catch (err) {
         console.error('Connection Not Success:', err.message);
     }

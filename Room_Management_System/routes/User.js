@@ -16,7 +16,7 @@ router.get("/", function (req, res) {
             password: '12345',
             database: 'room_management'
         });
-        console.log('User: Connection Success');
+        // console.log('User: Connection Success');
     } catch (err) {
         console.error('Connection Not Success:', err.message);
     }
