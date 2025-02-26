@@ -1,0 +1,177 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: var(--black);
+}
+
+:root {
+    --headingFont: "Poppins", "Arial";
+    --bodyFont: "Roboto", "Arial";
+    --accent: #DAA520;
+    --secondaryOne: #012362;
+    --secondaryTwo: #f2f2f2;
+    --primary: #fafafa;
+    --black: #333333;
+}
+
+body {
+    background-color: var(--secondaryTwo);
+    height: auto;
+    width: 100%;
+    display: flex;
+    min-height: 100vh;
+}
+
+.Sidebar {
+    width: 225px;
+    border: 1px solid darkblue;
+    background-color: var(--secondaryOne);
+}
+
+.MainContent {
+    flex: 1;
+    border: 1px solid black;
+    background-color: var(--primary);
+}
+
+.LogoHeaderCont {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    /* Ensures the width fits the content */
+    margin: 0 auto;
+    /* Centers horizontally */
+    border-bottom: 3px solid white;
+    padding-inline: 5px;
+}
+
+.LogoHeaderCont img {
+    width: 25px;
+    margin-right: 10px;
+}
+
+.LogoHeaderCont h1 {
+    font-family: var(--headingFont);
+    font-size: 20px;
+    color: var(--primary);
+}
+
+.Sidebar nav {
+    margin-top: 20px;
+}
+
+.SidebarLinks {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    padding: 6px 10px;
+    margin-right: 10px;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.SidebarLinks:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.SidebarLinks.active {
+    background-color: rgba(218, 165, 32, 0.5);
+}
+
+.SidebarLinks .fa-solid {
+    color: var(--secondaryTwo);
+    font-size: 20px;
+
+}
+
+.SidebarLinks label {
+    color: var(--secondaryTwo);
+    font-size: 12px;
+    font-family: var(--headingFont);
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+.HeaderNavigation {
+    width: 100%;
+    background-color: var(--secondaryTwo);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+/* USERNAME DROPDOWN */
+.Dropdown {
+    position: relative;
+    margin-right: 30px;
+
+}
+
+.Dropdown button {
+    padding: 5px 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: 0.3s ease;
+}
+
+#DropdownBtn i {
+    color: var(--black);
+}
+
+.Username {
+    font-style: none;
+    color: var(--black);
+    margin-right: 5px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.Dropdown button:hover {
+    background-color: rgba(1, 35, 98, 0.1);
+}
+
+#DropdownContent {
+    position: absolute;
+    background-color: var(--primary);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    right: 0;
+    top: 35px;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    width: auto;
+    min-width: 100px;
+    border-radius: 5px;
+    overflow: hidden;
+
+}
+
+#DropdownContent a {
+    display: block;
+    padding: 10px;
+    font-size: 14px;
+    font-family: var(--bodyFont);
+    color: var(--black);
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+#DropdownContent a label{
+    cursor: pointer;
+}
+#DropdownContent a:hover {
+    background-color: rgba(1, 35, 98, 0.1);
+}
+
+#DropdownContent.show {
+    opacity: 1;
+    visibility: visible;
+}

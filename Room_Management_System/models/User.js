@@ -3,12 +3,15 @@ const privateData = new WeakMap();// store key-value pairs, where the keys are o
 
 
 class User {
-    constructor(username, password, course, year, section) {
+    constructor(username, password, name, role, course = null, year = null, section = null, department = null) {
         this.username = username;
         privateData.set(this, { password }),
+            this.name = name;
+        this.role = role,
             this.course = course,
             this.year = year,
-            this.section = section
+            this.section = section,
+        this.department = department
     }
 
     getPassword() {
@@ -29,6 +32,8 @@ class User {
         try {
             //Compare if the encrypted password from db matches the user's inputted password
             const isMatch = await bcrypt.compare(password, this.getPassword());
+            console.log("rESULT: ",isMatch)
+            console.log("password: ", password)
             return isMatch;
         } catch (error) {
             console.error("Pass verification error!", error)
@@ -39,7 +44,8 @@ class User {
     async isUsernameExist(username, connection) {
 
         const [result] = await connection.query("SELECT username FROM user WHERE username = ?", [username]);
-        console.log("Username: ", username)
+
+        console.log("Username: ", username);
         console.log("Database Check Result: ", result);
 
 
@@ -57,21 +63,38 @@ class User {
 
         if (!(await this.isUsernameExist(this.username, connection))) {
             try {
+                
                 const NewUser = {
-                    course: this.course,
-                    year: this.year,
-                    section: this.section,
+                    name: this.name,
                     username: this.username,
-                    password: HashedPassword
+                    password: HashedPassword,
+                    role: this.role
                 }
-                const result = await connection.query('INSERT INTO user SET ?', NewUser);
-                res.redirect('/SignUpRoute?Created=true&Message=hiii')
+                console.log(this.department);
+                const [AddingUserInfo] = await connection.query('INSERT INTO user SET ?', NewUser);
+                if (this.role == "Student") {
+                    const newStudent = {
+                        course: this.course,
+                        year: this.year,
+                        section: this.year,
+                        userId: AddingUserInfo.insertId
+                    }
+                    const AddingStudentInfo = await connection.query('INSERT INTO student SET ?', newStudent)
+                }
+                else if (this.role == "Faculty") {
+                    const newFaculty = {
+                        Department: this.department,
+                        userId: AddingUserInfo.insertId
+                    }
+                    const AddingFacultyInfo = await connection.query('INSERT INTO faculty SET ?', newFaculty)
+                }
+                res.redirect('/AdCreateAccountRoute?Created=true&Message=A new user is successfully created. ')
 
             } catch (err) {
                 res.status(500).send(err.message);
             }
         } else {
-            res.redirect('/SignUpRoute?Created=false&Message=Username Already Exist')
+            res.redirect('/AdCreateAccountRoute?Created=false&Message=Username Already Exist.')
         }
     }
 

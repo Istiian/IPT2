@@ -2,18 +2,26 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    color: var(--black);
 }
 
 :root {
-    --headingFont: "Poppins", "Arial";
+    /* --headingFont: "Poppins", "Arial";
     --bodyFont: "Roboto", "Arial";
     --accent: #DAA520;
     --secondary: #012362;
-    --primary: #fff;
+    --primary: #fff; */
+
+    --headingFont: "Poppins", "Arial";
+    --bodyFont: "Roboto", "Arial";
+    --accent: #DAA520;
+    --secondaryOne: #012362;
+    --secondaryTwo: #f2f2f2;
+    --primary: #fafafa;
+    --black: #333333;
 }
-.body{
-    background-color: #f9f9f9;
-}
+
+
 .SignUpContainer {
     width: 90%;
     max-width: 700px;
@@ -46,6 +54,12 @@ form{
     margin-bottom: 5px;
     flex-wrap: wrap;
 }
+#formContainer{
+    width: 95%;
+}
+#formContainer .inputRow{
+    width: 100%;
+}
 
 .inputContainer.Uni {
     display: flex;
@@ -71,7 +85,7 @@ form{
     font-family: var(--headingFont);
     font-weight: 600;
     font-size: 16px;
-    color: var(--secondary);
+    color: var(--secondaryOne);
 }
 
 .inputContainer input,
@@ -89,6 +103,12 @@ select {
     visibility: hidden;
 }
 
+small.invalid{
+    visibility: visible;
+}
+input.invalid{
+    border: 1px solid red;
+}
 input[type =submit]{
     width: 95%;
     color: var(--primary);
@@ -102,11 +122,52 @@ input[type =submit]{
     transition: 0.3s ease;
     cursor: pointer;
     margin-bottom: 20px;
+    
 }
 .SubmitBtn:hover{
     scale: 98%;
 }
+.MsgBox{
+    position: absolute;
+    width: 350px;
+    height: 50px;
+    background-color: rgba(12, 151, 35, 0.5);
+    border: 1px solid  rgba(12, 151, 35, 1);
+    bottom: 10%;
+    display: flex;
+    right: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+.MsgBox .fa-user-check{
+    color: var(--primary);
+    font-size: 20px;
+    margin-left: 10px;
+}
+.MsgBox p{
+    color: var(--primary);
+    font-family: var(--bodyFont);
+    font-size: 14px;
+    margin-left: 5px;
+}
 
+.MsgBox .fa-x{
+    color: var(--primary);
+    font-size: 12px;
+    margin-right: 10px;
+    margin-left: auto;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: 0.2s ease;
+}
+
+.MsgBox .fa-x:hover{
+    background-color: rgba(0,0,0,0.1);
+}
+.MsgBox.Hide{
+    display: none;
+}
 @media screen and (max-width: 450px){
     .inputContainer.Tri, .inputContainer.Bi{
         width: 100%;

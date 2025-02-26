@@ -6,7 +6,7 @@ router.get("/", function(req, res) {
     const created = req.query.Created;
     const message = req.query.Message;
     
-    res.render('SignUp', { created, message });
+    res.render('AdCreateAccount', { created, message });
     
 });
 

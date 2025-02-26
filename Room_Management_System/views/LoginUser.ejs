@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> LOG IN </title>
-    <link rel="stylesheet" href="/stylesheets/Login.css">
+    <link rel="stylesheet" href="/stylesheets/LoginUser.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
@@ -13,21 +13,25 @@
         rel="login.css">
 </head>
 
+  
 <body>
     <div class="container">
-
-        <!-- div para sa image -->
         <div class="CMUImage">
             <h1>Room Management System</h1>
         </div>
-
         <form action="/UserRoute/Login" method="post">
+            <% if(error) { %>
+                <div class="MessageBox">
+                    Invalid Username or Password.
+                </div>
+            <%}%>
+
             <label>Username:</label><br>
-            <input type="username" class="userform" placeholder="Username" name="Username" required>
+            <input type="username" class="userform" placeholder="Username" required name="Username">
             <small>p</small>
             <br>
             <label class="pass">Password:</label><br>
-            <input type="password" class="passform" placeholder="Password" name="Password" required>
+            <input type="password" class="passform" placeholder="Password" required name="Password">
             <br>
             <small>p</small>
             <br>
@@ -36,6 +40,13 @@
             <button>Login</button>
         </form>
     </div>
+
+    <% if(error) { %>
+        <script>
+            document.addEventListener("DOMContentLoaded", ()=>{
+            })
+        </script>
+      <% } %>
 </body>
 
 </html>

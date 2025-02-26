@@ -1,0 +1,128 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: none;
+}   
+
+:root {
+    --headingFont: "Poppins", "Arial";
+    --bodyFont: "Roboto", "Arial";
+    --accent: #DAA520;
+    --secondaryOne: #012362;
+    --secondaryTwo: #f2f2f2;
+    --primary: #fafafa;
+    --black: #0d0d0d;
+}
+
+body{
+    min-height: 100vh;
+    display: flex;
+    font: 1em sans-serif;
+    background-color: var(--primary);
+}
+
+.container{
+    margin-top: 100px;
+    margin-inline: auto;
+    width: 540px;
+    box-shadow: 10px 10px 16px 0px rgba(0,0,0,0.75);
+    border-radius: 10px;
+    height: fit-content;
+    background-color: var(--secondaryTwo);
+}
+
+.CMUImage{
+    width: 100%;
+    height: 100px;
+    background-image: url(/images/cmu.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 10px 10px 0px 0px;
+
+}
+.MessageBox{
+    width: 100%;
+    padding: 10px 5px;
+    background-color: rgba(227, 70, 70, 0.5);
+    border: 1px solid rgba(227, 70, 70, 1);
+    color: var(--black);
+    font-family: var(--headingFont);
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.CMUImage h1{
+    font-size: 25px;
+    text-align: center;
+    color: var(--primary);
+    position: relative;
+    top: 30px;
+    font-family: var(--headingFont);
+}
+
+
+form{
+    width: 90%;
+    margin-inline: auto;
+    margin-top: 30px;
+}
+
+
+form input{
+    width: 100%;
+    padding: 8px 5px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    margin: 5px 3px 0px 0px ;
+    background-color: var(--primary);
+    font-family: var(--bodyFont);
+}
+
+form button{
+    border-radius: 15px;
+    font-size: 20px;
+    width: 200px;
+    color: var(--primary);
+    background-color: var(--accent);
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    margin: 10px auto;
+    display: block;
+    transition: 0.3s ease;
+}
+
+form button:hover{
+    transform: scale(0.95);
+}
+
+form label{
+    font-size: 16px;
+    font-weight: bold;
+}
+
+form small{
+    color: red;
+    font-size: 12px;
+    visibility: hidden;
+}
+
+.container form .rq2{
+    color: red;
+    position:relative;
+    font-size: 12px;
+    top: 39px;
+    left: 3px;
+}
+
+form a{
+    color: #525252;
+    text-decoration: none; 
+    cursor: pointer; 
+    font-size: 13px;
+    float: right;
+}

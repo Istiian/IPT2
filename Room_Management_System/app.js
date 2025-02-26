@@ -8,10 +8,11 @@ const bcrypt = require('bcrypt');
 const methodOverride = require("method-override");
 var app = express();
 
-var SignUpRouter = require('./routes/SignUpRoute');
-var LoginRouter = require('./routes/LoginRoute');
+var AdCreateAccountRouter = require('./routes/AdCreateAccountRoute');
+var LoginUserRouter = require('./routes/LoginUserRoute');
 var UserRouter = require('./routes/UserRoute');
 var AdminRouter = require('./routes/AdminRoute');
+var HomeRouter = require('./routes/HomeRoute')
 var ChangePassRouter = require("./routes/ChangePassRoute")
 
 
@@ -26,11 +27,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/SignUpRoute', SignUpRouter);
-app.use('/LoginRoute', LoginRouter)
+app.use('/AdCreateAccountRoute', AdCreateAccountRouter);
+app.use('/LoginUserRoute', LoginUserRouter)
 app.use('/UserRoute', UserRouter)
 app.use('/AdminRoute', AdminRouter)
 app.use('/ChangePassRoute', ChangePassRouter)
+app.use('/HomeRoute', HomeRouter)
 
 
 // catch 404 and forward to error handler

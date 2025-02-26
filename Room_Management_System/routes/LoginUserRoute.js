@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router()
 
 router.get("/", function(req,res){
-    res.render("Login");
+    const error = req.query.Error;
+    res.render("LoginUser", {error});
 });
 
-module.exports = router
+module.exports = router;

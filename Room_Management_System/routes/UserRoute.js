@@ -31,7 +31,7 @@ router.post("/Login", async (req, res) => {
     }
 
     const [result] = await connection.query("SELECT * FROM user WHERE username = ?", [Inputed.username])
-
+   
     if (result.length > 0) {
         const user = new User(result[0].Username,
             result[0].Password,
@@ -42,11 +42,12 @@ router.post("/Login", async (req, res) => {
         if (await user.VerifyPassword(Inputed.password)) {
             console.log("welcome")
         } else {
-            console.log("Not Welcome")
+            res.redirect('/LoginUserRoute?Error=true')
         }
 
     } else {
-        console.log("Username does not Exist")
+        console.log("Error")
+        res.redirect('/LoginUserRoute?Error=true')
     }
 })
 
