@@ -1,0 +1,142 @@
+:root {
+    --headingFont: "Poppins", "Arial";
+    --bodyFont: "Roboto", "Arial";
+    --accent: #DAA520;
+    --secondaryOne: #012362;
+    --secondaryTwo: #f2f2f2;
+    --primary: #fafafa;
+    --black: #0d0d0d;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--body);
+
+}
+body{
+    background-color: var(--primary);
+}
+.container-fluid{
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 4px 5px 14px -1px rgba(0,0,0,0.75);
+    display: flex;
+    position: relative;
+    top: 150px;
+    height: auto;
+    background-color: var(--primary);
+    padding: 0;
+    border-radius: 15px;
+    overflow: hidden;
+}
+.container{
+    width: 50%;
+}
+h3{
+    font-family: var(--heading);
+    color: var(--secondary);
+    text-align: center;
+    font-size: 25px;
+}
+label{
+    font-size: 16px;
+    font-weight: bold;
+    color: #636363;
+}
+input[type='text'], input[type='password']{
+    width: 100%;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid #636363;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    margin-top: 5px;
+    font-size: 18px;
+    background: none;
+    height: 30px;
+}
+input:focus{
+    outline: 0;
+    border-bottom: 1px solid var(--secondary);
+}
+p{
+    font-size: 12px;
+    color: red;
+    margin: 0;
+    visibility: hidden;
+}
+#Invalid{
+    font-size: 15px;
+    background-color: rgba(178, 34, 34,0.4);
+    border: 2px solid rgb(178, 34, 34);
+    text-align: center;
+    width: 100%;
+    padding: 5px;
+    
+}
+#ChangePass{
+    font-size: 15px;
+    background-color: rgba(34, 34, 178, 0.4);
+    border: 2px solid rgb(34, 34, 178);
+    text-align: center;
+    width: 100%;
+    padding: 5px;
+    display: none;
+}
+#ChangePass.show{
+    display: block;
+}
+#Invalid.show{
+    display: block;
+}
+.container:first-child{
+    background:url('/images/cmu.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    
+}
+.container img{
+    width: 60px;
+    height: 60px;
+}
+h4{
+    font-family: var(--heading);
+    color: var(--primary);
+    text-align: center;
+    font-size: 25px;
+}
+.LogoContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+button{
+    width: 100%;
+    height: 30px;
+    background-color: var(--accent);
+    color: var(--secondary);
+    border: 0;
+    outline: 0;
+    border-radius: 5px;
+    transition: 0.3s ease;
+    margin-bottom: px;
+    
+}
+button:hover{
+    scale: 95%;
+}
+form a{
+    color: var(--secondary);
+    text-decoration: none;
+    float: right;
+    font-size: 15px;
+}

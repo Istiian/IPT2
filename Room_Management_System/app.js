@@ -9,11 +9,12 @@ const methodOverride = require("method-override");
 var app = express();
 
 var AdCreateAccountRouter = require('./routes/AdCreateAccountRoute');
-var LoginUserRouter = require('./routes/LoginUserRoute');
+var AdLoginRouter = require('./routes/AdLoginRoute');
 var UserRouter = require('./routes/UserRoute');
 var AdminRouter = require('./routes/AdminRoute');
 var HomeRouter = require('./routes/HomeRoute')
 var ChangePassRouter = require("./routes/ChangePassRoute")
+var UsLoginRouter = require("./routes/UsLoginRoute")
 
 
 // view engine setup
@@ -28,11 +29,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/AdCreateAccountRoute', AdCreateAccountRouter);
-app.use('/LoginUserRoute', LoginUserRouter)
+app.use('/AdLoginRoute', AdLoginRouter)
 app.use('/UserRoute', UserRouter)
 app.use('/AdminRoute', AdminRouter)
 app.use('/ChangePassRoute', ChangePassRouter)
 app.use('/HomeRoute', HomeRouter)
+app.use('/UsLoginRoute', UsLoginRouter)
 
 
 // catch 404 and forward to error handler

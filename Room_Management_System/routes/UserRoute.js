@@ -42,12 +42,12 @@ router.post("/Login", async (req, res) => {
         if (await user.VerifyPassword(Inputed.password)) {
             console.log("welcome")
         } else {
-            res.redirect('/LoginUserRoute?Error=true')
+            res.redirect('/UsLoginRoute?Error=true')
         }
 
     } else {
         console.log("Error")
-        res.redirect('/LoginUserRoute?Error=true')
+        res.redirect('/UsLoginRoute?Error=true')
     }
 })
 

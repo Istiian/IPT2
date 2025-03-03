@@ -3,7 +3,7 @@ const router = express.Router()
 
 router.get("/", function(req,res){
     const error = req.query.Error;
-    res.render("LoginUser", {error});
+    res.render("UsLogin", {error});
 });
 
 module.exports = router;
