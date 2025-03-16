@@ -6,16 +6,23 @@ var logger = require('morgan');
 var mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 const methodOverride = require("method-override");
+const session = require("express-session")
 var app = express();
 
 var AdCreateAccountRouter = require('./routes/AdCreateAccountRoute');
 var AdLoginRouter = require('./routes/AdLoginRoute');
 var UserRouter = require('./routes/UserRoute');
 var AdminRouter = require('./routes/AdminRoute');
-var HomeRouter = require('./routes/HomeRoute')
+var UsBookRouter = require('./routes/UsBookRoute');
 var ChangePassRouter = require("./routes/ChangePassRoute")
-var UsLoginRouter = require("./routes/UsLoginRoute")
+var UsLoginRouter = require("./routes/UsLoginRoute");
+var AdCreateSchedRouter = require('./routes/AdCreateSchedRoute');
 
+app.use(session({
+  secret: 'secret-key', 
+  resave: false,
+  saveUninitialized: false
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,14 +40,16 @@ app.use('/AdLoginRoute', AdLoginRouter)
 app.use('/UserRoute', UserRouter)
 app.use('/AdminRoute', AdminRouter)
 app.use('/ChangePassRoute', ChangePassRouter)
-app.use('/HomeRoute', HomeRouter)
+app.use('/UsBookRoute', UsBookRouter)
 app.use('/UsLoginRoute', UsLoginRouter)
+app.use('/AdCreateSchedRoute', AdCreateSchedRouter)
 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
 
 
 // MYSQL Connection

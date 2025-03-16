@@ -3,7 +3,9 @@ const router = express.Router()
 
 router.get("/", function(req,res){
     const error = req.query.Error;
-    res.render("UsLogin", {error});
+    const UserId = req.session.UserId;
+    
+    res.render("UsLogin", {error, UserId});
 });
 
 module.exports = router;

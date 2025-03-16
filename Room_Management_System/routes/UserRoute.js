@@ -3,6 +3,7 @@ const router = express.Router();
 var mysql = require('mysql2/promise');
 const bcrypt = require('bcrypt');
 const User = require("../models/User");
+const Book = require("../models/Book");
 
 router.get("/", function (req, res) {
     res.send("Success")
@@ -40,16 +41,35 @@ router.post("/Login", async (req, res) => {
             result[0].Section
         )
         if (await user.VerifyPassword(Inputed.password)) {
-            console.log("welcome")
+            req.session.UserId = result[0].UserId;
+            req.session.Username = result[0].Username;
+            res.redirect("/UsBookRoute")
         } else {
             res.redirect('/UsLoginRoute?Error=true')
         }
-
     } else {
         console.log("Error")
         res.redirect('/UsLoginRoute?Error=true')
     }
-})
+});
+
+router.post("/Book", async (req, res) =>{
+    const Inputed = {
+        UserId: req.session.UserId,
+        RoomId: req.body.RoomId, 
+        RoomName: req.body.RoomName,
+        Date: req.body.Date,
+        StartTime: req.body.StartTime,
+        EndTime: req.body.EndTime,
+        Reason: req.body.Reason
+    }
+
+    console.log(Inputed);
+    const BookDetails =  new Book(Inputed.UserId, Inputed.RoomId, Inputed.RoomName, Inputed.Date, Inputed.StartTime, Inputed.EndTime, Inputed.Reason);
+    BookDetails.Appoint(res, connection);
+    
+    
+});
 
 // const privateData = new WeakMap();
 

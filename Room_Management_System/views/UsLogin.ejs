@@ -26,8 +26,13 @@
         </div>
         <div class="container" >
             <h3 class="m-4">Log In</h3>
+            
             <% if(error==="true"){ %>
                 <h6 id="Invalid">Password or Username is incorrect! Please try again.</h6>
+            <% } %>
+
+            <% if(!UserId){ %>
+                <h6 id="Login">Please log in to proceed.</h6>
             <% } %>
             
             <form action="/UserRoute/Login" method="post" id="loginForm">
