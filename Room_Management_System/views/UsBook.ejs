@@ -56,11 +56,11 @@
         <!-- SIDE NAVIGATIONS -->
         <aside class="SideNavContainer" id="SideNavContainer">
             <nav>
-                <a href="" class="SideNavLink active">
+                <a href="UsBookRoute" class="SideNavLink active">
                     <i class="fa-solid fa-calendar-plus"></i>
                     <label for="" class="SideNavLabel">Appointment</label>
                 </a>
-                <a href="" class="SideNavLink">
+                <a href="/UsScheduleRoute" class="SideNavLink">
                     <i class="fa-solid fa-calendar-days"></i>
                     <label for="" class="SideNavLabel">Schedule</label>
                 </a>
@@ -90,7 +90,7 @@
                     <button id="BookBtn">Book</button>
                     <div class="FeatureContainer">
                         <h6>Features:</h6>
-                        <p>PAWDADWA</p>
+                        <p id="RoomFeatures">PAWDADWA</p>
                     </div>
                     <div class="ImagesContainer">
                         <img src="/images/cmulogo.png" alt="">
@@ -108,15 +108,15 @@
             <div class="Inputs">
                 <label for="">Room:</label>
                 <input type="text" id="RoomName" name="RoomName" value="ICE101" readonly>
-                <input type="text" id="RoomId" name="RoomId" value="1" readonly style="visibility: hidden;">
+                <input type="text" id="RoomId" name="RoomId" >
             </div>
 
             <div id="DateTime">
                 <label for=" ">Date and Time:</label>
                 <div id="DateTimeInput">
-                    <input type="text" id="Date" name="Date" readonly value="YY/MM/DD">
-                    <input type="time" id="StartTime" name="StartTime" readonly value=" ">
-                    <input type="time" id="EndTime" name="EndTime" readonly>
+                    <input type="text" id="Date" name="Date" readonly required>
+                    <input type="time" id="StartTime" name="StartTime" readonly required>
+                    <input type="time" id="EndTime" name="EndTime" readonly required>
                 </div>
                 <div id="calendarContainer" class="Inactive">
                     <i class="fa-solid fa-xmark" id="XCalendar"></i>
@@ -125,7 +125,7 @@
             </div>
 
             <label for="">Reason for Occupancy: </label><br>
-            <textarea name="Reason" id="Reason"></textarea>
+            <textarea name="Reason" id="Reason" required></textarea>
 
             <button type="submit" id="SubmitButton">Submit</button>
         </form>
@@ -135,6 +135,14 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="/javascripts/Navigation.js"></script>
+
+    <!-- <script>
+        window.roominfo = JSON.parse('<%- JSON.stringify(RoomInfos) %>'); // Embedding JSON data
+    </script> -->
+    <script>
+        window.roominfo = JSON.parse('<%- JSON.stringify(RoomInfos) %>'); // ✅ No need for JSON.parse()
+        // console.log(window.roominfo); // Debug
+    </script>
     <script src="/javascripts/UsBook.js"></script>
 
 </body>

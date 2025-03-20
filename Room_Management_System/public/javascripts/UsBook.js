@@ -8,6 +8,7 @@ const BookForm = document.getElementById("BookForm");
 const BookBtn = document.getElementById("BookBtn");
 const XBookForm = document.getElementById("XBookForm");
 const FloorName = document.getElementById("FloorName");
+const RoomFeatures = document.getElementById("RoomFeatures")
 
 const RoomInput = document.getElementById("RoomName")
 const DateInput = document.getElementById("Date");
@@ -15,11 +16,13 @@ const StartTime = document.getElementById("StartTime");
 const EndTime = document.getElementById("EndTime");
 const Select = document.getElementById("Select");
 const DateTimeInput = document.getElementById("DateTimeInput");
+const RoomIdInput = document.getElementById("RoomId")
 const CalendarContainer = document.getElementById("calendarContainer");
 const xCalendar = document.getElementById("XCalendar");
 
 let userAddedEvent = false;
 let calendar;
+console.log("externaljs: ", roominfo); 
 
 
 BookBtn.addEventListener("click", () => BookFormOuter.classList.remove("Inactive"));
@@ -41,7 +44,7 @@ FloorList.addEventListener("change", () => {
 DateTimeInput.addEventListener("click", () => {
     CalendarContainer.classList.add("Active");
     CalendarContainer.classList.remove("Inactive");
-    
+
     calendar.render();
 })
 
@@ -55,6 +58,20 @@ function isTimeAvailable(calendar, start, end, eventId) {
     return calendar.getEvents().every(event =>
         (event.id === eventId || start >= event.end || end <= event.start));
 }
+
+// FixFeature(msg){
+//     let newMsg;
+//     msg.split("").forEach(char => {
+
+//         if(char == ","){
+//             newMsg+=" "
+//         }else{
+//             newMsg+=char
+//         }
+//      });
+
+//     return newMsg;
+// }
 
 // Map Class
 class Map {
@@ -83,11 +100,13 @@ class Map {
 
 // Reservable Room Class
 class ReservableRoom {
-    constructor(Coordinates, Name, Floor, Color = "#012362") {
+    constructor(Coordinates, Name, RoomId, Features, Floor, Color = "#012362") {
         this.Coordinates = Coordinates;
         this.Name = Name;
         this.Floor = Floor;
         this.Color = Color;
+        this.RoomId = RoomId;
+        this.Features = Features;
         this.addMapLocation();
     }
 
@@ -99,7 +118,7 @@ class ReservableRoom {
             fillColor: this.Color
         }).addTo(this.Floor);
 
-        room.bindPopup(this.Name);
+        // room.bindPopup(this.Name);
         room.bindTooltip(this.Name, {
             permanent: true,
             direction: "center",
@@ -107,7 +126,7 @@ class ReservableRoom {
         }).openTooltip();
 
         this.hoverEffect(room);
-        this.clickHandler(room, this.Name);
+        this.clickHandler(room, this.Name, this.RoomId, this.FixFeature(this.Features));
     }
 
     hoverEffect(room) {
@@ -119,12 +138,29 @@ class ReservableRoom {
         });
     }
 
-    clickHandler(room, Name) {
+    clickHandler(room, Name, RoomId, Features) {
         room.on("click", function () {
             FloorInfo.classList.remove("Inactive");
             FloorName.innerHTML = Name;
             RoomInput.value = Name;
+            RoomIdInput.value = RoomId
+            RoomFeatures.innerHTML = Features;
         });
+    }
+
+    FixFeature(msg) {
+        let newMsg ="";
+        msg.split("").forEach(char => {
+
+            if (char == ",") {
+                newMsg += ", "
+            } else {
+                newMsg += char
+            }
+        });
+        console.log(newMsg)
+        return newMsg;
+        
     }
 }
 
@@ -265,58 +301,50 @@ document.addEventListener("DOMContentLoaded", () => {
     calendar.render();
 });
 
-
 // [Top-left, Top-right, Bottom-right, Bottom-left]
 const Floor1 = new Map("Floor1")
-// var marker = L.marker([51.4808, -0.1185]).addTo(Floor1.map)
+const Floor2 = new Map("Floor2");
+
+
+roominfo.forEach(room => {
+    console.log(room.RoomId)
+    if (room.RoomId <= 5) {
+        new ReservableRoom(room.Coordinates, room.Room_Name, room.RoomId, room.Features, Floor1.map)
+
+    } else if (room.RoomId <= 12) {
+        new ReservableRoom(room.Coordinates, room.Room_Name, room.RoomId, room.Features, Floor2.map)
+        
+    }
+
+
+});
+
+
 const Floor1Locations = [
     new FacultyOffice([[51.5192, -0.1185], [51.5192, -0.10745], [51.5054, -0.10745], [51.5054, -0.1185]], "OFFICE", Floor1.map),
-    // new Stairs([[51.5192, -0.10734], [51.5192, -0.10125], [51.5054, -0.10125], [51.5054, -0.10734]], "Stairs1", Floor1.map),
-    new ReservableRoom([[51.5192, -0.10125], [51.5192, -0.08564], [51.5054, -0.08564], [51.5054, -0.10125]], "ICE 104", Floor1.map),
-    new ReservableRoom([[51.5192, -0.08564], [51.5192, -0.07003], [51.5054, -0.07003], [51.5054, -0.08564]], "ICE 105", Floor1.map),
-    new ReservableRoom([[51.5192, -0.07003], [51.5192, -0.05442], [51.5054, -0.05442], [51.5054, -0.07003]], "ICE 106", Floor1.map),
-    // new Stairs([[51.5192, -0.05429], [51.5192, -0.049], [51.5054, -0.049], [51.5054, -0.05429]], "Stairs2", Floor1.map),
+
     new FacultyOffice([[51.5192, -0.049], [51.5192, -0.04159], [51.5054, -0.04159], [51.5054, -0.049]], "Girls Bathroom", Floor1.map),
 
     new FacultyOffice([[51.4946, -0.1185], [51.4946, -0.10745], [51.4808, -0.10745], [51.4808, -0.1185]], "Alumni", Floor1.map),
-    new ReservableRoom([[51.4946, -0.10125], [51.4946, -0.084], [51.4808, -0.084], [51.4808, -0.10125]], "ICE 101", Floor1.map),
-    new ReservableRoom([[51.4946, -0.084], [51.4946, -0.06675], [51.4808, -0.06675], [51.4808, -0.084]], "ICE102", Floor1.map),
     new FacultyOffice([[51.4946, -0.06675], [51.4946, -0.058125], [51.4808, -0.058125], [51.4808, -0.06675]], "OFFICE", Floor1.map),
     new FacultyOffice([[51.4946, -0.058125], [51.4946, -0.0495], [51.4808, -0.0495], [51.4808, -0.058125]], "Clinic", Floor1.map),
     new FacultyOffice([[51.4946, -0.058125], [51.4946, -0.0495], [51.4808, -0.0495], [51.4808, -0.058125]], "Clinic", Floor1.map),
     new FacultyOffice([[51.4946, -0.0495], [51.4946, -0.04159], [51.4808, -0.04159], [51.4808, -0.0495]], "Boy Bathroom", Floor1.map),
-
     L.polyline([[51.5192, -0.10734], [51.5192, -0.10125]], { color: 'black' }).addTo(Floor1.map),
     L.polyline([[51.5192, -0.05442], [51.5192, -0.049]], { color: 'black' }).addTo(Floor1.map),
     L.polyline([[51.5054, -0.1185], [51.4946, -0.1185]], { color: 'black' }).addTo(Floor1.map),
 ]
 
 
-const Floor2 = new Map("Floor2");
+
 
 const Floor2Locations = [
-    new ReservableRoom([[51.4946, -0.1185], [51.4946, -0.10130], [51.4808, -0.10130], [51.4808, -0.1185]], "ICE 201", Floor2.map),
-    new ReservableRoom([[51.4946, -0.10130], [51.4946, -0.0841], [51.4808, -0.0841], [51.4808, -0.10130]], "ICE 202", Floor2.map),
-    new ReservableRoom([[51.4946, -0.0841], [51.4946, -0.0669], [51.4808, -0.0669], [51.4808, -0.0841]], "ICE 203", Floor2.map),
-    new ReservableRoom([[51.4946, -0.0669], [51.4946, -0.0584], [51.4808, -0.0584], [51.4808, -0.0669]], "ICE 204", Floor2.map),
-
-    new ReservableRoom([[51.5191, -0.10130], [51.5191, -0.0858], [51.5054, -0.0858], [51.5054, -0.10130]], "Acer Lab 1", Floor2.map),
-    new ReservableRoom([[51.5191, -0.0858], [51.5191, -0.0703], [51.5054, -0.0703], [51.5054, -0.0858]], "Lab 2", Floor2.map),
-    new ReservableRoom([[51.5191, -0.0703], [51.5191, -0.0548], [51.5054, -0.0548], [51.5054, -0.0703]], "Lab 1 ", Floor2.map),
-
     new FacultyOffice([[51.5191, -0.1185], [51.5191, -0.1067], [51.5054, -0.1067], [51.5054, -0.1185]], "USC Office", Floor2.map),
     new FacultyOffice([[51.5191, -0.0493], [51.5191, -0.0415], [51.5054, -0.0415], [51.5054, -0.0493]], "Girls Bathroom", Floor2.map),
     new FacultyOffice([[51.4946, -0.0499], [51.4946, -0.0415], [51.4808, -0.0415], [51.4808, -0.0499]], "Boys Bathroom", Floor2.map),
     new FacultyOffice([[51.4946, -0.0584], [51.4946, -0.0499], [51.4808, -0.0499], [51.4808, -0.0584]], "CCS Office", Floor2.map),
-
-    // new Stairs([[51.5191, -0.10659], [51.5191, -0.1014], [51.5054, -0.10136], [51.5054, -0.10659]], "Stair1", Floor2.map),
-
-
-    // new Stairs([[51.5191, -0.054709], [51.5191, -0.0495], [51.5054, -0.0495], [51.5054, -0.054709]], "Stair2", Floor2.map),
-
     L.polyline([[51.5191, -0.1067], [51.5191, -0.10130]], { color: 'black' }).addTo(Floor2.map),
     L.polyline([[51.5191, -0.0548], [51.5191, -0.0493]], { color: 'black' }).addTo(Floor2.map),
-
     L.polyline([[51.5054, -0.1185], [51.4946, -0.1185]], { color: 'black' }).addTo(Floor2.map),
 ]
 

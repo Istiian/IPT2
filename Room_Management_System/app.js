@@ -17,6 +17,7 @@ var UsBookRouter = require('./routes/UsBookRoute');
 var ChangePassRouter = require("./routes/ChangePassRoute")
 var UsLoginRouter = require("./routes/UsLoginRoute");
 var AdCreateSchedRouter = require('./routes/AdCreateSchedRoute');
+var UsScheduleRouter= require('./routes/UsScheduleRoute');
 
 app.use(session({
   secret: 'secret-key', 
@@ -33,6 +34,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/leaflet', express.static(path.join(__dirname, 'node_modules/leaflet/dist')));
 
 
 app.use('/AdCreateAccountRoute', AdCreateAccountRouter);
@@ -43,7 +45,7 @@ app.use('/ChangePassRoute', ChangePassRouter)
 app.use('/UsBookRoute', UsBookRouter)
 app.use('/UsLoginRoute', UsLoginRouter)
 app.use('/AdCreateSchedRoute', AdCreateSchedRouter)
-
+app.use('/UsScheduleRoute', UsScheduleRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -77,7 +77,21 @@
     background-color: var(--secondaryTwo);
     border-radius: 15px;
     padding: 10px;
+    transition: 0.3s ease;
 }
+
+.FloorInfo.Inactive{
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.5);
+}
+
+.FloorInfo.Active{
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
 
 .FloorInfo h5 {
     font-size: 24px;
@@ -234,12 +248,14 @@ input {
     display: flex;
     border: 1px solid black;
     margin-top: 5px;
+    cursor: pointer;
 }
 
 #DateTimeInput input {
     width: 33.33%;
     background: none;
     border: none;
+    cursor: pointer;
 }
 
 #DateTime {
@@ -339,7 +355,7 @@ input {
     .FloorInfo {
         position: absolute;
         top: auto;
-        bottom: 0;
+        bottom: 50px;
         width: 90%;
         max-width: none;
         overflow-x: hidden;
