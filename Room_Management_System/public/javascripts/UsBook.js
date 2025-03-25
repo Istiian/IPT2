@@ -3,13 +3,17 @@ const FirstFloor = document.getElementById("Floor1");
 const SecondFloor = document.getElementById("Floor2");
 const FloorInfo = document.getElementById("FloorInfo");
 const FloorInfoXbtn = document.getElementById("FloorInfoXbtn");
+
 const BookFormOuter = document.getElementById("BookFormOuter");
 const BookForm = document.getElementById("BookForm");
 const BookBtn = document.getElementById("BookBtn");
 const XBookForm = document.getElementById("XBookForm");
 const FloorName = document.getElementById("FloorName");
 const RoomFeatures = document.getElementById("RoomFeatures")
-
+const Images = document.querySelectorAll(".ImagesContainer img"); 
+const OuterImage = document.getElementsByClassName("OuterImage")[0]
+const XZoomedImg = document.getElementById("XZoomedImg")
+const ZoomedImg = document.getElementById("ZoomedImg")
 const RoomInput = document.getElementById("RoomName")
 const DateInput = document.getElementById("Date");
 const StartTime = document.getElementById("StartTime");
@@ -22,12 +26,47 @@ const xCalendar = document.getElementById("XCalendar");
 
 let userAddedEvent = false;
 let calendar;
-console.log("externaljs: ", roominfo); 
 
+// Makes sure the date, and start and end time input is not null
+BookForm.addEventListener("submit", function (event) {
+    let date = DateInput.value;
+    let start = StartTime.value;
+    let end = EndTime.value;
 
-BookBtn.addEventListener("click", () => BookFormOuter.classList.remove("Inactive"));
-XBookForm.addEventListener("click", () => BookFormOuter.classList.add("Inactive"));
+    if (!date || !start || !end) {
+        console.log("DatetimeInput is undefined");
+        event.preventDefault();
+    }
+});
+
+console.log("roominfo", roominfo)
+
 FloorInfoXbtn.addEventListener("click", () => FloorInfo.classList.add("Inactive"));
+BookBtn.addEventListener("click", () => BookFormOuter.classList.remove("Inactive"));
+
+Images.forEach(Image => {
+    Image.addEventListener("click", ()=>{
+        ZoomedImg.src = Image.src
+        OuterImage.classList.remove("Inactive")
+        OuterImage.classList.add("Active")
+    })
+});
+XZoomedImg.addEventListener("click", ()=>{
+    OuterImage.classList.add("Inactive")
+    OuterImage.classList.remove("Active")
+})
+
+XBookForm.addEventListener("click", () => {
+
+    CalendarContainer.classList.remove("Active"); 
+    CalendarContainer.classList.add("Inactive");
+    BookFormOuter.classList.add("Inactive");
+    DateInput.value = ""
+    StartTime.value = ""
+    EndTime.value = ""
+}
+);
+
 FloorList.addEventListener("change", () => {
     if (FloorList.value === "1st Floor") {
         FirstFloor.classList.add("Active");
@@ -41,10 +80,10 @@ FloorList.addEventListener("change", () => {
         SecondFloor.classList.add("Active");
     }
 });
+
 DateTimeInput.addEventListener("click", () => {
     CalendarContainer.classList.add("Active");
     CalendarContainer.classList.remove("Inactive");
-
     calendar.render();
 })
 
@@ -59,21 +98,13 @@ function isTimeAvailable(calendar, start, end, eventId) {
         (event.id === eventId || start >= event.end || end <= event.start));
 }
 
-// FixFeature(msg){
-//     let newMsg;
-//     msg.split("").forEach(char => {
+function changeCalendarEvents(Schedules) {
+    calendar.getEvents().forEach(event => event.remove());
+    Schedules.forEach(Schedule => calendar.addEvent(Schedule));
+    userAddedEvent = false // enable user to create another event(their desired schedule) on calendar
+    calendar.render();
+}
 
-//         if(char == ","){
-//             newMsg+=" "
-//         }else{
-//             newMsg+=char
-//         }
-//      });
-
-//     return newMsg;
-// }
-
-// Map Class
 class Map {
     constructor(MapName) {
         this.MapName = MapName;
@@ -100,13 +131,15 @@ class Map {
 
 // Reservable Room Class
 class ReservableRoom {
-    constructor(Coordinates, Name, RoomId, Features, Floor, Color = "#012362") {
+    constructor(Coordinates, Name, RoomId, Features, Floor, FullSchedule = [], Images = [], Color = "#012362") {
         this.Coordinates = Coordinates;
         this.Name = Name;
         this.Floor = Floor;
         this.Color = Color;
         this.RoomId = RoomId;
-        this.Features = Features;
+        this.Features = Features,
+        this.FullSchedule = FullSchedule
+        this.Images = Images
         this.addMapLocation();
     }
 
@@ -118,7 +151,7 @@ class ReservableRoom {
             fillColor: this.Color
         }).addTo(this.Floor);
 
-        // room.bindPopup(this.Name);
+        
         room.bindTooltip(this.Name, {
             permanent: true,
             direction: "center",
@@ -126,7 +159,7 @@ class ReservableRoom {
         }).openTooltip();
 
         this.hoverEffect(room);
-        this.clickHandler(room, this.Name, this.RoomId, this.FixFeature(this.Features));
+        this.clickHandler(room, this.Name, this.RoomId, this.FixFeature(this.Features), this.FullSchedule, this.Images);
     }
 
     hoverEffect(room) {
@@ -138,18 +171,26 @@ class ReservableRoom {
         });
     }
 
-    clickHandler(room, Name, RoomId, Features) {
+    clickHandler(room, Name, RoomId, Features, FullSchedule, RoomImage) {
         room.on("click", function () {
             FloorInfo.classList.remove("Inactive");
             FloorName.innerHTML = Name;
             RoomInput.value = Name;
             RoomIdInput.value = RoomId
             RoomFeatures.innerHTML = Features;
+
+            Images.forEach((Image, index) => {
+                console.log( RoomImage[index])
+                Image.src = RoomImage[index]
+                
+            });
+            changeCalendarEvents(FullSchedule);
         });
     }
 
+    // Fix the composition of features of room
     FixFeature(msg) {
-        let newMsg ="";
+        let newMsg = "";
         msg.split("").forEach(char => {
 
             if (char == ",") {
@@ -160,7 +201,6 @@ class ReservableRoom {
         });
         console.log(newMsg)
         return newMsg;
-        
     }
 }
 
@@ -184,14 +224,14 @@ class NonReservableRoom {
     }
 }
 
-// Faculty Office Class (Extends NonReservableRoom)
+
 class FacultyOffice extends NonReservableRoom {
     constructor(Coordinates, Name, Floor) {
         super(Coordinates, Name, Floor, "#5b5b5b");
     }
 }
 
-// Stairs Class (Extends NonReservableRoom)
+
 class Stairs extends NonReservableRoom {
     constructor(Coordinates, Name, Floor) {
         super(Coordinates, Name, Floor, "#fafafa");
@@ -206,32 +246,33 @@ class Stairs extends NonReservableRoom {
         }).addTo(this.Floor).bindPopup(this.Name);
     }
 }
+console.log(new Date())
+console.log(new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 10))
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
+    const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+console.log(tomorrow.toLocaleDateString('en-CA'));
     calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
-        initialView: window.innerWidth < 768 ? "timeGridDay" : "timeGridWeek", // Mobile-friendly view
+        initialView: window.innerWidth < 768 ? "timeGridDay" : "timeGridWeek", // adjust calendar based on user's screen size
         selectable: true,
         slotMinTime: "7:00:00",
         slotMaxTime: "20:30:00",
         allDaySlot: false,
         initialDate: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 10), // today's date
         validRange: {
-            start: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 10), // today's date
+            start: tomorrow.toLocaleDateString('en-CA'), // tommorow's date
             end: new Date(new Date().setDate(new Date().getDate() + 7)).toISOString().slice(0, 10) // 7 days from today
         },
+
         headerToolbar: {
             left: 'prev,next',
             center: '',
-            right: window.innerWidth < 768 ? "" : "timeGridWeek,timeGridDay"
+            right: window.innerWidth < 768 ? "" : "timeGridWeek,timeGridDay" // adjust calendar based on user's screen size
         },
-        events: [
-            {
-                title: 'Existing Event',
-                start: '2025-03-13T10:00:00',
-                end: '2025-03-13T12:00:00',
-                className: "FixedSchedule"
-            }
-        ],
+
         windowResize: function (view) {
             let newView = window.innerWidth < 768 ? "timeGridDay" : "timeGridWeek";
             calendar.changeView(newView); // Change view dynamically
@@ -251,32 +292,25 @@ document.addEventListener("DOMContentLoaded", () => {
                         title: 'New Event',
                         start: info.startStr,
                         end: info.endStr,
-                        editable: true, // Event can be dragged
+                        editable: true, 
                         durationEditable: true
                     });
+                    
+                    DateInput.value = info.startStr.slice(0, 10);
+                    StartTime.value = info.startStr.slice(11, 19);
+                    EndTime.value = info.endStr.slice(11, 19);
+
                     userAddedEvent = true;
-
-                    const startFormatted = info.startStr.slice(11, 19); // Removes seconds and timezone
-                    const endFormatted = info.endStr.slice(11, 19); // Removes seconds and timezone
-                    const DateFormatted = info.endStr.slice(0, 10);
-
-                    console.log("formatted sTART : ", startFormatted);
-                    console.log("formatted eND: ", endFormatted);
-                    console.log("formatted Date: ", DateFormatted);
-                    console.log("raw: ", info.startStr);
-                    DateInput.value = DateFormatted;
-                    StartTime.value = startFormatted;
-                    EndTime.value = endFormatted;
                 } else {
                     alert('Selected time is already occupied.');
                 }
             } else {
-                alert('You can only add one event.');
+                alert('You could only select time schedule at once.');
             }
         },
         eventDrop: function (info) {
             if (isTimeAvailable(calendar, info.event.start, info.event.end, info.event.id)) {
-                // Update input values
+                
                 DateInput.value = info.event.startStr.slice(0, 10);
                 StartTime.value = info.event.startStr.slice(11, 19);
                 EndTime.value = info.event.endStr.slice(11, 19);
@@ -287,7 +321,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         eventResize: function (info) {
             if (isTimeAvailable(calendar, info.event.start, info.event.end, info.event.id)) {
-                // Update input values
+                
                 DateInput.value = info.event.startStr.slice(0, 10);
                 StartTime.value = info.event.startStr.slice(11, 19);
                 EndTime.value = info.event.endStr.slice(11, 19);
@@ -305,21 +339,34 @@ document.addEventListener("DOMContentLoaded", () => {
 const Floor1 = new Map("Floor1")
 const Floor2 = new Map("Floor2");
 
+let RoomImages = [
+    ["/images/cmuu.png", "/images/2.jpg", "/images/3.jpg"], // CCS 101
+    ["/images/3.jpg", "/images/2.jpg", "/images/1.jpg"], // CCS 102
+    ["/images/2.jpg", "/images/1.jpg", "/images/3.jpg"], // CCS 104
+    ["/images/1.jpg", "/images/1.jpg", "/images/1.jpg"], // CCS 105
+    ["/images/1.jpg", "/images/2.jpg", "/images/3.jpg"], // CCS 106
+    ["/images/1.jpg", "/images/2.jpg", "/images/3.jpg"], // CCS 201
+    ["/images/3.jpg", "/images/2.jpg", "/images/3.jpg"], // CCS 202
+    ["/images/1.jpg", "/images/2.jpg", "/images/2.jpg"], // CCS 203
+    ["/images/2.jpg", "/images/2.jpg", "/images/3.jpg"], // CCS 204
+    ["/images/1.jpg", "/images/2.jpg", "/images/3.jpg"], // Acer Lab 1
+    ["/images/3.jpg", "/images/2.jpg", "/images/3.jpg"], // CCS Lab 1
+    ["/images/1.jpg", "/images/1.jpg", "/images/3.jpg"], // CCS Lab 2
+]
 
-roominfo.forEach(room => {
-    console.log(room.RoomId)
+roominfo.forEach((room , index) => {
+
     if (room.RoomId <= 5) {
-        new ReservableRoom(room.Coordinates, room.Room_Name, room.RoomId, room.Features, Floor1.map)
+        new ReservableRoom(room.Coordinates, room.Room_Name, room.RoomId, room.Features, Floor1.map, room.FullSchedule, RoomImages[index])
 
     } else if (room.RoomId <= 12) {
-        new ReservableRoom(room.Coordinates, room.Room_Name, room.RoomId, room.Features, Floor2.map)
-        
-    }
+        new ReservableRoom(room.Coordinates, room.Room_Name, room.RoomId, room.Features, Floor2.map, room.FullSchedule, RoomImages[index])
 
+    }
+    
 
 });
-
-
+// [Top-left, Top-right, Bottom-right, Bottom-left]
 const Floor1Locations = [
     new FacultyOffice([[51.5192, -0.1185], [51.5192, -0.10745], [51.5054, -0.10745], [51.5054, -0.1185]], "OFFICE", Floor1.map),
 
@@ -334,9 +381,6 @@ const Floor1Locations = [
     L.polyline([[51.5192, -0.05442], [51.5192, -0.049]], { color: 'black' }).addTo(Floor1.map),
     L.polyline([[51.5054, -0.1185], [51.4946, -0.1185]], { color: 'black' }).addTo(Floor1.map),
 ]
-
-
-
 
 const Floor2Locations = [
     new FacultyOffice([[51.5191, -0.1185], [51.5191, -0.1067], [51.5054, -0.1067], [51.5054, -0.1185]], "USC Office", Floor2.map),

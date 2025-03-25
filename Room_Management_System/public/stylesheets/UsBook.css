@@ -58,7 +58,7 @@
 
 #FloorList {
     position: absolute;
-    top:10PX;
+    top: 10PX;
     right: 0;
     z-index: 3;
     padding: 5px 30px 5px 10px;
@@ -80,13 +80,13 @@
     transition: 0.3s ease;
 }
 
-.FloorInfo.Inactive{
+.FloorInfo.Inactive {
     opacity: 0;
     visibility: hidden;
     transform: scale(0.5);
 }
 
-.FloorInfo.Active{
+.FloorInfo.Active {
     opacity: 1;
     visibility: visible;
     transform: scale(1);
@@ -169,7 +169,43 @@
 .ImagesContainer img {
     height: 95px;
     width: 95px;
+    cursor: pointer;
 
+}
+
+.OuterImage {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#ZoomedImg {
+    width: auto;
+    height: auto;
+}
+
+#XZoomedImg {
+    position: absolute;
+    top: 100px;
+    right: 100px;
+    color: var(--secondaryTwo);
+    font-size: 25px;
+    padding: 5px;
+    transition: background-color 0.3s ease;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#XZoomedImg:hover {
+    background-color: rgba(249, 245, 245, 0.6);
+    color: var(--black);
 }
 
 .BookFormOuter {
@@ -180,12 +216,25 @@
     z-index: 10;
     top: 0;
 
+
 }
 
 .BookFormOuter.Inactive form {
     transform: scale(0);
     visibility: hidden;
     opacity: 0;
+}
+
+#XBookForm {
+    float: right;
+    padding: 4px;
+    border-radius: 50%;
+    transition: 0.2s ease;
+    cursor: pointer
+}
+
+#XBookForm:hover {
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 .BookFormOuter.Active form {
@@ -199,7 +248,7 @@
     width: 95%;
     height: fit-content;
     border: 1px solid black;
-    margin: 100px auto;
+    margin: 150px auto;
     background-color: var(--secondaryTwo);
     border-radius: 20px;
     padding: 15px;
@@ -227,11 +276,7 @@
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-.Inputs {
-    width: 100%;
-    height: fit-content;
-    margin-top: 15px;
-}
+
 
 #RoomName {
     color: var(--black);
@@ -249,6 +294,7 @@ input {
     border: 1px solid black;
     margin-top: 5px;
     cursor: pointer;
+
 }
 
 #DateTimeInput input {
@@ -260,7 +306,7 @@ input {
 
 #DateTime {
     margin-top: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     position: relative;
 }
 
@@ -268,6 +314,13 @@ input {
 #RoomName:focus {
     border: none;
     outline: none;
+}
+
+#PurposeInput {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 3px 5px;
 }
 
 .FixedSchedule {

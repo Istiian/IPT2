@@ -61,11 +61,11 @@ router.post("/Book", async (req, res) =>{
         Date: req.body.Date,
         StartTime: req.body.StartTime,
         EndTime: req.body.EndTime,
-        Reason: req.body.Reason
+        Purpose: req.body.Purpose
     }
 
     console.log(Inputed);
-    const BookDetails =  new Book(Inputed.UserId, Inputed.RoomId, Inputed.RoomName, Inputed.Date, Inputed.StartTime, Inputed.EndTime, Inputed.Reason);
+    const BookDetails =  new Book(Inputed.UserId, Inputed.RoomId, Inputed.RoomName, Inputed.Date, Inputed.StartTime, Inputed.EndTime, Inputed.Purpose);
     BookDetails.Appoint(res, connection);
     
     

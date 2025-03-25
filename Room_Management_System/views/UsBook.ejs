@@ -51,7 +51,7 @@
 
     </nav>
 
-
+    
     <main class="NavConContainer">
         <!-- SIDE NAVIGATIONS -->
         <aside class="SideNavContainer" id="SideNavContainer">
@@ -105,18 +105,19 @@
     <div class="BookFormOuter Inactive" id="BookFormOuter">
         <form action="/UserRoute/Book"  method="post" id="BookForm">
             <i class="fa-solid fa-xmark" id="XBookForm"></i>
+
             <div class="Inputs">
                 <label for="">Room:</label>
                 <input type="text" id="RoomName" name="RoomName" value="ICE101" readonly>
-                <input type="text" id="RoomId" name="RoomId" >
+                <input type="text" id="RoomId" name="RoomId" style="visibility: hidden;">
             </div>
 
             <div id="DateTime">
                 <label for=" ">Date and Time:</label>
                 <div id="DateTimeInput">
-                    <input type="text" id="Date" name="Date" readonly required>
-                    <input type="time" id="StartTime" name="StartTime" readonly required>
-                    <input type="time" id="EndTime" name="EndTime" readonly required>
+                    <input type="text" id="Date" name="Date" readonly  required>
+                    <input type="time" id="StartTime" name="StartTime" readonly  required>
+                    <input type="time" id="EndTime" name="EndTime" readonly  required>
                 </div>
                 <div id="calendarContainer" class="Inactive">
                     <i class="fa-solid fa-xmark" id="XCalendar"></i>
@@ -124,13 +125,26 @@
                 </div>
             </div>
 
-            <label for="">Reason for Occupancy: </label><br>
-            <textarea name="Reason" id="Reason" required></textarea>
-
+            <div class="Inputs">
+                <label for="Purpose">Purpose: </label><br>
+                <select name="Purpose" id="PurposeInput" required>
+                    <option value=""></option>
+                    <option value="Lecture">Lecture</option>
+                    <option value="Extra-Curricular Activities">Extra-Curricular Activities</option>
+                    <option value="Access to Specialized Equipment">Access to Specialized Equipment</option>
+                    <option value="Research Activities">Research Activities</option>
+                </select>
+            </div>
+            
             <button type="submit" id="SubmitButton">Submit</button>
+            
         </form>
     </div>
 
+    <div class="OuterImage Inactive">
+        <img src="/images/1.jpg" alt="" id="ZoomedImg">
+        <i class="fa-solid fa-xmark" id="XZoomedImg"></i>
+    </div>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -141,7 +155,6 @@
     </script> -->
     <script>
         window.roominfo = JSON.parse('<%- JSON.stringify(RoomInfos) %>'); // ✅ No need for JSON.parse()
-        // console.log(window.roominfo); // Debug
     </script>
     <script src="/javascripts/UsBook.js"></script>
 
