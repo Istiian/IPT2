@@ -6,11 +6,11 @@ class User {
     constructor(username, password, name, role, course = null, year = null, section = null, department = null) {
         this.username = username;
         privateData.set(this, { password }),
-            this.name = name;
+        this.name = name;
         this.role = role,
-            this.course = course,
-            this.year = year,
-            this.section = section,
+        this.course = course,
+        this.year = year,
+        this.section = section,
         this.department = department
     }
 

@@ -1,0 +1,55 @@
+table{
+    background-color: black;
+    width: auto;
+    min-width: 1000px; 
+    max-width: 90%;
+    height: fit-content;
+    position: relative;
+   
+    margin: 240px auto 0 auto;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.th2 {
+    background-color: white;
+    color: black; 
+    padding: 10px;
+    border: 1px solid black;
+    height: 20px;
+    
+}
+
+th{
+    background-color: #E8E8E8;
+    border: 1px solid black;
+}
+
+@media screen and (max-width: 768px) {
+    table {
+        width: auto; 
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+}
+
+
+@media screen and (max-width: 480px) {
+    table {
+        display: block;
+        overflow-x: auto; 
+        white-space: nowrap;
+    }
+
+    th, td {
+        padding: 5px;
+        font-size: 12px;
+    }
+}
+
+.th1 {
+    width: 500px;
+}

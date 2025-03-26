@@ -11,6 +11,8 @@ var app = express();
 
 var AdCreateAccountRouter = require('./routes/AdCreateAccountRoute');
 var AdLoginRouter = require('./routes/AdLoginRoute');
+var AdTrackRouter = require('./routes/AdTrackRoute');
+var AdManageBookingRouter = require('./routes/AdManageBookingRoute');
 var UserRouter = require('./routes/UserRoute');
 var AdminRouter = require('./routes/AdminRoute');
 var UsBookRouter = require('./routes/UsBookRoute');
@@ -34,11 +36,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/leaflet', express.static(path.join(__dirname, 'node_modules/leaflet/dist')));
+
 
 
 app.use('/AdCreateAccountRoute', AdCreateAccountRouter);
 app.use('/AdLoginRoute', AdLoginRouter)
+app.use('/AdTrackRoute', AdTrackRouter)
+app.use('/AdManageBookingRoute', AdManageBookingRouter)
+
 app.use('/UserRoute', UserRouter)
 app.use('/AdminRoute', AdminRouter)
 app.use('/ChangePassRoute', ChangePassRouter)
@@ -46,6 +51,7 @@ app.use('/UsBookRoute', UsBookRouter)
 app.use('/UsLoginRoute', UsLoginRouter)
 app.use('/AdCreateSchedRoute', AdCreateSchedRouter)
 app.use('/UsScheduleRoute', UsScheduleRouter)
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -30,7 +30,7 @@ router.get("/", async function (req, res) {
     async function AddSchedule(RoomInfos) {
         for (const RoomInfo of RoomInfos) {
             let [FixedSched] = await connection.query(`SELECT * FROM schedule WHERE RoomId = ${RoomInfo.RoomId}`);
-            let [BookSched] = await connection.query(`SELECT * FROM booking WHERE RoomId = ${RoomInfo.RoomId}`);
+            let [BookSched] = await connection.query(`SELECT * FROM booking WHERE RoomId = ${RoomInfo.RoomId} AND Decision IS NOT NULL`);
             let FullSched = [];
 
             if (Array.isArray(FixedSched) && FixedSched.length > 0) {
@@ -62,7 +62,7 @@ router.get("/", async function (req, res) {
         let events = []
         let DateStr = new Date(SchedDate).toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' });
 
-        console.log(DateStr)
+       
        console.log("start: ", `${DateStr}T${StartTime}`)
 
         events.push({

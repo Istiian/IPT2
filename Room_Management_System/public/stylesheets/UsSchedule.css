@@ -1,0 +1,79 @@
+.course-info {
+    width: 1000px; 
+    display: flex;
+    justify-content: space-between; 
+    margin-bottom: 10px; 
+    position: relative; 
+}
+
+table {
+    background-color: black; 
+    width: 100%;
+    max-width: 1000px; 
+    height: auto;
+    position: relative;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+th {
+    background-color: white;
+    color: white; 
+    padding: 10px;
+    border: 1px solid black; 
+}
+
+
+.tr1, .tr2 {
+    height: 40px;
+    background-color: black; 
+    color: black;
+}
+
+
+@media screen and (max-width: 768px) {
+    table {
+        width: 95%;
+        bottom: 0;
+        font-size: 14px;
+        background-color: black; 
+    }
+
+    th, td {
+        padding: 8px;
+   
+    }
+
+    .tr1, .tr2 {
+        height: auto;
+        background-color: black; 
+    }
+}
+
+
+@media screen and (max-width: 480px) {
+    table {
+        display: block;
+        overflow-x: auto; 
+        white-space: nowrap;
+        background-color: black;
+    }
+
+    th, td {
+        padding: 5px;
+        font-size: 12px;
+        color: black;
+    }
+}
+
+.tr2, .thn{
+    background-color: #E8E8E8;
+}
+
+.th1, .th2{
+    color: black;
+}
+
+.th1{
+    width: 500px;
+}

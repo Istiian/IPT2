@@ -46,6 +46,20 @@ router.patch("/ChangePassword", async (req, res) => {
     await user.ChangePasword(res, connection);
 })
 
+router.patch("/DecideBooking/:id", async(req, res) =>{
+    const {id} = req.params
+    const {Decision} = req.body
+    let conflicts = JSON.parse(req.body.Conflicts || "[]"); 
+
+    if(conflicts.length > 0){
+        for (let id of conflicts){
+            await connection.query("UPDATE booking SET Decision = 0 WHERE BookingId = ?", [id])
+        }
+    }
+    const MakeDecision = await connection.query("UPDATE booking SET Decision = ? WHERE BookingId = ?", [Decision, id])
+    res.redirect("/AdManageBookingRoute")
+})
+
 
 
 module.exports = router
