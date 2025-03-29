@@ -21,7 +21,7 @@ table{
 }
 
 th, td{
-    width: 20%;
+    width: fit-content;
     text-align: center;
     color: var(--black);
     padding: 3px 0px;

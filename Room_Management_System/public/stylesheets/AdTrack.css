@@ -1,55 +1,47 @@
-table{
-    background-color: black;
+:root {
+    --headingFont: "Poppins", "Arial";
+    --bodyFont: "Roboto", "Arial";
+    --accent: #DAA520;
+    --secondaryOne: #012362;
+    --secondaryTwo: #f2f2f2;
+    --primary: #fafafa;
+    --black: #333333;
+}
+
+.course-info{
+    margin-top: 70px;
+}
+
+.course-info label {
+    margin-top: 100px;
+    margin-left: 65px;
+    font-family: var(--bodyFont);
+}
+
+table {
     width: auto;
-    min-width: 1000px; 
+    min-width: 1000px;
     max-width: 90%;
-    height: fit-content;
     position: relative;
-   
-    margin: 240px auto 0 auto;
+    margin: 40px auto;
     text-align: center;
+}
+
+table,
+td,
+tr,
+th {
     border-collapse: collapse;
+    border: 1px solid var(--black);
+    color: var(--black);
 }
 
-.th2 {
-    background-color: white;
-    color: black; 
-    padding: 10px;
-    border: 1px solid black;
-    height: 20px;
-    
+td {
+    font-family: var(--bodyFont);
+    padding: 5px;
 }
 
-th{
-    background-color: #E8E8E8;
-    border: 1px solid black;
-}
-
-@media screen and (max-width: 768px) {
-    table {
-        width: auto; 
-        font-size: 14px;
-    }
-
-    th, td {
-        padding: 8px;
-    }
-}
-
-
-@media screen and (max-width: 480px) {
-    table {
-        display: block;
-        overflow-x: auto; 
-        white-space: nowrap;
-    }
-
-    th, td {
-        padding: 5px;
-        font-size: 12px;
-    }
-}
-
-.th1 {
-    width: 500px;
+th {
+    font-family: var(--headingFont);
+    padding: 5px;
 }

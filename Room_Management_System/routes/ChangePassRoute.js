@@ -6,7 +6,7 @@ router.get("/", function(req, res) {
 
    const created = req.query.Created;
    const message = req.query.Message;
-   res.render('ChangePass', { created, message });
+   res.render('AdTrack', { created, message });
 
 });
 

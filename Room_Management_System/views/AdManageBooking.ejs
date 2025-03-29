@@ -66,15 +66,17 @@
                 <th>Room</th>
                 <th>Date</th>
                 <th>Time </th>
+                <th>Purpose</th>
                 <th></th>
             </tr>
             <% if (BookingDatas && BookingDatas.length > 0){ %>
                 <% BookingDatas.forEach((Data) => { %>
                     <tr class="RowData">
-                        <td>s</td>
-                        <td><%= Data.RoomId %></td>
+                        <td>BSIT200</td>
+                        <td>Acer Lab 1</td>
                         <td><%= Data.FormattedDate %></td>
                         <td><%= Data.FormattedStartTime %> - <%= Data.FormattedEndTime %></td>
+                        <td><%= Data.Purpose%></td>
                         <td>
                             <form action="/AdminRoute/DecideBooking/<%= Data.BookingId %>?_method=PATCH" method="post">
                                 <input type="hidden" name="Conflicts" class="conflictInput">
