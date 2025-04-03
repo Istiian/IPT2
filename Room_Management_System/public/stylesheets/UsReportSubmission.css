@@ -1,0 +1,95 @@
+:root {
+    --headingFont: "Poppins", "Arial";
+    --bodyFont: "Roboto", "Arial";
+    --accent: #DAA520;
+    --secondaryOne: #012362;
+    --secondaryTwo: #f2f2f2;
+    --primary: #fafafa;
+    --black: #0d0d0d;
+}
+
+table, tr, td, th{
+    border: 1px solid black;
+    border-collapse: collapse;
+   
+}
+
+table{
+    width: 90%;
+    margin: 100px auto;
+    max-width: 1000px;
+}
+
+th, td{
+    width: fit-content;
+    text-align: center;
+    color: var(--black);
+    padding: 5px 0px;
+}
+
+th{
+    font-family: var(--headingFont);
+}
+
+td{
+    font-family: var(--bodyFont);
+}
+
+button{
+    width: 75px;
+    margin-inline: 5px;
+    padding: 5px;
+    font-family: var(--bodyFont);
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+td button:hover{
+    transform: scale(0.95);
+}
+
+.SubmitBtn{
+    background-color: var(--accent);
+    color:var(--black)
+}
+.EditBtn{
+    background-color: #C0BEBE
+}
+.RowData{
+    transition: background-color 0.2s ease
+}
+.Conflict{
+    background-color: rgba(193, 25, 25, 0.5);
+}
+
+.OuterForm{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0, 0.5);
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    
+}
+
+.OuterForm form{
+    position: relative;
+    top: 100px;
+    width: 95%;
+    max-width: 500px;
+    background-color: #C0BEBE;
+    height: 500px;
+}
+
+.InputContainer{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}

@@ -72,8 +72,8 @@
             <% if (BookingDatas && BookingDatas.length > 0){ %>
                 <% BookingDatas.forEach((Data) => { %>
                     <tr class="RowData">
-                        <td>BSIT200</td>
-                        <td>Acer Lab 1</td>
+                        <td><%= Data.Username %></td>
+                        <td><%= Data.RoomName %></td>
                         <td><%= Data.FormattedDate %></td>
                         <td><%= Data.FormattedStartTime %> - <%= Data.FormattedEndTime %></td>
                         <td><%= Data.Purpose%></td>

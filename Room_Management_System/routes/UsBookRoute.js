@@ -25,12 +25,12 @@ router.get("/", async function (req, res) {
     const Username = req.session.Username;
     const [RoomInfos] = await connection.query("SELECT * FROM room");
     const eee = await connection.query(`SELECT * FROM booking`);
-    console.log("eee", eee);
+    
 
     async function AddSchedule(RoomInfos) {
         for (const RoomInfo of RoomInfos) {
             let [FixedSched] = await connection.query(`SELECT * FROM schedule WHERE RoomId = ${RoomInfo.RoomId}`);
-            let [BookSched] = await connection.query(`SELECT * FROM booking WHERE RoomId = ${RoomInfo.RoomId} AND Decision IS NOT NULL`);
+            let [BookSched] = await connection.query(`SELECT * FROM booking WHERE RoomId = ${RoomInfo.RoomId} AND Decision = 1`);
             let FullSched = [];
 
             if (Array.isArray(FixedSched) && FixedSched.length > 0) {

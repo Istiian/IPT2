@@ -1,0 +1,132 @@
+:root {
+    --headingFont: "Poppins", "Arial";
+    --bodyFont: "Roboto", "Arial";
+    --accent: #DAA520;
+    --secondaryOne: #012362;
+    --secondaryTwo: #f2f2f2;
+    --primary: #fafafa;
+    --black: #333333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    max-width: 650px;
+    margin: 50px auto 20px;
+    background-color: var(--secondaryTwo);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--secondaryOne);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+h3{
+    text-align: center;
+    font-family: var(--headingFont);
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--black);
+    margin-bottom: 20px;
+}
+
+.InputContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px
+}
+
+.InputContainer label {
+    font-family: var(--headingFont);
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.InputContainer h6 {
+    font-family: var(--headingFont);
+    font-size: 12px;
+    font-weight: bold;
+    margin: 5px 0;
+    color: var(--black);
+}
+
+.FileInput {
+    width: 100%;
+    height: fit-content;
+    border: 1px dotted var(--secondaryOne);
+    position: relative;
+    background-color: rgba(1, 35, 98, 0.7);
+}
+
+.UploadIcon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.UploadIcon i {
+    font-size: 25px;
+    color: var(--secondaryTwo);
+    margin-bottom: 5px;
+}
+
+.UploadIcon p {
+    font-size: 14px;
+    color: var(--secondaryTwo);
+    font-family: var(--bodyFont);
+    text-align: center;
+}
+
+.FileInput input {
+    width: 100%;
+    height: 100px;
+    opacity: 0;
+}
+
+.AfterFileUploaded p,
+.BeforeFileUploaded p {
+    font-family: var(--bodyFont);
+    font-size: 12px;
+    background-color: rgba(1, 35, 98, 0.1);
+    padding: 3px;
+    margin: 5px 0; 
+
+}
+
+.InputContainer textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--secondaryOne);
+    font-family: var(--bodyFont);
+    font-size: 14px;
+    color: var(--black);
+    background-color: var(--primary);
+    resize: none;
+}
+
+button[type="submit"] {
+    width: 250px;
+    margin: 10px auto 5px;
+    height: 35px;
+    background-color: var(--accent);
+    color: var(--black);
+    font-family: var(--bodyFont);
+    font-weight: bold;
+    border: none;
+    border-radius: 7px;
+    transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover{
+    cursor: pointer;
+    background-color: var(--secondaryOne);
+    color: var(--secondaryTwo);
+    transform: scale(0.95);
+}

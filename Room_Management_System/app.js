@@ -1,25 +1,29 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var mysql = require('mysql2');
-const bcrypt = require('bcrypt');
-const methodOverride = require("method-override");
-const session = require("express-session")
+var createError = require('http-errors');  // for error handling
+var express = require('express'); // for express framework
+var path = require('path');// for path manipulation
+var cookieParser = require('cookie-parser'); // for cookie parsing
+var logger = require('morgan'); // for logging
+var mysql = require('mysql2'); // for mysql connection
+const bcrypt = require('bcrypt'); // for password hashing
+const methodOverride = require("method-override"); // for method override
+const session = require("express-session"); // for session management 
+const multer  = require('multer'); // for file upload
 var app = express();
 
-var AdCreateAccountRouter = require('./routes/AdCreateAccountRoute');
-var AdLoginRouter = require('./routes/AdLoginRoute');
-var AdTrackRouter = require('./routes/AdTrackRoute');
-var AdManageBookingRouter = require('./routes/AdManageBookingRoute');
-var UserRouter = require('./routes/UserRoute');
-var AdminRouter = require('./routes/AdminRoute');
-var UsBookRouter = require('./routes/UsBookRoute');
-var ChangePassRouter = require("./routes/ChangePassRoute")
-var UsLoginRouter = require("./routes/UsLoginRoute");
-var AdCreateSchedRouter = require('./routes/AdCreateSchedRoute');
-var UsScheduleRouter= require('./routes/UsScheduleRoute');
+var AdCreateAccountRouter = require('./routes/AdCreateAccountRoute'); // for admin account creation
+var AdLoginRouter = require('./routes/AdLoginRoute'); // for admin login
+var AdTrackRouter = require('./routes/AdTrackRoute'); // for admin tracking
+var AdManageBookingRouter = require('./routes/AdManageBookingRoute'); // for admin booking management
+var AdCreateSchedRouter = require('./routes/AdCreateSchedRoute'); // for admin schedule creation
+var AdminRouter = require('./routes/AdminRoute');// for admin account management
+
+var UserRouter = require('./routes/UserRoute'); // for user account management
+var UsBookRouter = require('./routes/UsBookRoute');//  for user booking management
+var ChangePassRouter = require("./routes/ChangePassRoute") ;// for user password change
+var UsLoginRouter = require("./routes/UsLoginRoute");// for user login
+var UsScheduleRouter= require('./routes/UsScheduleRoute');// for user schedule management
+var UsReportSubmissionRouter= require('./routes/UsReportSubmissionRoute');// for user report submission
+var UsReportFormRouter= require('./routes/UsReportFormRoute');// for user report form
 
 app.use(session({
   secret: 'secret-key', 
@@ -27,7 +31,7 @@ app.use(session({
   saveUninitialized: false
 }));
 
-// view engine setup
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(methodOverride('_method')); // makes method patch, delete, put works
@@ -36,6 +40,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '/BookingImages') // Set the destination folder for uploaded files
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, file.originalname)
+  }
+})
+
+const upload = multer({ storage: storage })
 
 
 
@@ -49,27 +65,16 @@ app.use('/AdminRoute', AdminRouter)
 app.use('/ChangePassRoute', ChangePassRouter)
 app.use('/UsBookRoute', UsBookRouter)
 app.use('/UsLoginRoute', UsLoginRouter)
+app.use('/UsReportFormRoute', UsReportFormRouter)
 app.use('/AdCreateSchedRoute', AdCreateSchedRouter)
 app.use('/UsScheduleRoute', UsScheduleRouter)
+app.use('/UsReportSubmissionRoute', UsReportSubmissionRouter)
 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
-
-
-// MYSQL Connection
-
-
-// connection.query("SELECT * FROM room", (err,results,fields)=>{
-//   if (err) {
-//     console.error(err.message);
-//     return;
-//   }
-//   console.log('Query Results:', results);
-// });
 
 
 // error handle
