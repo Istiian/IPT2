@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const multer = require('multer'); // for file upload
 const User = require("../models/User");
 const Book = require("../models/Book");
+const Booking = require("../models/BookingReport");
 
 router.get("/", function (req, res) {
     res.send("Success")
@@ -61,19 +62,26 @@ router.post("/Book", async (req, res) =>{
         EndTime: req.body.EndTime,
         Purpose: req.body.Purpose
     }
-    console.log("Username: ", req.session.Username)
-    console.log(Inputed);
+    console.log("UserId: ", req.session.UserId)
+    
     const BookDetails =  new Book(Inputed.UserId, Inputed.Username, Inputed.RoomId, Inputed.RoomName, Inputed.Date, Inputed.StartTime, Inputed.EndTime, Inputed.Purpose);
     BookDetails.Appoint(res);
 });
 
-router.patch("/SubmitReport/:Id", upload.fields([{name: "BeforeImage", maxCount: 5}, {name: "AfterImage", maxCount: 5} ]), async (req, res) => {
+router.post("/SubmitReport/:Id", upload.fields([{name: "BeforeImage", maxCount: 5}, {name: "AfterImage", maxCount: 5} ]), async (req, res) => {
     const {Id} = req.params;
     const beforeImagesPaths = req.files.BeforeImage.map(file => formatFilePath(file.path)); // Array of paths for "BeforeImage"
     const afterImagesPaths = req.files.AfterImage.map(file => formatFilePath(file.path));   // Array of paths for "AfterImage"
     const Remarks = req.body.Remarks;
     
-    const SubmitReport = new Book(req.session.UserId, req.session.Username, null, null, null, null, null, null, Id, JSON.stringify(afterImagesPaths), JSON.stringify(beforeImagesPaths), Remarks).ReportSubmission();
+    
+    try {
+        const SubmitReport = new Booking(Id, JSON.stringify(afterImagesPaths), JSON.stringify(beforeImagesPaths), Remarks);
+        SubmitReport.ReportSubmission();
+        res.redirect("/UsReportSubmissionRoute?Report=success")
+    } catch (error) {
+        console.error(error.message);
+    }
 
     function formatFilePath(filePath) {
         return filePath.replace(/\\/g, '/').replace("public/", "")

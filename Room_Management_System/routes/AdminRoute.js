@@ -3,6 +3,7 @@ const router = express.Router();
 var mysql = require('mysql2/promise');
 const bcrypt = require('bcrypt');
 const User = require("../models/User");
+const Book = require("../models/Book");
 // Connection on the DB
 (async () => {
     try {
@@ -35,7 +36,7 @@ router.post("/CreateAccount", async (req, res) => {
         req.body.Department,
     )
 
-    await NewUser.CreateAccount(res, connection);
+    await NewUser.CreateAccount(res);
 
 })
 
@@ -43,21 +44,23 @@ router.patch("/ChangePassword", async (req, res) => {
     const username = req.body.Username;
     const newPassword = req.body.Password;
     const user = new User(String(username), String(newPassword));
-    await user.ChangePasword(res, connection);
+    await user.ChangePasword(res);
 })
 
 router.patch("/DecideBooking/:id", async(req, res) =>{
     const {id} = req.params
     const {Decision} = req.body
     let conflicts = JSON.parse(req.body.Conflicts || "[]"); 
-
+    console.log(conflicts)
     if(conflicts.length > 0){
         for (let id of conflicts){
             await connection.query("UPDATE booking SET Decision = 0 WHERE BookingId = ?", [id])
         }
     }
     const MakeDecision = await connection.query("UPDATE booking SET Decision = ? WHERE BookingId = ?", [Decision, id])
-    res.redirect("/AdManageBookingRoute")
+    
+    
+    res.redirect("/AdManageBookingRoute?Decision=success")
 })
 
 

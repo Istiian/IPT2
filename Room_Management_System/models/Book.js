@@ -16,7 +16,7 @@ var mysql = require('mysql2/promise');
 })();
 
 class Book {
-    constructor(UserId, Username, RoomId, RoomName , BookingDate , StartTime , EndTime , Purpose, BookingId, AfterImages = null, BeforeImages = null, Remarks = null) {
+    constructor(UserId = null, Username = null, RoomId = null, RoomName= null , BookingDate = null, StartTime = null, EndTime= null , Purpose= null) {
         this.UserId = UserId;
         this.Username = Username;
         this.RoomId = RoomId;
@@ -25,10 +25,7 @@ class Book {
         this.StartTime = StartTime;
         this.EndTime = EndTime;
         this.Purpose = Purpose;
-        this.BookingId = BookingId;
-        this.AfterImages = AfterImages;
-        this.BeforeImages = BeforeImages;
-        this.Remarks = Remarks;
+        
     }
 
     async Appoint(res) {
@@ -73,24 +70,20 @@ class Book {
         return BookingDatas;
     }
 
-    async ReportSubmission(){
-        const ReportDetails = {
-            BookingId: this.BookingId,
-            AfterImages: this.AfterImages,
-            BeforeImages: this.AfterImages,
-            Remarks: this.Remarks
-        }
+    async GetPendingBookings() {
 
         try {
-            const Report = await connection.query('INSERT INTO bookingreport SET ?', [ReportDetails]);
-            console.log("Success: ", Report)
-        } catch (err) {
-            console.error(err.message);
+            const [BookingDatas] = await connection.query("SELECT * FROM booking WHERE Decision IS NULL ORDER BY BookingDate ASC, StartTime ASC")
+            return BookingDatas
+        } catch (error) {
+            console.error(error.message);
+            
         }
-
     }
-    
 
+  
+    
+    
 }
 
 module.exports = Book;

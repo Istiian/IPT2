@@ -1,6 +1,19 @@
 const bcrypt = require('bcrypt');
 const privateData = new WeakMap();// store key-value pairs, where the keys are objects and the values can be arbitrary values
-
+var mysql = require('mysql2/promise');
+(async () => {
+    try {
+        connection = await mysql.createConnection({
+            host: 'localhost',
+            user: 'root',
+            password: '12345',
+            database: 'room_management'
+        });
+        console.log('Admin: Connection Success');
+    } catch (err) {
+        console.error('Connection Not Success:', err.message);
+    }
+})();
 
 class User {
     constructor(username, password, name, role, course = null, year = null, section = null, department = null) {
@@ -41,7 +54,7 @@ class User {
         }
     }
 
-    async isUsernameExist(username, connection) {
+    async isUsernameExist(username) {
 
         const [result] = await connection.query("SELECT username FROM user WHERE username = ?", [username]);
 
@@ -57,11 +70,11 @@ class User {
             return false;
         }
     }
-
-    async CreateAccount(res, connection) {
+    
+    async CreateAccount(res) {
         const HashedPassword = await this.HashPassword(this.getPassword())
 
-        if (!(await this.isUsernameExist(this.username, connection))) {
+        if (!(await this.isUsernameExist(this.username))) {
             try {
                 
                 const NewUser = {
@@ -70,7 +83,7 @@ class User {
                     password: HashedPassword,
                     role: this.role
                 }
-                console.log(this.department);
+                
                 const [AddingUserInfo] = await connection.query('INSERT INTO user SET ?', NewUser);
                 if (this.role == "Student") {
                     const newStudent = {
@@ -98,9 +111,9 @@ class User {
         }
     }
 
-    async ChangePasword(res, connection) {
+    async ChangePasword(res) {
 
-        if (await this.isUsernameExist(this.username, connection)) {
+        if (await this.isUsernameExist(this.username)) {
 
             try {
                 const hashedNewPassword = await this.HashPassword(this.getPassword());
