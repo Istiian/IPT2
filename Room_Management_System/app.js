@@ -16,6 +16,7 @@ var AdTrackRouter = require('./routes/AdTrackRoute'); // for admin tracking
 var AdManageBookingRouter = require('./routes/AdManageBookingRoute'); // for admin booking management
 var AdCreateSchedRouter = require('./routes/AdCreateSchedRoute'); // for admin schedule creation
 var AdminRouter = require('./routes/AdminRoute');// for admin account management
+var AdDashboardRouter = require('./routes/AdDashboardRoute'); // for admin dashboard
 
 var UserRouter = require('./routes/UserRoute'); // for user account management
 var UsBookRouter = require('./routes/UsBookRoute');//  for user booking management
@@ -59,6 +60,7 @@ app.use('/AdCreateAccountRoute', AdCreateAccountRouter);
 app.use('/AdLoginRoute', AdLoginRouter)
 app.use('/AdTrackRoute', AdTrackRouter)
 app.use('/AdManageBookingRoute', AdManageBookingRouter)
+app.use('/AdDashboardRoute', AdDashboardRouter)
 
 app.use('/UserRoute', UserRouter)
 app.use('/AdminRoute', AdminRouter)

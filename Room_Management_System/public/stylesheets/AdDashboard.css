@@ -1,0 +1,84 @@
+:root {
+    --headingFont: "Poppins", "Arial";
+    --bodyFont: "Roboto", "Arial";
+    --accent: #DAA520;
+    --secondaryOne: #012362;
+    --secondaryTwo: #f2f2f2;
+    --primary: #fafafa;
+    --black: #0d0d0d;
+}
+
+.DashboardContents {
+    width: 100%;
+    height: fit-content;
+    position: relative;
+    margin-top: 25px;
+}
+
+.QuickStats {
+    display: flex;
+    flex-direction: row;
+
+
+}
+
+.Boxes {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.GraphContainer {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 50px;
+}
+
+.Box {
+    width: 300px;
+    height: 100px;
+    box-shadow: 3px 3px 15px 0px rgba(0, 0, 0, 0.75);
+    border-radius: 10px;
+    padding: 5px;
+
+}
+
+.Box h6 {
+    font-family: var(--headingFont);
+    font-size: 16px;
+    color: var(--secondaryOne);
+}
+
+.Box p {
+    font-family: var(--bodyFont);
+    font-size: 30px;
+    color: var(--black);
+    text-align: center;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.Charts {
+    background-color: var(--secondaryTwo);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.Charts:nth-child(1) {
+    width: 40%;
+    margin-inline: 20px 10px;
+    height: 400px;
+    padding: 20px;
+
+}
+
+.Charts:nth-child(2) {
+    width: 60%;
+    margin-inline: 10px 20px;
+    height: 400px;
+    padding: 20px;
+
+}
