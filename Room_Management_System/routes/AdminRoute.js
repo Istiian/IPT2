@@ -61,7 +61,7 @@ router.patch("/DecideBooking/:id", async(req, res) =>{
     const MakeDecision = await connection.query("UPDATE booking SET Decision = ? WHERE BookingId = ?", [Decision, id])
     
     
-    res.redirect("/AdManageBookingRoute?Decision=success")
+    res.redirect(`/AdManageRoomRoute/Reservation/${id}?Decision=success`)
 })
 
 

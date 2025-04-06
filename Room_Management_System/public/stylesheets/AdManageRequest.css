@@ -14,9 +14,33 @@ table, tr, td, th{
    
 }
 
+.btnContainer{
+    width: 90%;
+    margin: 75px auto 0px;
+    max-width: 1100px;
+}
+#BackBtn{
+    background: none;
+    font-size: 16px;
+    color: #515151;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#BackBtn i{
+    margin-right: 5px;
+    font-size: 12px;
+    color: #515151;
+}
+#BackBtn:hover, #BackBtn i:hover{
+    color: var(--secondaryOne);
+    transition: color 0.3s ease;
+}
 table{
     width: 90%;
-    margin: 100px auto;
+    margin: 25px auto;
     max-width: 1000px;
 }
 

@@ -13,7 +13,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <link rel="stylesheet" href="/stylesheets/NavigationAdmin.css">
-<link rel="stylesheet" href="/stylesheets/AdManageBooking.css">
+<link rel="stylesheet" href="/stylesheets/AdManageRequest.css">
 
 <body>
 
@@ -41,7 +41,6 @@
         </nav>
     </aside>
 
-
     <main class="MainContent">
         <header class="HeaderNavigation">
             <!-- dropdown button -->
@@ -59,15 +58,16 @@
                 </div>
             </div>
         </header>
-
+       
+        <div class="btnContainer"><button onclick="history.back()" id="BackBtn"><i class="fa-solid fa-arrow-left"></i>Back</button></div>
         <table >
+            
             <tr>
                 <th>Username</th>
                 <th>Room</th>
                 <th>Date</th>
                 <th>Time </th>
-                <th>Purpose</th>
-                <th></th>
+                
             </tr>
             <% if (BookingDatas && BookingDatas.length > 0){ %>
                 <% BookingDatas.forEach((Data) => { %>
@@ -76,18 +76,11 @@
                         <td><%= Data.RoomName %></td>
                         <td><%= Data.FormattedDate %></td>
                         <td><%= Data.FormattedStartTime %> - <%= Data.FormattedEndTime %></td>
-                        <td><%= Data.Purpose%></td>
-                        <td>
-                            <form action="/AdminRoute/DecideBooking/<%= Data.BookingId %>?_method=PATCH" method="post">
-                                <input type="hidden" name="Conflicts" class="conflictInput">
-                                <button class="AcceptBtn" name="Decision" value="1">Accept</button>
-                                <button class="RejectBtn" name="Decision" value="0">Reject</button>
-                            </form>
-                        </td>
+                        
                     </tr>
                 <% }) %>
             <%}else{ %>
-                <tr><td colspan="5">No booking</td></tr>
+                <tr><td colspan="4">No due reservation reports.</td></tr>
             <% } %>
           
             
@@ -104,7 +97,7 @@
     window.BookingDatas = JSON.parse('<%- JSON.stringify(BookingDatas) %>');
     
 </script>
-<script src="/javascripts/AdManageBooking.js"></script>
+<script src="/javascripts/AdManageRequest.js"></script>
 <script src="/javascripts/NavigationAdmin.js"></script>
 
 </html>

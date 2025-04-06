@@ -28,7 +28,7 @@ router.get("/", async function(req, res) {
     
     
     BookingDatas.forEach(Data => {
-        Data.FormattedDate = moment(Data.BookingDate).format("MMMM Do YYYY")
+        Data.FormattedDate = moment(Data.BookingDate).format("MMMM Do YYYY");
         Data.FormattedStartTime = moment(Data.StartTime, "HH:mm").format("hh:mm A");
         Data.FormattedEndTime = moment(Data.EndTime, "HH:mm").format("hh:mm A");
         Data.FormattedNumericalDate = moment(Data.BookingDate).format("YYYY-MM-DD");

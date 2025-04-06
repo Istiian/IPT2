@@ -14,7 +14,7 @@ var AdCreateAccountRouter = require('./routes/AdCreateAccountRoute'); // for adm
 var AdLoginRouter = require('./routes/AdLoginRoute'); // for admin login
 var AdTrackRouter = require('./routes/AdTrackRoute'); // for admin tracking
 var AdManageBookingRouter = require('./routes/AdManageBookingRoute'); // for admin booking management
-var AdCreateSchedRouter = require('./routes/AdCreateSchedRoute'); // for admin schedule creation
+var AdManageRoomRouter = require('./routes/AdManageRoomRoute'); // for admin schedule creation
 var AdminRouter = require('./routes/AdminRoute');// for admin account management
 var AdDashboardRouter = require('./routes/AdDashboardRoute'); // for admin dashboard
 
@@ -61,6 +61,7 @@ app.use('/AdLoginRoute', AdLoginRouter)
 app.use('/AdTrackRoute', AdTrackRouter)
 app.use('/AdManageBookingRoute', AdManageBookingRouter)
 app.use('/AdDashboardRoute', AdDashboardRouter)
+app.use('/AdManageRoomRoute', AdManageRoomRouter)
 
 app.use('/UserRoute', UserRouter)
 app.use('/AdminRoute', AdminRouter)
@@ -68,7 +69,6 @@ app.use('/ChangePassRoute', ChangePassRouter)
 app.use('/UsBookRoute', UsBookRouter)
 app.use('/UsLoginRoute', UsLoginRouter)
 app.use('/UsReportFormRoute', UsReportFormRouter)
-app.use('/AdCreateSchedRoute', AdCreateSchedRouter)
 app.use('/UsScheduleRoute', UsScheduleRouter)
 app.use('/UsReportSubmissionRoute', UsReportSubmissionRouter)
 

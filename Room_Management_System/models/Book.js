@@ -70,15 +70,29 @@ class Book {
         return BookingDatas;
     }
 
-    async GetPendingBookings() {
+    async GetPendingBookings(RoomId = null) {
+        if (RoomId) {
+            let SqlStatement = `SELECT * FROM booking WHERE Decision IS NULL AND RoomId = ? ORDER BY BookingDate ASC, StartTime ASC`;
 
-        try {
-            const [BookingDatas] = await connection.query("SELECT * FROM booking WHERE Decision IS NULL ORDER BY BookingDate ASC, StartTime ASC")
-            return BookingDatas
-        } catch (error) {
-            console.error(error.message);
+            try {
+                let [BookingDatas] = await connection.query(SqlStatement, [RoomId]);
+                return BookingDatas
+            } catch (error) {
+                console.error(error.message);
+            }
 
+        } else {
+            try {
+                let SqlStatement = `SELECT * FROM booking WHERE Decision IS NULL ORDER BY BookingDate ASC, StartTime ASC`;
+                let [BookingDatas] = await connection.query(SqlStatement)
+                return BookingDatas
+            } catch (error) {
+                console.error(error.message);
+
+            }
         }
+
+
     }
 
     async GetQuantityOfBookings(Days) {
@@ -110,7 +124,7 @@ class Book {
     }
 
 
-    async GetRejectedBookings(Days) {
+    async GetQuantityRejectedBookings(Days) {
         let SqlStatement = `
             SELECT COUNT(*) AS total_quantity
             FROM booking 
@@ -126,7 +140,7 @@ class Book {
         }
     }
 
-    async GetAcceptedBookings(Days) {
+    async GetQuantityAcceptedBookings(Days) {
         let SqlStatement = `
             SELECT COUNT(*) AS total_quantity
             FROM booking 
@@ -143,7 +157,7 @@ class Book {
     }
 
 
-    async GetPendingBookingReports() {
+    async GetQuantityPendingBookingReports() {
         let SqlStatement = `SELECT COUNT(*) AS total_quantity
             FROM booking LEFT JOIN bookingreport
             on booking.BookingId = bookingreport.BookingId
@@ -161,7 +175,7 @@ class Book {
         }
     }
 
-    async GetAcceptedBookingsPerRoom(Days = 7) {
+    async GetQuantityAcceptedBookingsPerRoom(Days = 7) {
         let SqlStatement = `SELECT r.RoomId, 
         COUNT(b.RoomId) AS total_quantity
         FROM room r
@@ -195,7 +209,7 @@ class Book {
         }
     }
 
-    async GetDueReportsPerRoom() {
+    async GetQuantityDueReportsPerRoom() {
         let SqlStatement = `SELECT r.Room_Name, COUNT(b.BookingId) AS total_quantity
             FROM room r 
             LEFT JOIN booking b
@@ -212,6 +226,39 @@ class Book {
         }
     }
 
-}
+    async GetDueReportsDetails(RoomId) {
+        if (RoomId) {
+            let SqlStatement = `SELECT booking.*
+            FROM booking LEFT JOIN bookingreport
+            on booking.BookingId = bookingreport.BookingId
+            WHERE bookingreport.BookingId IS null 
+            AND booking.Decision = 1 AND booking.RoomId =?
+            AND (BookingDate < CURDATE() OR (BookingDate = CURDATE() AND ENDTIME <= CURTIME()))
+            ORDER BY BookingDate ASC, StartTime ASC`
 
+            try {
+                const [BookingDatas] = await connection.query(SqlStatement, [RoomId]);
+                return BookingDatas;
+            } catch (error) {
+                console.error(error.message);
+            }
+        }else {
+            let SqlStatement = `SELECT booking.*
+            FROM booking LEFT JOIN bookingreport
+            on booking.BookingId = bookingreport.BookingId
+            WHERE bookingreport.BookingId IS null 
+            AND booking.Decision = 1 
+            AND (BookingDate < CURDATE() OR (BookingDate = CURDATE() AND ENDTIME <= CURTIME()))
+            ORDER BY BookingDate ASC, StartTime ASC`
+
+            try {
+                const [BookingDatas] = await connection.query(SqlStatement);
+                return BookingDatas;
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+
+    }
+}
 module.exports = Book;
