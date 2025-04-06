@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const e = require('express');
 const privateData = new WeakMap();// store key-value pairs, where the keys are objects and the values can be arbitrary values
 var mysql = require('mysql2/promise');
 (async () => {
@@ -16,9 +17,10 @@ var mysql = require('mysql2/promise');
 })();
 
 class User {
-    constructor(username, password, name, role, course = null, year = null, section = null, department = null) {
+    constructor(username, password, email, name, role, course = null, year = null, section = null, department = null) {
         this.username = username;
         privateData.set(this, { password }),
+        this.email = email;
         this.name = name;
         this.role = role,
         this.course = course,
@@ -81,6 +83,7 @@ class User {
                     name: this.name,
                     username: this.username,
                     password: HashedPassword,
+                    email: this.email,
                     role: this.role
                 }
                 
@@ -97,6 +100,7 @@ class User {
                 else if (this.role == "Faculty") {
                     const newFaculty = {
                         Department: this.department,
+                        
                         userId: AddingUserInfo.insertId
                     }
                     const AddingFacultyInfo = await connection.query('INSERT INTO faculty SET ?', newFaculty)

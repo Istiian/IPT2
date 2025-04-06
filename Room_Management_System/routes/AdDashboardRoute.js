@@ -13,7 +13,11 @@ router.get("/", async function (req, res) {
         PendingReports : await new Book().GetPendingBookingReports(),
         Accepted : await new Book().GetAcceptedBookings(7),
         Pending: await new Book().GetQuantityOfPendingBooking(7),
-        BookingPerRoom: BookingPerRoom,
+        BookingPerRoom: await new Book().GetAcceptedBookingsPerRoom(),
+        PendingBookingPerRoom: await new Book().GetQuantityOfPendingBookingPerRoom(),
+        DueReportsPerRoom: await new Book().GetDueReportsPerRoom(),
+
+
     }
 
     

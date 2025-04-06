@@ -28,6 +28,7 @@ router.post("/CreateAccount", async (req, res) => {
     const NewUser = new User(
         req.body.Username,
         req.body.Password,
+        req.body.Email,
         req.body.Name,
         req.body.Role,
         req.body.Course,

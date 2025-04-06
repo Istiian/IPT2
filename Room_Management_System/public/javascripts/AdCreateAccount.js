@@ -10,8 +10,8 @@ const MsgBox = document.getElementById("MsgBox")
 
 RoleInput.onchange = () => {
     const formContainer = document.getElementById('formContainer');
-    formContainer.innerHTML=""
-    
+    formContainer.innerHTML = ""
+
 
     if (RoleInput.value == "Student") {
         const newElement = document.createElement('div');
@@ -39,7 +39,7 @@ RoleInput.onchange = () => {
                 <input type="text" required name="Section" id="Section">\
                 <small>Required</small>\
             </div>';
-            formContainer.appendChild(newElement);
+        formContainer.appendChild(newElement);
     } else if (RoleInput.value == "Faculty") {
         const newElement = document.createElement('div');
         newElement.className = 'inputRow';
@@ -57,10 +57,11 @@ RoleInput.onchange = () => {
                     </select>\
                 </div>\
             </div>';
-            formContainer.appendChild(newElement);
+             
+        formContainer.appendChild(newElement);
     }
 }
 
-XBtn.addEventListener("click", ()=>{
+XBtn.addEventListener("click", () => {
     MsgBox.classList.add("Hide");
 });

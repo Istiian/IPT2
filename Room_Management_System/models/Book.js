@@ -143,7 +143,7 @@ class Book {
     }
 
 
-    async GetPendingBookingReports(){
+    async GetPendingBookingReports() {
         let SqlStatement = `SELECT COUNT(*) AS total_quantity
             FROM booking LEFT JOIN bookingreport
             on booking.BookingId = bookingreport.BookingId
@@ -153,7 +153,7 @@ class Book {
             ORDER BY BookingDate ASC, StartTime ASC`;
 
         try {
-             const [BookingDatas] = await connection.query(SqlStatement);
+            const [BookingDatas] = await connection.query(SqlStatement);
             return BookingDatas[0].total_quantity;
         }
         catch (error) {
@@ -161,16 +161,16 @@ class Book {
         }
     }
 
-    async GetAcceptedBookingsPerRoom(){
+    async GetAcceptedBookingsPerRoom(Days = 7) {
         let SqlStatement = `SELECT r.RoomId, 
         COUNT(b.RoomId) AS total_quantity
         FROM room r
         LEFT JOIN booking b
-        ON r.RoomId = b.RoomId AND b.Decision = 1 AND  b.BookingDate >= NOW() - INTERVAL 7 DAY
+        ON r.RoomId = b.RoomId AND b.Decision = 1 AND  b.BookingDate >= NOW() - INTERVAL ? DAY
         GROUP BY r.RoomId`
 
         try {
-             const [BookingDatas] = await connection.query(SqlStatement);
+            const [BookingDatas] = await connection.query(SqlStatement, [Days]);
             return BookingDatas;
         }
         catch (error) {
@@ -178,6 +178,39 @@ class Book {
         }
     }
 
+    async GetQuantityOfPendingBookingPerRoom(Days = 7) {
+        let SqlStatement = `SELECT r.RoomId, 
+        COUNT(b.RoomId) AS total_quantity
+        FROM room r
+        LEFT JOIN booking b
+        ON r.RoomId = b.RoomId AND b.Decision IS NULL AND  b.BookingDate >= NOW() - INTERVAL ? DAY
+        GROUP BY r.RoomId`
+
+        try {
+            const [BookingDatas] = await connection.query(SqlStatement, [Days]);
+            return BookingDatas;
+        }
+        catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    async GetDueReportsPerRoom() {
+        let SqlStatement = `SELECT r.Room_Name, COUNT(b.BookingId) AS total_quantity
+            FROM room r 
+            LEFT JOIN booking b
+            ON r.RoomId = b.RoomId AND (b.BookingDate < CURDATE() OR (b.BookingDate = CURDATE() AND b.EndTime <= CURTIME()))
+            LEFT JOIN bookingreport br
+            ON b.BookingId = br.BookingId
+            GROUP BY  r.RoomId;`
+
+        try {
+            const [BookingDatas] = await connection.query(SqlStatement,);
+            return BookingDatas;
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
 
 }
 

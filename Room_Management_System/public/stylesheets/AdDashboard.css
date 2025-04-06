@@ -26,14 +26,17 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    margin-bottom: 40px;
 }
 
 .GraphContainer {
     display: flex;
     justify-content: space-around;
-    margin-top: 50px;
+    margin-top: 10px;
 }
-
+.GraphContainer:nth-child(3){
+    margin-bottom: 50px;
+}
 .Box {
     width: 300px;
     height: 100px;
@@ -64,21 +67,27 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px dotted var(--secondaryOne);
 
 }
-
-.Charts:nth-child(1) {
+.RoomChartContainer{
+    width: 100%;
+    margin-inline: 20px ;
+    height: 500px;
+    padding: 20px;
+}
+.PieChartContainer {
     width: 40%;
-    margin-inline: 20px 10px;
-    height: 400px;
+    margin-inline: 20px 5px;
+    height: 350px;
     padding: 20px;
 
 }
 
-.Charts:nth-child(2) {
+.DueReportChartContainer {
     width: 60%;
-    margin-inline: 10px 20px;
-    height: 400px;
+    margin-inline: 5px 20px;
+    height: 350px;
     padding: 20px;
 
 }

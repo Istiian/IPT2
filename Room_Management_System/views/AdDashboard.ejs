@@ -23,7 +23,7 @@
     <aside class="Sidebar">
         <div class="LogoHeaderCont">
             <img src="/images/cmulogo.png" alt="CMU LOGO">
-            <h1>CMU RMMS</h1>
+            <h1>CMU RRMS</h1>
         </div>
     
     <!-- Sidebar Links -->
@@ -71,33 +71,35 @@
 
                 <div class="Boxes">
                     <div class="Box">
-                        <h6>No. of Pending Booking Request</h6>
+                        <h6>No. of Reservation Request</h6>
                         <p><%= Quantity.Pending %></p>
                     </div>
                     
                     <div class="Box">
-                        <h6>No. of Due Booking Reports</h6>
-                        <p><%= Quantity.PendingReports %></p>
+                        <h6>No. of Active Reservations</h6>
+                        <p><%= Quantity.Accepted %></p>
                     </div>
 
                     <div class="Box">
                         <h6>No. of Due Booking Reports</h6>
                         <p><%= Quantity.PendingReports %></p>
                     </div>
-
-                    
-
-
-                    
                 </div>
                 
                 <div class="GraphContainer">
-                    <div class="Charts">
-                        <canvas id="Pie" ></canvas>
+                    <div class="RoomChartContainer Charts">
+                        <canvas id="RoomChart" ></canvas>
+                    </div>
+                        
+                </div>
+
+                <div class="GraphContainer">
+                    <div class="PieChartContainer Charts">
+                        <canvas id="Pie"></canvas>
                     </div>
 
-                    <div class="Charts">
-                        <canvas id="Bar" height="140" ></canvas>
+                    <div class="DueReportChartContainer Charts">
+                        <canvas id="DueReporChart"></canvas>
                     </div>
                     
                 </div>
