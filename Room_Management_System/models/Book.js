@@ -290,7 +290,7 @@ class Book {
             LEFT JOIN bookingreport br
             ON b.BookingId = br.BookingId 
             WHERE br.BookingReportId IS NOT NULL AND b.RoomId = ?`;
-
+            
             try {
                 const [BookingDatas] = await connection.query(SqlStatement, [RoomId]);
                 return BookingDatas

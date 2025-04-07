@@ -74,19 +74,11 @@ td{
 td button:hover{
     transform: scale(0.95);
 }
-
-.AcceptBtn{
-    background-color: #27AE60;
-    color: var(--primary);
-}
-
-.RejectBtn{
-    background-color: #E74C3C;
-    color: var(--primary);
-}
 .RowData{
-    transition: background-color 0.2s ease
+    transition: background-color 0.3s ease;
+    cursor: pointer
 }
-.Conflict{
-    background-color: rgba(193, 25, 25, 0.5);
+
+.RowData:hover{
+    background-color: #cbcbcb
 }

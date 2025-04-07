@@ -1,0 +1,165 @@
+:root {
+    --headingFont: "Poppins", "Arial";
+    --bodyFont: "Roboto", "Arial";
+    --accent: #DAA520;
+    --secondaryOne: #012362;
+    --secondaryTwo: #f2f2f2;
+    --primary: #fafafa;
+    --black: #0d0d0d;
+}
+
+.InformationContainer {
+    width: 95%;
+    margin: 50px auto;
+    max-width: 900px;
+ 
+    
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.BookingDetails {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 100%;
+    height: fit-content;
+    align-content: flex-start;
+    padding: 5px 5px 10px 5px;
+    border-bottom: 2px solid var(--black);
+}
+
+.BookingDetails p {
+    font-family: var(--bodyFont);
+    font-size: 16px;
+    color: var(--black);
+    flex: 1 1 50%;
+    margin-top: 5px;
+}
+
+.BookingDetails strong {
+    font-family: var(--headingFont);
+}
+.ReportDetails {
+    display: flex;
+    width: 100%;
+    padding: 5px;
+    flex-direction: column;
+}
+.ReportDetails h6{
+    font-family: var(--headingFont);
+    font-size: 16px;
+    color: var(--black);
+    margin-top: 5px;
+    
+}
+
+.ReportDetails p {
+    font-family: var(--bodyFont);
+    font-size: 16px;
+    color: var(--black);
+}
+.ImagesDetails{
+
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+.ImagesContainer{
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: 10px auto;
+}
+
+.ImagesContainer img{
+    width: 150px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.ImagesContainer img:hover{
+    transform: scale(0.95);
+    
+}
+#BackBtn{
+    color: var(--secondaryOne);
+    font-size: 14px;
+    font-family: var(--headingFont);
+}
+
+#BackBtn{
+    background: none;
+    font-size: 16px;
+    color: #515151;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#BackBtn i{
+    margin-right: 5px;
+    font-size: 12px;
+    color: #515151;
+}
+#BackBtn:hover, #BackBtn i:hover{
+    color: var(--secondaryOne);
+    transition: color 0.3s ease;
+}
+
+.OuterImage{
+    width: 100%;
+    max-width: 1305px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    
+}
+
+.OuterImage img{
+    max-width: 50%;
+    max-height: 50%;
+    transition: all 0.3s ease;
+}
+
+#XZoomedImg {
+    position: absolute;
+    top: 100px;
+    right: 100px;
+    color: var(--secondaryTwo);
+    font-size: 20px;
+    padding: 3px;
+    transition: background-color 0.3s ease;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#XZoomedImg:hover {
+    background-color: rgba(249, 245, 245, 0.6);
+    color: var(--black);
+}
+
+.OuterImage.Inactive img{
+    transform: scale(0.5);
+}
+
+.OuterImage.Active img{
+    transform: scale(1);
+}
+
+.Inactive{
+    opacity: 0;
+    visibility: hidden;
+}
+
+.Active{
+    opacity: 1;
+    visibility: visible;
+}

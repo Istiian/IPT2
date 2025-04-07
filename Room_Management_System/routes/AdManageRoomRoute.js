@@ -86,8 +86,16 @@ router.get("/History/:id", async function(req, res) {
 router.get("/History/FullDetails/:id", async function(req, res) {
 
     const BookingId = req.params.id;
-    const BookingData = await new Book().getHistoryBooking(null,BookingId);
-    res.send(BookingData);
+    const BookingDatas = await new Book().getHistoryBooking(null,BookingId);
+    BookingDatas.forEach(Data => {
+        Data.FormattedDate = moment(Data.BookingDate).format("MMMM Do YYYY");
+        Data.FormattedStartTime = moment(Data.StartTime, "HH:mm").format("hh:mm A");
+        Data.FormattedEndTime = moment(Data.EndTime, "HH:mm").format("hh:mm A");
+        Data.FormattedNumericalDate = moment(Data.BookingDate).format("YYYY-MM-DD");
+    });
+    
+    res.render("AdManageHistoryFullDetails", {BookingDatas:BookingDatas });
+    
 });
 
 module.exports = router;

@@ -246,10 +246,6 @@ class Stairs extends NonReservableRoom {
         }).addTo(this.Floor).bindPopup(this.Name);
     }
 }
-console.log(new Date())
-console.log(new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 10))
-
-
 
 document.addEventListener("DOMContentLoaded", () => {
     const tomorrow = new Date();

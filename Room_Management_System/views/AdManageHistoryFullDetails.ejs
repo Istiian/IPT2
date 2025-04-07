@@ -13,14 +13,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <link rel="stylesheet" href="/stylesheets/NavigationAdmin.css">
-<link rel="stylesheet" href="/stylesheets/AdManageHistory.css">
-<style>
-    .ImagePreview {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-    }
-</style>
+<link rel="stylesheet" href="/stylesheets/AdManageHistoryFullDetails.css">
+
 <body>
     <!-- SIDE BAR -->
     <aside class="Sidebar">
@@ -64,48 +58,75 @@
             </div>
         </header>
        
-        
-        <div class="btnContainer"><button onclick="history.back()" id="BackBtn"><i class="fa-solid fa-arrow-left"></i>Back</button></div>
-        
-        <table >
-            <tr>
-                <th>Username</th>
-                <th>Room</th>
-                <th>Date</th>
-                <th>Time </th>
-                <th>Remarks</th>
-                
-            </tr>
-            <% if (BookingDatas && BookingDatas.length > 0){ %>
-                <% BookingDatas.forEach((Data) => { %>
-                    <tr class="RowData" onclick="window.location.href='/AdManageRoomRoute/History/FullDetails/<%= Data.BookingReportId %>'">
-                        <td><%= Data.Username %></td>
-                        <td><%= Data.RoomName %></td>
-                        <td><%= Data.FormattedDate %></td>
-                        <td><%= Data.FormattedStartTime %> - <%= Data.FormattedEndTime %></td>
-                        <td><%= Data.Remarks %></td>
+
+        <section class="InformationContainer">
+            <button onclick="history.back()" id="BackBtn"><i class="fa-solid fa-arrow-left"></i>Back</button>
+            <div class="BookingDetails">
+                <p><strong>Room name:</strong> <%= BookingDatas[0].RoomName %> </p>
+                <p><strong>Date:</strong> <%= BookingDatas[0].FormattedDate %> </p>
+                <p><strong>Username:</strong> <%= BookingDatas[0].Username %> </p>
+                <p><strong>Time:</strong> <%= BookingDatas[0].FormattedStartTime %> - <%= BookingDatas[0].FormattedEndTime %> </p>
+            </div>
+            
+            <div class="ReportDetails">
+                <h6>Remarks: </h6>
+                <p><%= BookingDatas[0].Remarks %></p>
+
+                <div class="ImagesDetails">
+                    <h6>Before Reservation Images: </h6>
+                    <div class="ImagesContainer">
+                        <% BookingDatas[0].AfterImages.forEach((image) => { %>
+                            <img src="/<%= image %>" >
+                        <% }) %>
                         
-                    </tr>
-                <% }) %>
-            <%}else{ %>
-                <tr><td colspan="4">No due reservation reports.</td></tr>
-            <% } %>
-          
+                    </div>
+                    
+                </div>
+
+                <div class="ImagesDetails">
+                    <h6>After Reservation Images: </h6>
+                    <div class="ImagesContainer">
+                        <% BookingDatas[0].BeforeImages.forEach((image) => { %>
+                            <img src="/<%= image %>" >
+                        <% }) %>
+                        
+                    </div>
+                    
+                </div>
+            </div>
             
-            
-        </table>
+        </section>
+        
+        
+        <div class="OuterImage Inactive">
+            <img id="ZoomedImg" alt="Zoomed Image">
+            <i class="fa-solid fa-xmark" id="XZoomedImg"></i>
+        </div>
 
     </main>
 
-    
+
     
 </body>
 <script>
-    
-    window.BookingDatas = JSON.parse('<%- JSON.stringify(BookingDatas) %>');
-    
+    const Images = document.querySelectorAll(".ImagesContainer img");
+    const XZoomedImg = document.getElementById("XZoomedImg");
+    const OuterImage = document.querySelector(".OuterImage");
+
+
+    Images.forEach((image) => {
+        image.addEventListener("click", () => {
+            OuterImage.classList.remove("Inactive")
+            OuterImage.classList.add("Active")
+            ZoomedImg.src = image.src;
+        });
+    });
+
+    XZoomedImg.addEventListener("click", ()=>{
+        OuterImage.classList.add("Inactive")
+        OuterImage.classList.remove("Active")
+    });
 </script>
-<script src="/javascripts/AdManageRequest.js"></script>
 <script src="/javascripts/NavigationAdmin.js"></script>
 
 </html>
