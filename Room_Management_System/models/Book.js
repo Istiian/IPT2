@@ -41,7 +41,8 @@ class Book {
         }
 
         try {
-            const Appointment = await connection.query('INSERT INTO booking SET ?', [AppointmentDetails]);
+            let SqlStatement = `INSERT INTO booking SET ?`
+            const Appointment = await connection.query(SqlStatement, [AppointmentDetails]);
             res.redirect("/UsBookRoute?book=success")
         } catch (err) {
             res.status(500).send(err.message);
@@ -49,14 +50,16 @@ class Book {
     }
 
     async ToGetToBeEvalutedBookings() {
-        const [BookingDatas] = await connection.query(`
+        let SqlStatement = `
             SELECT booking.*
             FROM booking LEFT JOIN bookingreport
             on booking.BookingId = bookingreport.BookingId
             WHERE bookingreport.BookingId IS null 
             AND booking.Decision = 1 AND UserId = ?
             AND (BookingDate < CURDATE() OR (BookingDate = CURDATE() AND ENDTIME <= CURTIME()))
-            ORDER BY BookingDate ASC, StartTime ASC` , [this.UserId]);
+            ORDER BY BookingDate ASC, StartTime ASC`
+
+        const [BookingDatas] = await connection.query(SqlStatement, [this.UserId]);
 
 
         BookingDatas.forEach(Data => {
@@ -91,8 +94,6 @@ class Book {
 
             }
         }
-
-
     }
 
     async GetQuantityOfBookings(Days) {
@@ -210,13 +211,20 @@ class Book {
     }
 
     async GetQuantityDueReportsPerRoom() {
-        let SqlStatement = `SELECT r.Room_Name, COUNT(b.BookingId) AS total_quantity
-            FROM room r 
-            LEFT JOIN booking b
-            ON r.RoomId = b.RoomId AND (b.BookingDate < CURDATE() OR (b.BookingDate = CURDATE() AND b.EndTime <= CURTIME()))
-            LEFT JOIN bookingreport br
-            ON b.BookingId = br.BookingId
-            GROUP BY  r.RoomId;`
+        let SqlStatement = `SELECT r.Room_Name,
+                    COUNT(CASE 
+                        WHEN b.BookingId IS NOT NULL AND br.BookingId IS NULL THEN 1
+                        ELSE NULL
+                    END) AS total_quantity
+                FROM  room r
+                LEFT JOIN booking b 
+                    ON r.RoomId = b.RoomId
+                    AND (b.BookingDate < CURDATE() OR (b.BookingDate = CURDATE() AND b.EndTime <= CURTIME()))
+                    AND b.Decision = 1
+                LEFT JOIN bookingreport br 
+                    ON b.BookingId = br.BookingId
+                GROUP BY 
+                    r.RoomId, r.Room_Name;`
 
         try {
             const [BookingDatas] = await connection.query(SqlStatement,);
@@ -242,7 +250,7 @@ class Book {
             } catch (error) {
                 console.error(error.message);
             }
-        }else {
+        } else {
             let SqlStatement = `SELECT booking.*
             FROM booking LEFT JOIN bookingreport
             on booking.BookingId = bookingreport.BookingId
@@ -254,6 +262,53 @@ class Book {
             try {
                 const [BookingDatas] = await connection.query(SqlStatement);
                 return BookingDatas;
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+
+    }
+
+    async GetActiveReservation(Id) {
+        let SqlStatement = `SELECT * FROM booking 
+        WHERE Decision = 1 AND booking.RoomId = ?
+        AND (BookingDate > CURDATE() OR (BookingDate = CURDATE() AND ENDTIME >= CURTIME()))
+        ORDER BY BookingDate ASC, StartTime ASC`;
+        try {
+            const [BookingDatas] = await connection.query(SqlStatement, [Id]);
+            return BookingDatas;
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    async getHistoryBooking(RoomId, BookingId) {
+
+        if (RoomId) {
+            let SqlStatement = `SELECT br.BookingReportId, b.RoomName, b.StartTime, b.EndTime,b.BookingDate, b.Username, br.AfterImages, br.BeforeImages, br.Remarks 
+            FROM booking b
+            LEFT JOIN bookingreport br
+            ON b.BookingId = br.BookingId 
+            WHERE br.BookingReportId IS NOT NULL AND b.RoomId = ?`;
+
+            try {
+                const [BookingDatas] = await connection.query(SqlStatement, [RoomId]);
+                return BookingDatas
+            } catch (error) {
+                console.error(error.message);
+            }
+
+        } else if (BookingId) {
+
+            let SqlStatement = `SELECT br.BookingReportId, b.RoomName, b.StartTime, b.EndTime,b.BookingDate, b.Username, br.AfterImages, br.BeforeImages, br.Remarks 
+            FROM booking b
+            LEFT JOIN bookingreport br
+            ON b.BookingId = br.BookingId 
+            WHERE br.BookingReportId IS NOT NULL AND br.BookingReportId = ?`;
+
+            try {
+                const [BookingDatas] = await connection.query(SqlStatement, [BookingId]);
+                return BookingDatas
             } catch (error) {
                 console.error(error.message);
             }

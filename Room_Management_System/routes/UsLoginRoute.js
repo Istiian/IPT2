@@ -6,6 +6,7 @@ router.get("/", function(req,res){
     const UserId = req.session.UserId;
     
     res.render("UsLogin", {error, UserId});
+    
 });
 
 module.exports = router;

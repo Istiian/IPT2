@@ -20,8 +20,8 @@ const Book = require("../models/Book");
 
 router.get("/", async function (req, res) {
 
-    const UserId = 1;
-    const Username = "Forlaje3G";
+    const UserId = req.session.UserId;
+    const Username = req.session.Username;
 
     const BookingDatas = await new Book(UserId, null, null, null, null, null, null).ToGetToBeEvalutedBookings();
 

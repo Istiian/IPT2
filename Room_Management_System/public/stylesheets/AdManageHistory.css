@@ -1,0 +1,92 @@
+:root {
+    --headingFont: "Poppins", "Arial";
+    --bodyFont: "Roboto", "Arial";
+    --accent: #DAA520;
+    --secondaryOne: #012362;
+    --secondaryTwo: #f2f2f2;
+    --primary: #fafafa;
+    --black: #0d0d0d;
+}
+
+table, tr, td, th{
+    border: 1px solid black;
+    border-collapse: collapse;
+   
+}
+
+.btnContainer{
+    width: 90%;
+    margin: 75px auto 0px;
+    max-width: 1100px;
+}
+#BackBtn{
+    background: none;
+    font-size: 16px;
+    color: #515151;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#BackBtn i{
+    margin-right: 5px;
+    font-size: 12px;
+    color: #515151;
+}
+#BackBtn:hover, #BackBtn i:hover{
+    color: var(--secondaryOne);
+    transition: color 0.3s ease;
+}
+table{
+    width: 90%;
+    margin: 25px auto;
+    max-width: 1000px;
+}
+
+th, td{
+    width: fit-content;
+    text-align: center;
+    color: var(--black);
+    padding: 3px 0px;
+}
+
+th{
+    font-family: var(--headingFont);
+}
+
+td{
+    font-family: var(--bodyFont);
+}
+
+.AcceptBtn, .RejectBtn{
+    width: 75px;
+    margin-inline: 5px;
+    padding: 5px;
+    font-family: var(--bodyFont);
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+td button:hover{
+    transform: scale(0.95);
+}
+
+.AcceptBtn{
+    background-color: #27AE60;
+    color: var(--primary);
+}
+
+.RejectBtn{
+    background-color: #E74C3C;
+    color: var(--primary);
+}
+.RowData{
+    transition: background-color 0.2s ease
+}
+.Conflict{
+    background-color: rgba(193, 25, 25, 0.5);
+}

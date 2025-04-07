@@ -79,6 +79,7 @@ body {
     border: none;
     background: none;
     cursor: pointer;
+    width: fit-content;
 }
 
 #DropdownBtn i {

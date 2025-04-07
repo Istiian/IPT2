@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<link rel="stylesheet" href="/stylesheets/NavigationAdmin.css">
+<link rel="stylesheet" href="/stylesheets/AdManageHistory.css">
+<style>
+    .ImagePreview {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+    }
+</style>
+<body>
+    <!-- SIDE BAR -->
+    <aside class="Sidebar">
+        <div class="LogoHeaderCont">
+            <img src="/images/cmulogo.png" alt="CMU LOGO">
+            <h1>CMU RRMS</h1>
+        </div>
+    
+    <!-- Sidebar Links -->
+        <nav>
+            <a href="/AdDashboardRoute" class="SidebarLinks">
+                <i class="fa-solid fa-gauge"></i>
+                <label for="">Dashboard</label>
+            </a>
+            <a href="/AdCreateAccountRoute" class="SidebarLinks">
+                <i class="fa-solid fa-user-plus"></i>
+                <label for="">Add Account</label>
+            </a>
+            <a href="/AdManageRoomRoute" class="SidebarLinks active">
+                <i class="fa-solid fa-table-list"></i>
+                <label for="">Manage Rooms</label>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="MainContent">
+        <header class="HeaderNavigation">
+            <!-- dropdown button -->
+            <div class="Dropdown">
+                <button id="DropdownBtn">
+                    <label class="Username">Forlaje</label>
+                    <i class="fa-solid fa-caret-down"></i>
+                </button>
+                
+                <div id="DropdownContent">
+                    <a href="">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <label for="">Logout</label>
+                    </a>
+                </div>
+            </div>
+        </header>
+       
+        
+        <div class="btnContainer"><button onclick="history.back()" id="BackBtn"><i class="fa-solid fa-arrow-left"></i>Back</button></div>
+        
+        <table >
+            <tr>
+                <th>Username</th>
+                <th>Room</th>
+                <th>Date</th>
+                <th>Time </th>
+                <th>Remarks</th>
+                <th></th>
+            </tr>
+            <% if (BookingDatas && BookingDatas.length > 0){ %>
+                <% BookingDatas.forEach((Data) => { %>
+                    <tr class="RowData" onclick="window.location.href='/AdManageRoomRoute/History/FullDetails/<%= Data.BookingReportId %>'">
+                        <td><%= Data.Username %></td>
+                        <td><%= Data.RoomName %></td>
+                        <td><%= Data.FormattedDate %></td>
+                        <td><%= Data.FormattedStartTime %> - <%= Data.FormattedEndTime %></td>
+                        <td><%= Data.Remarks %></td>
+                        <td><%= Data.BookingReportId %></td>
+                    </tr>
+                <% }) %>
+            <%}else{ %>
+                <tr><td colspan="4">No due reservation reports.</td></tr>
+            <% } %>
+          
+            
+            
+        </table>
+
+    </main>
+
+    
+    
+</body>
+<script>
+    
+    window.BookingDatas = JSON.parse('<%- JSON.stringify(BookingDatas) %>');
+    
+</script>
+<script src="/javascripts/AdManageRequest.js"></script>
+<script src="/javascripts/NavigationAdmin.js"></script>
+
+</html>

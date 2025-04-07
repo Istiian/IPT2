@@ -60,10 +60,6 @@ class User {
 
         const [result] = await connection.query("SELECT username FROM user WHERE username = ?", [username]);
 
-        console.log("Username: ", username);
-        console.log("Database Check Result: ", result);
-
-
         if (result.length > 0) {
             console.log("Username exist?: ", "true")
             return true;
@@ -133,6 +129,40 @@ class User {
         } else {
             res.redirect('/ChangePassRoute?Change=False&Message=Username does not exist')
         }
+    }
+
+    async Authenticate(){
+        
+        
+        try {
+            let SqlStatement = `SELECT Username, Password, UserId FROM user WHERE username = ?`;
+            if (result.length > 0) {
+                this.VerifyPassword(this.Password)
+            }
+                
+        } catch (error) {
+            console.error("Error in Authenticate: ", error)
+            
+        }
+   
+    if (result.length > 0) {
+        const user = new User(result[0].Username,
+            result[0].Password,
+            // result[0].Course,
+            // result[0].Year,
+            // result[0].Section
+        )
+        if (await user.VerifyPassword(Inputed.password)) {
+            req.session.UserId = result[0].UserId;
+            req.session.Username = result[0].Username;
+            res.redirect("/UsBookRoute")
+        } else {
+            res.redirect('/UsLoginRoute?Error=true')
+        }
+    } else {
+        console.log("Error")
+        res.redirect('/UsLoginRoute?Error=true')
+    }
     }
 }
 
