@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt'); // for password hashing
 const methodOverride = require("method-override"); // for method override
 const session = require("express-session"); // for session management 
 const multer  = require('multer'); // for file upload
+const helmet = require('helmet');
 var app = express();
 
 var AdCreateAccountRouter = require('./routes/AdCreateAccountRoute'); // for admin account creation
@@ -18,6 +19,7 @@ var AdManageRoomRouter = require('./routes/AdManageRoomRoute'); // for admin sch
 var AdminRouter = require('./routes/AdminRoute');// for admin account management
 var AdDashboardRouter = require('./routes/AdDashboardRoute'); // for admin dashboard
 
+
 var UserRouter = require('./routes/UserRoute'); // for user account management
 var UsBookRouter = require('./routes/UsBookRoute');//  for user booking management
 var ChangePassRouter = require("./routes/ChangePassRoute") ;// for user password change
@@ -25,6 +27,7 @@ var UsLoginRouter = require("./routes/UsLoginRoute");// for user login
 var UsScheduleRouter= require('./routes/UsScheduleRoute');// for user schedule management
 var UsReportSubmissionRouter= require('./routes/UsReportSubmissionRoute');// for user report submission
 var UsReportFormRouter= require('./routes/UsReportFormRoute');// for user report form
+var UsEditRouter = require('./routes/UsEditRoute');
 
 app.use(session({
   secret: 'secret-key', 
@@ -70,7 +73,8 @@ app.use('/UsBookRoute', UsBookRouter)
 app.use('/UsLoginRoute', UsLoginRouter)
 app.use('/UsReportFormRoute', UsReportFormRouter)
 app.use('/UsScheduleRoute', UsScheduleRouter)
-app.use('/UsReportSubmissionRoute', UsReportSubmissionRouter)
+app.use('/UsReportSubmissionRoute', UsReportSubmissionRouter) 
+app.use('/UsEditRoute',UsEditRouter )
 
 
 // catch 404 and forward to error handler

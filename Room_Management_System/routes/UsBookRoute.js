@@ -24,13 +24,13 @@ router.get("/", async function (req, res) {
     const UserId = req.session.UserId;
     const Username = req.session.Username;
     const [RoomInfos] = await connection.query("SELECT * FROM room");
-    const eee = await connection.query(`SELECT * FROM booking`);
+    
     
 
     async function AddSchedule(RoomInfos) {
         for (const RoomInfo of RoomInfos) {
             let [FixedSched] = await connection.query(`SELECT * FROM schedule WHERE RoomId = ${RoomInfo.RoomId}`);
-            let [BookSched] = await connection.query(`SELECT * FROM booking WHERE RoomId = ${RoomInfo.RoomId} AND Decision = 1`);
+            let [BookSched] = await connection.query(`SELECT * FROM booking WHERE RoomId = ${RoomInfo.RoomId}`);
             let FullSched = [];
 
             if (Array.isArray(FixedSched) && FixedSched.length > 0) {
@@ -113,7 +113,7 @@ router.get("/", async function (req, res) {
     
     if (UserId) {
         res.render("UsBook", { UserId, Username, RoomInfos: updatedRoomInfos });
-        // res.send(updatedRoomInfos)
+        
     } else {
         res.redirect("/UsLoginRoute");
     }

@@ -68,6 +68,37 @@ router.post("/Book", async (req, res) =>{
     BookDetails.Appoint(res);
 });
 
+router.patch("/Book/Edit/:id", async (req, res) =>{
+
+    const Inputed = {
+        RoomId: req.body.RoomId, 
+        RoomName: req.body.RoomName,
+        Date: req.body.Date,
+        StartTime: req.body.StartTime,
+        EndTime: req.body.EndTime,
+        Purpose: req.body.Purpose,
+        Bookingid: req.params.id
+    }
+    
+    try {
+        const Update = new Book(null,null,Inputed.RoomId, Inputed.RoomName, Inputed.Date, Inputed.StartTime, Inputed.EndTime,Inputed.Purpose ).EditBooking(Inputed.Bookingid,res)
+    } catch (error) {
+        console.error(error.message)
+    }
+
+});
+
+router.delete("/Book/Cancel/:id", async (req,res)=>{
+    try {
+        const id = req.params.id;
+        console.log(id)
+        const Delete = new Book().CancelBooking(id)
+        res.redirect("/UsScheduleRoute")
+    } catch (error) {
+        console.error(error.message)
+    }
+});
+
 router.post("/SubmitReport/:Id", upload.fields([{name: "BeforeImage", maxCount: 5}, {name: "AfterImage", maxCount: 5} ]), async (req, res) => {
     const {Id} = req.params;
     const beforeImagesPaths = req.files.BeforeImage.map(file => formatFilePath(file.path)); // Array of paths for "BeforeImage"

@@ -1,3 +1,11 @@
+// // In your JS file (e.g., public/js/calendar.js)
+// import { Calendar } from '@fullcalendar/core';
+// import dayGridPlugin from '@fullcalendar/daygrid';
+// import 'leaflet/dist/leaflet.css';
+// import L from 'leaflet';
+
+
+
 const FloorList = document.getElementById("FloorList");
 const FirstFloor = document.getElementById("Floor1");
 const SecondFloor = document.getElementById("Floor2");

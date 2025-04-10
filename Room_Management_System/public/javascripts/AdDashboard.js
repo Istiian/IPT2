@@ -141,9 +141,9 @@ const AcceptedBookingPerRoom = Quantity.BookingPerRoom.map((room) => {
     return room.total_quantity;
 });
 
-const PendingBookingPerRoom = Quantity.PendingBookingPerRoom.map((room) => {
-    return room.total_quantity;
-});
+// const PendingBookingPerRoom = Quantity.PendingBookingPerRoom.map((room) => {
+//     return room.total_quantity;
+// });
 
 const myBarChart = new Chart(RoomChart, {
     type: 'bar',
@@ -162,19 +162,13 @@ const myBarChart = new Chart(RoomChart, {
             "CCS Lab 2"],
         datasets: [
             {
-                label: 'Accepted Reservations',
+                label: 'Reservations',
                 data: AcceptedBookingPerRoom,
                 backgroundColor: 'rgba(0, 166, 118, 0.5)',
                 borderColor: 'rgba(70, 166, 118, 1)',
                 borderWidth: 1,
-            },
-            {
-                label: 'Pending Reservations',
-                data: PendingBookingPerRoom,
-                backgroundColor: 'rgba(255, 200, 87, 0.5)',
-                borderColor: 'rgba(255, 200, 87, 1)',
-                borderWidth: 1
             }
+            
         ]
     },
     options: {

@@ -7,17 +7,24 @@ const moment = require('moment');
 
 router.get("/", async function(req, res) {
 
-    const PendingBookingPerRoom = await new Book().GetQuantityOfPendingBookingPerRoom()
-    const BookingPerRoom = await new Book().GetQuantityAcceptedBookingsPerRoom()
+    // const PendingBookingPerRoom = await new Book().GetQuantityOfPendingBookingPerRoom()
+    const BookingPerRoom = await new Book().GetQuantityBookingsPerRoom()
     const DueReportsPerRoom = await new Book().GetQuantityDueReportsPerRoom()
     
-    const Summary = PendingBookingPerRoom.map((room, index) => ({
+    const Summary = BookingPerRoom.map((room, index) => ({
         RoomId: room.RoomId,
         RoomName: DueReportsPerRoom[index]?.Room_Name || "Unknown Room Name",
         DueReport: DueReportsPerRoom[index]?.total_quantity || 0,
-        Accepted: BookingPerRoom[index]?.total_quantity || 0,
-        Pending: room.total_quantity || 0,
+        Accepted: room.total_quantity || 0,
     }));
+
+    // const Summary = PendingBookingPerRoom.map((room, index) => ({
+    //     RoomId: room.RoomId,
+    //     RoomName: DueReportsPerRoom[index]?.Room_Name || "Unknown Room Name",
+    //     DueReport: DueReportsPerRoom[index]?.total_quantity || 0,
+    //     Accepted: BookingPerRoom[index]?.total_quantity || 0,
+    //     Pending: room.total_quantity || 0,
+    // }));
     
 
     res.render('AdManageRoom', {Summary});

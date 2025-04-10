@@ -49,52 +49,116 @@ class Book {
         }
     }
 
+    async EditBooking(BookingId,res) {
+        try {
+            let SqlStatement = `UPDATE booking 
+            SET RoomId = ?, RoomName =  ?, BookingDate = ?, StartTime= ?, EndTime = ?, Purpose = ? 
+            WHERE BookingId = ? `;
+            const [BookingDatas] = await connection.query(SqlStatement, [
+                this.RoomId,
+                this.RoomName,
+                this.BookingDate,
+                this.StartTime,
+                this.EndTime,
+                this.Purpose,
+                BookingId
+            ]);
+            res.redirect("/UsScheduleRoute?Edit=Sucess")
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    async CancelBooking(BookingId){
+        try {
+            let SqlStatement = `DELETE FROM booking WHERE BookingId = ?`
+            const Delete = await connection.query(SqlStatement, [BookingId])
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    async GetBookingDetails(BookingId){
+        try {
+            let SqlStatement = "SELECT * FROM booking WHERE BookingId = ?"
+            const [BookingDatas] = await connection.query(SqlStatement, [BookingId]);
+           
+            return this.DateTimeFormatting(BookingDatas)[0];
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
+
+    DateTimeFormatting(BookingDatas){
+        BookingDatas.forEach(Data => {
+                Data.FormattedDate = moment(Data.BookingDate).format("MMMM Do YYYY");
+                Data.FormattedStartTime = moment(Data.StartTime, "HH:mm").format("hh:mm A");
+                Data.FormattedEndTime = moment(Data.EndTime, "HH:mm").format("hh:mm A");
+                Data.FormattedNumericalDate = moment(Data.BookingDate).format("YYYY-MM-DD");
+        });
+        return BookingDatas;
+    }
+
+
+    async GetActiveUserBookings(){
+        let SqlStatement = `SELECT *
+            FROM booking 
+            WHERE (BookingDate > CURDATE() OR (BookingDate = CURDATE() AND ENDTIME >= CURTIME())) AND userId = ?
+            ORDER BY BookingDate ASC, StartTime ASC`;
+        try {
+            const [BookingDatas] = await connection.query(SqlStatement, [this.UserId]);
+            
+            return this.DateTimeFormatting(BookingDatas);
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
     async ToGetToBeEvalutedBookings() {
         let SqlStatement = `
             SELECT booking.*
             FROM booking LEFT JOIN bookingreport
             on booking.BookingId = bookingreport.BookingId
             WHERE bookingreport.BookingId IS null 
-            AND booking.Decision = 1 AND UserId = ?
+            AND UserId = ?
             AND (BookingDate < CURDATE() OR (BookingDate = CURDATE() AND ENDTIME <= CURTIME()))
             ORDER BY BookingDate ASC, StartTime ASC`
 
         const [BookingDatas] = await connection.query(SqlStatement, [this.UserId]);
-
 
         BookingDatas.forEach(Data => {
             Data.FormattedDate = moment(Data.BookingDate).format("MMMM Do YYYY")
             Data.FormattedStartTime = moment(Data.StartTime, "HH:mm").format("hh:mm A");
             Data.FormattedEndTime = moment(Data.EndTime, "HH:mm").format("hh:mm A");
             Data.FormattedNumericalDate = moment(Data.BookingDate).format("YYYY-MM-DD");
-            Data.EncrpyedId = Buffer.from(Data.BookingId.toString()).toString('base64');
+           
         });
 
         return BookingDatas;
     }
 
-    async GetPendingBookings(RoomId = null) {
-        if (RoomId) {
-            let SqlStatement = `SELECT * FROM booking WHERE Decision IS NULL AND RoomId = ? ORDER BY BookingDate ASC, StartTime ASC`;
+    // async GetPendingBookings(RoomId = null) {
+    //     if (RoomId) {
+    //         let SqlStatement = `SELECT * FROM booking WHERE Decision IS NULL AND RoomId = ? ORDER BY BookingDate ASC, StartTime ASC`;
 
-            try {
-                let [BookingDatas] = await connection.query(SqlStatement, [RoomId]);
-                return BookingDatas
-            } catch (error) {
-                console.error(error.message);
-            }
+    //         try {
+    //             let [BookingDatas] = await connection.query(SqlStatement, [RoomId]);
+    //             return BookingDatas
+    //         } catch (error) {
+    //             console.error(error.message);
+    //         }
 
-        } else {
-            try {
-                let SqlStatement = `SELECT * FROM booking WHERE Decision IS NULL ORDER BY BookingDate ASC, StartTime ASC`;
-                let [BookingDatas] = await connection.query(SqlStatement)
-                return BookingDatas
-            } catch (error) {
-                console.error(error.message);
+    //     } else {
+    //         try {
+    //             let SqlStatement = `SELECT * FROM booking WHERE Decision IS NULL ORDER BY BookingDate ASC, StartTime ASC`;
+    //             let [BookingDatas] = await connection.query(SqlStatement)
+    //             return BookingDatas
+    //         } catch (error) {
+    //             console.error(error.message);
 
-            }
-        }
-    }
+    //         }
+    //     }
+    // }
 
     async GetQuantityOfBookings(Days) {
         let SqlStatement = `SELECT  COUNT(*) AS total_quantity
@@ -125,27 +189,27 @@ class Book {
     }
 
 
-    async GetQuantityRejectedBookings(Days) {
-        let SqlStatement = `
-            SELECT COUNT(*) AS total_quantity
-            FROM booking 
-            WHERE Decision = 0 AND BookingDate >= NOW() - INTERVAL ? DAY
-        `
-        try {
-            const [BookingDatas] = await connection.query(SqlStatement, [Days]);
-            return BookingDatas[0].total_quantity;
+    // async GetQuantityRejectedBookings(Days) {
+    //     let SqlStatement = `
+    //         SELECT COUNT(*) AS total_quantity
+    //         FROM booking 
+    //         WHERE Decision = 0 AND BookingDate >= NOW() - INTERVAL ? DAY
+    //     `
+    //     try {
+    //         const [BookingDatas] = await connection.query(SqlStatement, [Days]);
+    //         return BookingDatas[0].total_quantity;
 
-        } catch (error) {
-            console.error(error.message);
+    //     } catch (error) {
+    //         console.error(error.message);
 
-        }
-    }
+    //     }
+    // }
 
     async GetQuantityAcceptedBookings(Days) {
         let SqlStatement = `
             SELECT COUNT(*) AS total_quantity
             FROM booking 
-            WHERE Decision = 1 AND BookingDate >= NOW() - INTERVAL ? DAY
+            WHERE BookingDate >= NOW() - INTERVAL ? DAY
         `
         try {
             const [BookingDatas] = await connection.query(SqlStatement, [Days]);
@@ -163,7 +227,6 @@ class Book {
             FROM booking LEFT JOIN bookingreport
             on booking.BookingId = bookingreport.BookingId
             WHERE bookingreport.BookingId IS null 
-            AND booking.Decision = 1 
             AND (BookingDate < CURDATE() OR (BookingDate = CURDATE() AND ENDTIME <= CURTIME()))
             ORDER BY BookingDate ASC, StartTime ASC`;
 
@@ -176,12 +239,12 @@ class Book {
         }
     }
 
-    async GetQuantityAcceptedBookingsPerRoom(Days = 7) {
+    async GetQuantityBookingsPerRoom(Days = 7) {
         let SqlStatement = `SELECT r.RoomId, 
         COUNT(b.RoomId) AS total_quantity
         FROM room r
         LEFT JOIN booking b
-        ON r.RoomId = b.RoomId AND b.Decision = 1 AND  b.BookingDate >= NOW() - INTERVAL ? DAY
+        ON r.RoomId = b.RoomId AND b.BookingDate >= NOW() - INTERVAL ? DAY
         GROUP BY r.RoomId`
 
         try {
@@ -193,22 +256,22 @@ class Book {
         }
     }
 
-    async GetQuantityOfPendingBookingPerRoom(Days = 7) {
-        let SqlStatement = `SELECT r.RoomId, 
-        COUNT(b.RoomId) AS total_quantity
-        FROM room r
-        LEFT JOIN booking b
-        ON r.RoomId = b.RoomId AND b.Decision IS NULL AND  b.BookingDate >= NOW() - INTERVAL ? DAY
-        GROUP BY r.RoomId`
+    // async GetQuantityOfPendingBookingPerRoom(Days = 7) {
+    //     let SqlStatement = `SELECT r.RoomId, 
+    //     COUNT(b.RoomId) AS total_quantity
+    //     FROM room r
+    //     LEFT JOIN booking b
+    //     ON r.RoomId = b.RoomId AND b.Decision IS NULL AND  b.BookingDate >= NOW() - INTERVAL ? DAY
+    //     GROUP BY r.RoomId`
 
-        try {
-            const [BookingDatas] = await connection.query(SqlStatement, [Days]);
-            return BookingDatas;
-        }
-        catch (error) {
-            console.error(error.message);
-        }
-    }
+    //     try {
+    //         const [BookingDatas] = await connection.query(SqlStatement, [Days]);
+    //         return BookingDatas;
+    //     }
+    //     catch (error) {
+    //         console.error(error.message);
+    //     }
+    // }
 
     async GetQuantityDueReportsPerRoom() {
         let SqlStatement = `SELECT r.Room_Name,
@@ -220,7 +283,7 @@ class Book {
                 LEFT JOIN booking b 
                     ON r.RoomId = b.RoomId
                     AND (b.BookingDate < CURDATE() OR (b.BookingDate = CURDATE() AND b.EndTime <= CURTIME()))
-                    AND b.Decision = 1
+                    
                 LEFT JOIN bookingreport br 
                     ON b.BookingId = br.BookingId
                 GROUP BY 
@@ -240,7 +303,7 @@ class Book {
             FROM booking LEFT JOIN bookingreport
             on booking.BookingId = bookingreport.BookingId
             WHERE bookingreport.BookingId IS null 
-            AND booking.Decision = 1 AND booking.RoomId =?
+            AND booking.RoomId = ?
             AND (BookingDate < CURDATE() OR (BookingDate = CURDATE() AND ENDTIME <= CURTIME()))
             ORDER BY BookingDate ASC, StartTime ASC`
 
@@ -255,7 +318,6 @@ class Book {
             FROM booking LEFT JOIN bookingreport
             on booking.BookingId = bookingreport.BookingId
             WHERE bookingreport.BookingId IS null 
-            AND booking.Decision = 1 
             AND (BookingDate < CURDATE() OR (BookingDate = CURDATE() AND ENDTIME <= CURTIME()))
             ORDER BY BookingDate ASC, StartTime ASC`
 
@@ -271,9 +333,10 @@ class Book {
 
     async GetActiveReservation(Id) {
         let SqlStatement = `SELECT * FROM booking 
-        WHERE Decision = 1 AND booking.RoomId = ?
+        WHERE booking.RoomId = ?
         AND (BookingDate > CURDATE() OR (BookingDate = CURDATE() AND ENDTIME >= CURTIME()))
         ORDER BY BookingDate ASC, StartTime ASC`;
+
         try {
             const [BookingDatas] = await connection.query(SqlStatement, [Id]);
             return BookingDatas;

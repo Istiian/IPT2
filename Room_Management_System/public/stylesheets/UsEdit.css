@@ -1,0 +1,205 @@
+:root {
+    --headingFont: "Poppins", "Arial";
+    --bodyFont: "Roboto", "Arial";
+    --accent: #DAA520;
+    --secondaryOne: #012362;
+    --secondaryTwo: #f2f2f2;
+    --primary: #fafafa;
+    --black: #333333;
+    
+}
+
+form{
+    width: 100%;
+    max-width: 800px;
+    margin: 100px auto;
+    background-color: var(--secondaryTwo);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+.Inactive {
+    opacity: 0;
+    visibility: hidden;
+    z-index: 0;
+}
+
+.Active {
+    visibility: visible;
+    opacity: 1;
+    z-index: 1;
+}
+
+
+
+#XBookForm {
+    float: right;
+    padding: 4px;
+    border-radius: 50%;
+    transition: 0.2s ease;
+    cursor: pointer
+}
+
+#XBookForm:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* .BookFormOuter.Active form {
+    transform: scale(1);
+    visibility: visible;
+    opacity: 1;
+} */
+
+/* .BookFormOuter form {
+    max-width: 500px;
+    width: 95%;
+    height: fit-content;
+    border: 1px solid black;
+    margin: 150px auto;
+    background-color: var(--secondaryTwo);
+    border-radius: 20px;
+    padding: 15px;
+    transition: all 0.3s ease;
+} */
+
+form label {
+    color: var(--black);
+    font-family: var(--bodyFont);
+    font-size: 16px;
+    font-weight: bold;
+
+}
+
+#XCalendar {
+    color: var(--black);
+    font-size: 14px;
+    float: right;
+    border-radius: 50%;
+    transition: 0.15s ease;
+    cursor: pointer;
+}
+
+#XCalendar:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#RoomName {
+    color: var(--black);
+    background: #dedede;
+    border: none;
+    padding: 3px 5px;
+    width: fit-content;
+    
+    
+}
+
+input {
+    padding: 3px 5px;
+
+}
+
+#DateTimeInput {
+    display: flex;
+    border: 1px solid black;
+    margin-top: 5px;
+    cursor: pointer;
+
+}
+
+#DateTimeInput input {
+    width: 33.33%;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#DateTime {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+#DateTimeInput input:focus,
+#RoomName:focus {
+    border: none;
+    outline: none;
+}
+
+#PurposeInput {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 3px 5px;
+}
+
+.FixedSchedule {
+    background-color: #4d4d4d;
+    font-family: var(--bodyFont);
+    word-wrap: break-word;
+
+}
+
+#calendar {
+    width: 100%;
+    height: 90%;
+} 
+
+#calendarContainer {
+    position: absolute;
+    margin-inline: auto;
+    width: 100%;
+    height: 350px;
+    padding: 10px;
+    border: 1px solid black;
+    z-index: 99;
+    background-color: var(--secondaryTwo);
+}
+
+#calendarContainer .fa-xmark {
+    float: right;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.fc-toolbar {
+    background-color: var(--secondaryOne);
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.fc-button {
+    background-color: var(--primary) !important;
+    color: var(--black) !important;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+#Reason {
+    width: 100%;
+    height: 200px;
+    resize: none;
+    margin-top: 5px;
+    padding: 5px;
+    font-size: 12px;
+    font-family: var(--bodyFont);
+}
+
+#SubmitButton {
+    background-color: var(--accent);
+    width: 100%;
+    height: 40px;
+    border-radius: 15px;
+    color: var(--black);
+    font-weight: bold;
+    border: none;
+    margin-top: 10px;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+#SubmitButton:hover {
+    transform: scale(0.95);
+}

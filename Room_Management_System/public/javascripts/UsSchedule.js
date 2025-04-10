@@ -1,0 +1,213 @@
+const BookFormOuter = document.getElementById("BookFormOuter");
+const BookForm = document.getElementById("BookForm");
+const BookBtn = document.getElementById("BookBtn");
+const XBookForm = document.getElementById("XBookForm");
+const RoomInput = document.getElementById("RoomName");
+const RoomIdInput = document.getElementById("RoomId");
+const DateInput = document.getElementById("Date");
+const StartTime = document.getElementById("StartTime");
+const EndTime = document.getElementById("EndTime");
+const Select = document.getElementById("Select");
+const PurposeInput = document.getElementById("PurposeInput");
+const DateTimeInput = document.getElementById("DateTimeInput");
+const CalendarContainer = document.getElementById("calendarContainer");
+const xCalendar = document.getElementById("XCalendar");
+
+let userAddedEvent = false;
+let calendar;
+console.log("BookingInfo: ", BookingInfo);
+
+RoomInput.addEventListener("change", () => {
+
+    switch (RoomInput.value) {
+        case "CCS 101":
+            RoomIdInput.value = 1
+            break;
+        case "CCS 102":
+            RoomIdInput.value = 2
+            break;
+        case "CCS 104":
+            RoomIdInput.value = 3
+            break;
+        case "CCS 105":
+            RoomIdInput.value = 4
+            break;
+        case "CCS 106":
+            RoomIdInput.value = 5
+            break;
+        case "CCS 201":
+            RoomIdInput.value = 6
+            break;
+        case "CCS 202":
+            RoomIdInput.value = 7
+            break;
+        case "CCS 203":
+            RoomIdInput.value = 8
+            break;
+        case "CCS 204":
+            RoomIdInput.value = 9
+            break;
+        case "CCS Acer Lab 1":
+            RoomIdInput.value = 10
+            break;
+        case "CCS Lab 2":
+            RoomIdInput.value = 11
+            break;
+        case "CCS Lab 1":
+            RoomIdInput.value = 12
+            break;
+    }
+    DateInput.value = ""
+    StartTime.value = ""
+    EndTime.value = ""
+})
+
+function ShowEditForm(RoomId, BookingId, Date, Start, End, Purpose, RoomName, RoomId) {
+    console.log("StartTime:", StartTime);
+    RoomInput.value = RoomName;
+    DateInput.value = Date
+    StartTime.value = Start
+    EndTime.value = End
+    PurposeInput.value = Purpose;
+
+    roominfo[RoomId - 1].FullSchedule.forEach(Schedule => {
+        if (BookingId == Schedule.id) {
+            Schedule.editable = true
+            userAddedEvent = true // make the schedule editable
+        }
+    });
+    changeCalendarEvents(roominfo[RoomId - 1].FullSchedule);
+    BookFormOuter.classList.remove("Inactive");
+    calendar.render();
+}
+
+BookForm.addEventListener("submit", function (event) {
+    let date = DateInput.value;
+    let start = StartTime.value;
+    let end = EndTime.value;
+
+    if (!date || !start || !end) {
+        console.log("DatetimeInput is undefined");
+        event.preventDefault();
+    }
+});
+
+XBookForm.addEventListener("click", () => {
+    CalendarContainer.classList.remove("Active");
+    CalendarContainer.classList.add("Inactive");
+    BookFormOuter.classList.add("Inactive");
+    DateInput.value = ""
+    StartTime.value = ""
+    EndTime.value = ""
+});
+
+DateTimeInput.addEventListener("click", () => {
+    CalendarContainer.classList.add("Active");
+    CalendarContainer.classList.remove("Inactive");
+    calendar.render();
+})
+
+xCalendar.addEventListener("click", () => {
+    CalendarContainer.classList.remove("Active");
+    CalendarContainer.classList.add("Inactive");
+    calendar.render();
+})
+
+function isTimeAvailable(calendar, start, end, eventId) {
+    return calendar.getEvents().every(event =>
+        (event.id === eventId || start >= event.end || end <= event.start));
+}
+
+function changeCalendarEvents(Schedules) {
+    calendar.getEvents().forEach(event => event.remove());
+    Schedules.forEach(Schedule => calendar.addEvent(Schedule));
+    console.log(Schedules);
+    userAddedEvent = false // enable user to create another event(their desired schedule) on calendar
+    calendar.render();
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    console.log(tomorrow.toLocaleDateString('en-CA'));
+    calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
+        initialView: window.innerWidth < 768 ? "timeGridDay" : "timeGridWeek", // adjust calendar based on user's screen size
+        selectable: true,
+        slotMinTime: "7:00:00",
+        slotMaxTime: "20:30:00",
+        allDaySlot: false,
+        initialDate: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 10), // today's date
+        validRange: {
+            start: tomorrow.toLocaleDateString('en-CA'), // tommorow's date
+            end: new Date(new Date().setDate(new Date().getDate() + 7)).toISOString().slice(0, 10) // 7 days from today
+        },
+
+        headerToolbar: {
+            left: 'prev,next',
+            center: '',
+            right: window.innerWidth < 768 ? "" : "timeGridWeek,timeGridDay" // adjust calendar based on user's screen size
+        },
+
+        windowResize: function (view) {
+            let newView = window.innerWidth < 768 ? "timeGridDay" : "timeGridWeek";
+            calendar.changeView(newView); // Change view dynamically
+            calendar.setOption("headerToolbar", {
+                left: 'prev,next',
+                center: '',
+                right: window.innerWidth < 768 ? "" : "timeGridWeek,timeGridDay"
+            });
+
+        },
+
+        select: function (info) {
+            if (!userAddedEvent) {
+                if (isTimeAvailable(calendar, info.start, info.end)) {
+                    calendar.addEvent({
+                        id: String(Date.now()),
+                        title: 'New Event',
+                        start: info.startStr,
+                        end: info.endStr,
+                        editable: true,
+                        durationEditable: true
+                    });
+
+                    DateInput.value = info.startStr.slice(0, 10);
+                    StartTime.value = info.startStr.slice(11, 19);
+                    EndTime.value = info.endStr.slice(11, 19);
+                    alert(EndTime.value)
+
+                    userAddedEvent = true;
+                } else {
+                    alert('Selected time is already occupied.');
+                }
+            } else {
+                alert('You could only select time schedule at once.');
+            }
+        },
+        eventDrop: function (info) {
+            if (isTimeAvailable(calendar, info.event.start, info.event.end, info.event.id)) {
+
+                DateInput.value = info.event.startStr.slice(0, 10);
+                StartTime.value = info.event.startStr.slice(11, 19);
+                EndTime.value = info.event.endStr.slice(11, 19);
+            } else {
+                alert('Selected time is already occupied.');
+                info.revert();
+            }
+        },
+        eventResize: function (info) {
+            if (isTimeAvailable(calendar, info.event.start, info.event.end, info.event.id)) {
+
+                DateInput.value = info.event.startStr.slice(0, 10);
+                StartTime.value = info.event.startStr.slice(11, 19);
+                EndTime.value = info.event.endStr.slice(11, 19);
+            } else {
+
+
+                info.revert();
+            }
+        }
+    });
+    calendar.render();
+});

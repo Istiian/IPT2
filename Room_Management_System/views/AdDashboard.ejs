@@ -70,10 +70,7 @@
             <!-- <div class="QuickStats"> -->
 
                 <div class="Boxes">
-                    <div class="Box">
-                        <h6>No. of Reservation Request</h6>
-                        <p><%= Quantity.Pending %></p>
-                    </div>
+                    
                     
                     <div class="Box">
                         <h6>No. of Active Reservations</h6>
@@ -84,18 +81,23 @@
                         <h6>No. of Due Booking Reports</h6>
                         <p><%= Quantity.PendingReports %></p>
                     </div>
+
+                    <div class="Box">
+                        <h6>No. of Due Booking Reports</h6>
+                        <p><%= Quantity.PendingReports %></p>
+                    </div>
                 </div>
                 
-                <div class="GraphContainer">
+                <!-- <div class="GraphContainer">
                     <div class="RoomChartContainer Charts">
                         <canvas id="RoomChart" ></canvas>
                     </div>
                         
-                </div>
+                </div> -->
 
                 <div class="GraphContainer">
-                    <div class="PieChartContainer Charts">
-                        <canvas id="Pie"></canvas>
+                    <div class="RoomChartContainer Charts">
+                        <canvas id="RoomChart" ></canvas>
                     </div>
 
                     <div class="DueReportChartContainer Charts">
