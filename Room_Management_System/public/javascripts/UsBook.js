@@ -293,11 +293,12 @@ console.log(tomorrow.toLocaleDateString('en-CA'));
                 if (isTimeAvailable(calendar, info.start, info.end)) {
                     calendar.addEvent({
                         id: String(Date.now()),
-                        title: 'New Event',
+                        title: 'Selected Time',
                         start: info.startStr,
                         end: info.endStr,
                         editable: true, 
-                        durationEditable: true
+                        className: "SelectedTime"
+                        
                     });
                     
                     DateInput.value = info.startStr.slice(0, 10);
@@ -312,12 +313,23 @@ console.log(tomorrow.toLocaleDateString('en-CA'));
                 alert('You could only select time schedule at once.');
             }
         },
+        eventClick: function(info) {
+            
+            if (!info.event.extendedProps.nonDeletable) {
+                info.event.remove(); // Deletes the event
+                userAddedEvent = false;
+                DateInput.value = "";
+                StartTime.value = "";
+                EndTime.value = "";
+            }
+        },
         eventDrop: function (info) {
             if (isTimeAvailable(calendar, info.event.start, info.event.end, info.event.id)) {
                 
                 DateInput.value = info.event.startStr.slice(0, 10);
                 StartTime.value = info.event.startStr.slice(11, 19);
                 EndTime.value = info.event.endStr.slice(11, 19);
+                
             } else {
                 alert('Selected time is already occupied.');
                 info.revert();
@@ -330,8 +342,7 @@ console.log(tomorrow.toLocaleDateString('en-CA'));
                 StartTime.value = info.event.startStr.slice(11, 19);
                 EndTime.value = info.event.endStr.slice(11, 19);
             } else {
-
-
+                alert('Selected time is already occupied.');
                 info.revert();
             }
         }
@@ -344,18 +355,18 @@ const Floor1 = new Map("Floor1")
 const Floor2 = new Map("Floor2");
 
 let RoomImages = [
-    ["/images/cmuu.png", "/images/2.jpg", "/images/3.jpg"], // CCS 101
-    ["/images/3.jpg", "/images/2.jpg", "/images/1.jpg"], // CCS 102
-    ["/images/2.jpg", "/images/1.jpg", "/images/3.jpg"], // CCS 104
-    ["/images/1.jpg", "/images/1.jpg", "/images/1.jpg"], // CCS 105
-    ["/images/1.jpg", "/images/2.jpg", "/images/3.jpg"], // CCS 106
-    ["/images/1.jpg", "/images/2.jpg", "/images/3.jpg"], // CCS 201
-    ["/images/3.jpg", "/images/2.jpg", "/images/3.jpg"], // CCS 202
-    ["/images/1.jpg", "/images/2.jpg", "/images/2.jpg"], // CCS 203
-    ["/images/2.jpg", "/images/2.jpg", "/images/3.jpg"], // CCS 204
-    ["/images/1.jpg", "/images/2.jpg", "/images/3.jpg"], // Acer Lab 1
-    ["/images/3.jpg", "/images/2.jpg", "/images/3.jpg"], // CCS Lab 1
-    ["/images/1.jpg", "/images/1.jpg", "/images/3.jpg"], // CCS Lab 2
+    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 101
+    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 102
+    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 104
+    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 105
+    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 106
+    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 201
+    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 202
+    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 203
+    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 204
+    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // Acer Lab 1
+    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS Lab 1
+    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS Lab 2
 ]
 
 roominfo.forEach((room , index) => {

@@ -29,24 +29,18 @@ router.post("/CreateAccount", async (req, res) => {
         req.body.Username,
         req.body.Password,
         req.body.Email,
-        req.body.Name,
-        req.body.Role,
-        req.body.Course,
-        req.body.Year,
-        req.body.Section,
+        req.body.FirstName,
+        req.body.MiddleName,
+        req.body.LastName,
+        req.body.ExtensionName,
         req.body.Department,
     )
-
+    
     await NewUser.CreateAccount(res);
 
 })
 
-router.patch("/ChangePassword", async (req, res) => {
-    const username = req.body.Username;
-    const newPassword = req.body.Password;
-    const user = new User(String(username), String(newPassword));
-    await user.ChangePasword(res);
-})
+
 
 router.patch("/DecideBooking/:id", async(req, res) =>{
     const {id} = req.params

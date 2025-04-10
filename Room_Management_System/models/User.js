@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt');
-const e = require('express');
+const express = require('express');
 const privateData = new WeakMap();// store key-value pairs, where the keys are objects and the values can be arbitrary values
 var mysql = require('mysql2/promise');
+// const { connect } = require('../routes/AdminRoute');
 (async () => {
     try {
         connection = await mysql.createConnection({
@@ -17,15 +18,14 @@ var mysql = require('mysql2/promise');
 })();
 
 class User {
-    constructor(username, password, email, name, role, course = null, year = null, section = null, department = null) {
+    constructor(username, password, email, firstname, middlename,lastname,extensionname, department ) {
         this.username = username;
         privateData.set(this, { password }),
         this.email = email;
-        this.name = name;
-        this.role = role,
-        this.course = course,
-        this.year = year,
-        this.section = section,
+        this.firstname = firstname;
+        this.middlename = middlename;
+        this.lastname = lastname;
+        this.extensionname = extensionname;
         this.department = department
     }
 
@@ -46,9 +46,8 @@ class User {
     async VerifyPassword(password) {
         try {
             //Compare if the encrypted password from db matches the user's inputted password
+            console.log(password, this.getPassword())
             const isMatch = await bcrypt.compare(password, this.getPassword());
-            console.log("rESULT: ",isMatch)
-            console.log("password: ", password)
             return isMatch;
         } catch (error) {
             console.error("Pass verification error!", error)
@@ -60,11 +59,9 @@ class User {
 
         const [result] = await connection.query("SELECT username FROM user WHERE username = ?", [username]);
 
-        if (result.length > 0) {
-            console.log("Username exist?: ", "true")
+        if (result.length > 0) {   
             return true;
         } else {
-            console.log("Username exist?: ", "false")
             return false;
         }
     }
@@ -76,31 +73,17 @@ class User {
             try {
                 
                 const NewUser = {
-                    name: this.name,
+                    firstname: this.firstname,
+                    middlename: this.middlename,
+                    lastname: this.lastname,
+                    extensionname: this.extensionname,
                     username: this.username,
                     password: HashedPassword,
                     email: this.email,
-                    role: this.role
                 }
-                
+
                 const [AddingUserInfo] = await connection.query('INSERT INTO user SET ?', NewUser);
-                if (this.role == "Student") {
-                    const newStudent = {
-                        course: this.course,
-                        year: this.year,
-                        section: this.year,
-                        userId: AddingUserInfo.insertId
-                    }
-                    const AddingStudentInfo = await connection.query('INSERT INTO student SET ?', newStudent)
-                }
-                else if (this.role == "Faculty") {
-                    const newFaculty = {
-                        Department: this.department,
-                        
-                        userId: AddingUserInfo.insertId
-                    }
-                    const AddingFacultyInfo = await connection.query('INSERT INTO faculty SET ?', newFaculty)
-                }
+                
                 res.redirect('/AdCreateAccountRoute?Created=true&Message=A new user is successfully created. ')
 
             } catch (err) {
@@ -111,29 +94,45 @@ class User {
         }
     }
 
-    async ChangePasword(res) {
+    async GetInfo(UserId){
+        let SqlStatement = "SELECT * FROM user WHERE UserId = ?"
+        try {
+            const [UserData] = await connection.query(SqlStatement, [UserId]);
+            return [UserData][0]
+        } catch (error) {
+            console.log(error.message)
+        } 
+    }
 
-        if (await this.isUsernameExist(this.username)) {
-
-            try {
-                const hashedNewPassword = await this.HashPassword(this.getPassword());
-                console.log(hashedNewPassword)
-                const result = await connection.query('UPDATE user SET Password = ? WHERE username = ? ', [hashedNewPassword, this.username]);
-
-                res.redirect('/ChangePassRoute?Change=true&Message=Success')
-
-
-            } catch (err) {
-                res.status(500).send(err.message);
-            }
-        } else {
-            res.redirect('/ChangePassRoute?Change=False&Message=Username does not exist')
+    async GetCurrentPassword(UserId){
+        try {
+            let SqlStatement = "SELECT Password FROM user WHERE UserId = ?"
+            const [Password] = await connection.query(SqlStatement, [UserId]);
+            return Password[0].Password
+        } catch (error) {
+            console.error(error.message)
         }
+    }
+    async ChangePassword(New, Confirm, UserId){
+       
+        const CurrentPassword = await this.GetCurrentPassword(UserId);
+        console.log('Plaintext password:', this.getPassword());
+        console.log('Hashed password from DB:', CurrentPassword.password);
+
+        // Compare passwords (note that bcrypt.compare returns a promise)
+        const isMatch = await bcrypt.compare(CurrentPassword.password, this.getPassword());
+        
+        console.log(isMatch);
+
+
+        // if(bcrypt.compare(password, this.getPassword())){
+        //     console.log("match")
+        // }else{
+        //     console.log("Not match")
+        // }
     }
 
     async Authenticate(){
-        
-        
         try {
             let SqlStatement = `SELECT Username, Password, UserId FROM user WHERE username = ?`;
             if (result.length > 0) {

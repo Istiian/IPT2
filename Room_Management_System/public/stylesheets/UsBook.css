@@ -187,8 +187,8 @@
 }
 
 #ZoomedImg {
-    width: auto;
-    height: auto;
+    width: 50%;
+    height: 50%;
 }
 
 #XZoomedImg {
@@ -367,6 +367,35 @@ input {
     padding: 5px 10px;
     border-radius: 5px;
 }
+
+.OccupiedEvents{
+    background-color: #525252;
+    border: #525252;
+    color: red;
+    font-size: 12px;
+}
+.OccupiedEvents .fc-event-time{
+    display: none; /* Hides the time element visually */
+}
+
+.fc-event-title{
+    text-align: center;
+    font-family: var(--bodyFont);
+    color: var(--secondaryTwo);
+    font-size: 10px;
+}
+
+.SelectedTime{
+    background-color: var(--secondaryOne);
+    border: var(--secondaryOne);
+}
+.SelectedTime .fc-event-time{
+    text-align: center;
+    font-family: var(--bodyFont);
+    color: var(--secondaryTwo);
+    font-size: 10px;
+}
+
 
 #Reason {
     width: 100%;

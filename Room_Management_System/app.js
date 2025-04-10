@@ -9,6 +9,7 @@ const methodOverride = require("method-override"); // for method override
 const session = require("express-session"); // for session management 
 const multer  = require('multer'); // for file upload
 const helmet = require('helmet');
+
 var app = express();
 
 var AdCreateAccountRouter = require('./routes/AdCreateAccountRoute'); // for admin account creation
@@ -22,7 +23,7 @@ var AdDashboardRouter = require('./routes/AdDashboardRoute'); // for admin dashb
 
 var UserRouter = require('./routes/UserRoute'); // for user account management
 var UsBookRouter = require('./routes/UsBookRoute');//  for user booking management
-var ChangePassRouter = require("./routes/ChangePassRoute") ;// for user password change
+var UsProfileRouter = require("./routes/UsProfileRoute") ;// for user password change
 var UsLoginRouter = require("./routes/UsLoginRoute");// for user login
 var UsScheduleRouter= require('./routes/UsScheduleRoute');// for user schedule management
 var UsReportSubmissionRouter= require('./routes/UsReportSubmissionRoute');// for user report submission
@@ -34,7 +35,6 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
-
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -68,7 +68,7 @@ app.use('/AdManageRoomRoute', AdManageRoomRouter)
 
 app.use('/UserRoute', UserRouter)
 app.use('/AdminRoute', AdminRouter)
-app.use('/ChangePassRoute', ChangePassRouter)
+app.use('/UsProfileRoute', UsProfileRouter)
 app.use('/UsBookRoute', UsBookRouter)
 app.use('/UsLoginRoute', UsLoginRouter)
 app.use('/UsReportFormRoute', UsReportFormRouter)

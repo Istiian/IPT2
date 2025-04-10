@@ -81,6 +81,19 @@ form{
     width: 30%;
 }
 
+.inputContainer.Quad {
+    display: flex;
+    flex-direction: column;
+    width: 23%;
+    
+}
+
+.inputRow.Quad{
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+}
+
 .inputContainer label {
     font-family: var(--headingFont);
     font-weight: 600;
@@ -168,6 +181,13 @@ input[type =submit]{
 .MsgBox.Hide{
     display: none;
 }
+@media screen and (max-width: 850px){
+    .inputContainer.Quad{
+        width: 100%;
+    }
+
+}
+
 @media screen and (max-width: 450px){
     .inputContainer.Tri, .inputContainer.Bi{
         width: 100%;

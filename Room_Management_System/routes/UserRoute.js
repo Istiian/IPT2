@@ -23,6 +23,47 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
+router.patch("/ChangePassword", async (req, res) => {
+
+    const UserId = req.session.UserId;
+
+    const Input = {
+        ConfirmPassword: req.body.ConfirmPassword,
+        NewPassword: req.body.NewPassword,
+        CurrentPassword: req.body.CurrentPassword,
+    };
+
+    try {
+        const user = new User(null, Input.CurrentPassword);
+        const hashedPasswordFromDb = await user.GetCurrentPassword(UserId);
+        user.setPassword(hashedPasswordFromDb);
+        const isMatch = await user.VerifyPassword(Input.CurrentPassword);
+        if (!isMatch) {
+            console.log("Incorrect current password");
+            res.redirect("/UsProfileRoute?ChangePass = Incorrect Current Password")
+        }
+        if (Input.NewPassword !== Input.ConfirmPassword) {
+            res.redirect("/UsProfileRoute?ChangePass = Password not match")
+        }
+        const newHashedPassword = await bcrypt.hash(Input.NewPassword, 10);
+        const [updateResult] = await connection.query(
+            "UPDATE user SET Password = ? WHERE UserId = ?",
+            [newHashedPassword, UserId]
+        );
+        res.redirect("/UsProfileRoute?ChangePass = Success")
+       
+
+    } catch (error) {
+        console.error("Error changing password:", error);
+        
+    }
+
+
+
+    // const user = new User(String(username), String(newPassword));
+    // await user.ChangePasword(res);
+})
+
 router.post("/Login", async (req, res) => {
     const Inputed = {
         username: req.body.Username,

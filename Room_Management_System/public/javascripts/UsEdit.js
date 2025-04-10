@@ -128,17 +128,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (isTimeAvailable(calendar, info.start, info.end)) {
                     calendar.addEvent({
                         id: String(Date.now()),
-                        title: 'New Event',
+                        title: 'Selected Time',
                         start: info.startStr,
                         end: info.endStr,
                         editable: true,
-                        durationEditable: true
+                        className: "SelectedTime"
                     });
 
                     DateInput.value = info.startStr.slice(0, 10);
                     StartTime.value = info.startStr.slice(11, 19);
                     EndTime.value = info.endStr.slice(11, 19);
-                    alert(EndTime.value)
 
                     userAddedEvent = true;
                 } else {
@@ -148,12 +147,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert('You could only select time schedule at once.');
             }
         },
+        eventClick: function (info) {
+
+            if (!info.event.extendedProps.nonDeletable) {
+                info.event.remove(); // Deletes the event
+                userAddedEvent = false;
+                DateInput.value = "";
+                StartTime.value = "";
+                EndTime.value = "";
+            }
+        },
         eventDrop: function (info) {
             if (isTimeAvailable(calendar, info.event.start, info.event.end, info.event.id)) {
 
                 DateInput.value = info.event.startStr.slice(0, 10);
                 StartTime.value = info.event.startStr.slice(11, 19);
                 EndTime.value = info.event.endStr.slice(11, 19);
+
             } else {
                 alert('Selected time is already occupied.');
                 info.revert();
@@ -166,27 +176,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 StartTime.value = info.event.startStr.slice(11, 19);
                 EndTime.value = info.event.endStr.slice(11, 19);
             } else {
-
-
+                alert('Selected time is already occupied.');
                 info.revert();
             }
         }
     });
     calendar.render();
-   
+
     if (RoomIdInput.value && roominfo[RoomIdInput.value - 1]) {
 
         roominfo[RoomIdInput.value - 1].FullSchedule.forEach(Schedule => {
             if (BookingInfo.BookingId == Schedule.id) {
+                console.log("Schedule:", Schedule)
                 Schedule.editable = true
+                Schedule.className = "SelectedTime"
+                Schedule.nonDeletable = false
                 userAddedEvent = true // make the schedule editable
             }
+            console.log("Schedule:", Schedule)
         });
         changeCalendarEvents(roominfo[RoomIdInput.value - 1].FullSchedule);
-      } else {
+    } else {
         console.error("Invalid Room ID on page load");
         // Optional: Load default data or show an error
-      }
-    
+    }
+
 });
 

@@ -40,9 +40,6 @@ router.get("/Edit/:id", async function (req, res) {
     }
 });
 
-
-
-
 async function AddSchedule(RoomInfos) {
     for (const RoomInfo of RoomInfos) {
         let [FixedSched] = await connection.query(`SELECT * FROM schedule WHERE RoomId = ${RoomInfo.RoomId}`);
@@ -59,9 +56,9 @@ async function AddSchedule(RoomInfos) {
         if (Array.isArray(BookSched) && BookSched.length > 0) {
             BookSched.forEach(Sched => {
                 let formattedDate = moment(Sched.BookingDate).tz('Asia/Manila').format("YYYY-MM-DD HH:mm:ss");
-                console.log("raw: ", Sched.BookingDate)
-                console.log("formatted: ", formattedDate)
-                let events = BookEvents(formattedDate, Sched.StartTime, Sched.EndTime,Sched.BookingId);
+                console.log("raw: ", Sched.BookingDate )
+                console.log("formatted: ", formattedDate )
+                let events = BookEvents(formattedDate, Sched.StartTime, Sched.EndTime, Sched.BookingId);
                 FullSched.push(...events);
             });
         }
@@ -74,15 +71,16 @@ function BookEvents(SchedDate, StartTime, Endtime, BookingId) {
     let events = []
     let DateStr = new Date(SchedDate).toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' });
 
-
-    console.log("start: ", `${DateStr}T${StartTime}`)
+   
+   console.log("start: ", `${DateStr}T${StartTime}`)
 
     events.push({
-        title: "Book",
+        title: "Occupied",
         start: `${DateStr}T${StartTime}`,
         end: `${DateStr}T${Endtime}`,
+        nonDeletable: true,
+        className: "OccupiedEvents",
         id: BookingId
-
     });
 
     console.log(events)
@@ -111,17 +109,20 @@ function FixedEvents(Day, StartTime, EndTime) {
             let dateStr = currentDate.toISOString().split('T')[0]; // YYYY-MM-DD format
 
             events.push({ // Push to array instead of overwriting
-                title: "Fix",
+                title: "Occupied",
                 start: `${dateStr}T${StartTime}`,
                 end: `${dateStr}T${EndTime}`,
+                nonDeletable: true,
+                className: "OccupiedEvents"
 
             });
         }
         currentDate.setDate(currentDate.getDate() + 1);
-
+        
     }
-
+   
     return events;
 }
+
 
 module.exports = router

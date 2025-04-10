@@ -69,6 +69,30 @@
                 <h1 class="Heading">Create A New Account</h1>
 
                 <div class="inputRow">
+                    <div class="inputContainer Quad">
+                        <label for="Name">First name:</label>
+                        <input type="text" name="FirstName" required id="Name">
+                        <small>Required</small>
+                    </div>
+
+                    <div class="inputContainer Quad">
+                        <label for="Name">Middle name:</label>
+                        <input type="text" name="MiddleName" required id="Name">
+                        <small>Required</small>
+                    </div>
+
+                    <div class="inputContainer Quad">
+                        <label for="Name">Last name:</label>
+                        <input type="text" name="LastName" required id="Name">
+                        <small>Required</small>
+                    </div>
+
+                    <div class="inputContainer Quad">
+                        <label for="Name">Extension Name:</label>
+                        <input type="text" name="ExtensionName" id="Name">
+                    </div>
+                </div>
+                <!-- <div class="inputRow">
         
                     <div class="inputContainer Bi">
                         <div class="inputContainer Uni">
@@ -90,21 +114,33 @@
                         </div>
                     </div>
         
-                </div>
+                </div> -->
                 <div id="formContainer"></div>
+
 
                 <div class="inputRow">
         
-                    <div class="inputContainer Uni">
+                    <div class="inputContainer Bi">
                         <label for="Password">Email:</label>
                         <input type="email" name="Email" required>
                         <small>Required</small>
+                    </div>
+
+                    <div class="inputContainer Bi">
+                        <label for="Department">Department:</label>
+                        <select name="Department" id="Department" required>
+                            <option value=""></option>
+                            <option value="College of Computer Studies">College of Computer Studies</option>
+                            <option value="College of Art and Science">College of Art and Science</option>
+                            <option value="College of Criminal Justice Education">College of Criminal Justice Education</option>
+                            <option value="College of Teacher Education">College of Teacher Education</option>
+                            <option value="College of Business and Accountancy">College of Business and Accountancy</option>
+                        </select>
                     </div>
         
                 </div>
 
                 <div class="inputRow">
-                    
                     <%if(created==="false"){%>
                         <div class="inputContainer Uni">
                             <label for="Username">Username:</label>
@@ -118,8 +154,6 @@
                             <small>Required</small>
                         </div>
                     <% } %>
-                    
-        
                 </div>
         
                 <div class="inputRow">

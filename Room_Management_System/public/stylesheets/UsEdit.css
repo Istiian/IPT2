@@ -6,10 +6,10 @@
     --secondaryTwo: #f2f2f2;
     --primary: #fafafa;
     --black: #333333;
-    
+
 }
 
-form{
+form {
     width: 100%;
     max-width: 800px;
     margin: 100px auto;
@@ -90,8 +90,8 @@ form label {
     border: none;
     padding: 3px 5px;
     width: fit-content;
-    
-    
+
+
 }
 
 input {
@@ -143,7 +143,7 @@ input {
 #calendar {
     width: 100%;
     height: 90%;
-} 
+}
 
 #calendarContainer {
     position: absolute;
@@ -175,6 +175,37 @@ input {
     border: none;
     padding: 5px 10px;
     border-radius: 5px;
+}
+
+.OccupiedEvents {
+    background-color: #525252;
+    border: #525252;
+    color: red;
+    font-size: 12px;
+}
+
+.OccupiedEvents .fc-event-time {
+    display: none;
+    /* Hides the time element visually */
+}
+
+.fc-event-title {
+    text-align: center;
+    font-family: var(--bodyFont);
+    color: var(--secondaryTwo);
+    font-size: 10px;
+}
+
+.SelectedTime {
+    background-color: var(--secondaryOne);
+    border: var(--secondaryOne);
+}
+
+.SelectedTime .fc-event-time {
+    text-align: center;
+    font-family: var(--bodyFont);
+    color: var(--secondaryTwo);
+    font-size: 10px;
 }
 
 #Reason {
