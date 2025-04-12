@@ -13,6 +13,7 @@
     "ejs": "^3.1.10",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
+    "express-validator": "^7.2.1",
     "fullcalendar": "^6.1.17",
     "helmet": "^8.1.0",
     "http-errors": "~1.6.3",
@@ -22,6 +23,7 @@
     "morgan": "~1.9.1",
     "multer": "^1.4.5-lts.2",
     "mysql2": "^3.12.0",
-    "session": "^0.1.0"
+    "session": "^0.1.0",
+    "winston": "^3.17.0"
   }
 }

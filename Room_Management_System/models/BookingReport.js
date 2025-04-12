@@ -34,7 +34,8 @@ class BookingReport extends Book{
             }
     
             try {
-                const Report = await connection.query('INSERT INTO bookingreport SET ?', [ReportDetails]);
+                let SqlStatement = `INSERT INTO bookingreport SET ?`
+                const Report = await connection.query(SqlStatement, [ReportDetails]);
                 console.log("Success: ", Report)
             } catch (err) {
                 console.error(err.message);

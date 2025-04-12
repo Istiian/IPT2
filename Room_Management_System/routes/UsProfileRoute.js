@@ -2,8 +2,10 @@
 var express = require("express");
 var router = express.Router();
 const User = require("../models/User");
+const checkAccess = require("../middleware/Authenticate");
 
-router.get("/", async function(req, res) {
+
+router.get("/",checkAccess, async function(req, res) {
 
    const created = req.query.Created;
    const message = req.query.Message;
@@ -12,7 +14,7 @@ router.get("/", async function(req, res) {
 
    if(UserId){
       const data = await new User().GetInfo(UserId)
-      console.log(data)
+
       res.render('UsProfile', { created, message,Username,data });
       
    }else{

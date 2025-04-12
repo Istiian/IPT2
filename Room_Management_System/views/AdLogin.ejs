@@ -17,9 +17,9 @@
 <body>
     <div class="container">
         <div class="CMUImage">
-            <h1>Room Management System</h1>
+            <h1>CMU Room Reservation System</h1>
         </div>
-        <form action="/UserRoute/Login" method="post">
+        <form action="/AdLoginRoute/Login" method="post">
             <% if(error) { %>
                 <div class="MessageBox">
                     Invalid Username or Password.
@@ -35,18 +35,12 @@
             <br>
             <small>p</small>
             <br>
-            <a href="forgot-password" class="forgot-password">Forgot Password?</a>
-            <br>
+
             <button>Login</button>
         </form>
     </div>
 
-    <% if(error) { %>
-        <script>
-            document.addEventListener("DOMContentLoaded", ()=>{
-            })
-        </script>
-      <% } %>
+    
 </body>
 
 </html>

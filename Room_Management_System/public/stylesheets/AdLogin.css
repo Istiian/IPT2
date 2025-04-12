@@ -22,10 +22,10 @@ body{
 }
 
 .container{
-    margin-top: 100px;
+    margin-top: 150px;
     margin-inline: auto;
     width: 540px;
-    box-shadow: 10px 10px 16px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 16px 0px rgba(0,0,0,0.50);
     border-radius: 10px;
     height: fit-content;
     background-color: var(--secondaryTwo);

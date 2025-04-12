@@ -127,7 +127,7 @@
                 </fieldset>
             </form>
 
-            <form action="/UserRoute/ChangePassword?_method=PATCH" method="post" class="ChangePassContainer">
+            <form action="/UserRoute/ChangePassword?_method=PATCH" method="post" id="ChangePassContainer">
                 <fieldset>
                     <legend >Change Password</legend>
 
@@ -142,7 +142,7 @@
                     <div class="inputRow">
                         <div class="inputContainer Uni">
                             <label for="Password">New Password:</label>
-                            <input type="password" name="NewPassword" required>
+                            <input type="password" name="NewPassword" required id="NewPassword">
                             <small>Required</small>
                         </div>
                     </div>
@@ -150,9 +150,17 @@
                     <div class="inputRow">
                         <div class="inputContainer Uni">
                             <label for="Password">Confirm Password:</label>
-                            <input type="password" name="ConfirmPassword" required>
+                            <input type="password" name="ConfirmPassword" required id="ConfirmPassword">
                             <small>Required</small>
                         </div>
+                    </div>
+
+                    <div class="RequirementContainer">
+                        <p id="Length">Password must contain at least 12 Characters</p>
+                        <p id="SpecialChar">Password must contain a special characters (@, !, $, e.g.)</p>
+                        <p id="uppercase">Password must contain a uppercase letter </p>
+                        <p id="lowercase">Password must contain a lowercase letter</p>
+                        <p id="number">Password must contain a number</p>
                     </div>
 
                     <input type="submit" class="SubmitBtn">
@@ -166,6 +174,7 @@
 
 
     <script src="/javascripts/Navigation.js"></script>
+    <script src="/javascripts/UsProfile.js"></script>
 </body>
 
 </html>

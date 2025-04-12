@@ -9,7 +9,7 @@ var mysql = require('mysql2/promise');
             password: '12345',
             database: 'room_management'
         });
-        console.log('User: Connection Success');
+        // console.log('User: Connection Success');
     } catch (err) {
         console.error('Connection Not Success:', err.message);
     }
@@ -45,11 +45,11 @@ class Book {
             const Appointment = await connection.query(SqlStatement, [AppointmentDetails]);
             res.redirect("/UsBookRoute?book=success")
         } catch (err) {
-            res.status(500).send(err.message);
+            res.status(500).send(error.message);
         }
     }
 
-    async EditBooking(BookingId,res) {
+    async EditBooking(BookingId, res) {
         try {
             let SqlStatement = `UPDATE booking 
             SET RoomId = ?, RoomName =  ?, BookingDate = ?, StartTime= ?, EndTime = ?, Purpose = ? 
@@ -65,52 +65,52 @@ class Book {
             ]);
             res.redirect("/UsScheduleRoute?Edit=Sucess")
         } catch (error) {
-            console.error(error.message);
+            res.status(500).send(error.message);
         }
     }
 
-    async CancelBooking(BookingId){
+    async CancelBooking(BookingId) {
         try {
             let SqlStatement = `DELETE FROM booking WHERE BookingId = ?`
             const Delete = await connection.query(SqlStatement, [BookingId])
         } catch (error) {
-            console.error(error.message);
+            res.status(500).send(error.message);
         }
     }
 
-    async GetBookingDetails(BookingId){
+    async GetBookingDetails(BookingId) {
         try {
             let SqlStatement = "SELECT * FROM booking WHERE BookingId = ?"
             const [BookingDatas] = await connection.query(SqlStatement, [BookingId]);
-           
+
             return this.DateTimeFormatting(BookingDatas)[0];
         } catch (error) {
-            console.error(error.message)
+            res.status(500).send(error.message);
         }
     }
 
-    DateTimeFormatting(BookingDatas){
+    DateTimeFormatting(BookingDatas) {
         BookingDatas.forEach(Data => {
-                Data.FormattedDate = moment(Data.BookingDate).format("MMMM Do YYYY");
-                Data.FormattedStartTime = moment(Data.StartTime, "HH:mm").format("hh:mm A");
-                Data.FormattedEndTime = moment(Data.EndTime, "HH:mm").format("hh:mm A");
-                Data.FormattedNumericalDate = moment(Data.BookingDate).format("YYYY-MM-DD");
+            Data.FormattedDate = moment(Data.BookingDate).format("MMMM Do YYYY");
+            Data.FormattedStartTime = moment(Data.StartTime, "HH:mm").format("hh:mm A");
+            Data.FormattedEndTime = moment(Data.EndTime, "HH:mm").format("hh:mm A");
+            Data.FormattedNumericalDate = moment(Data.BookingDate).format("YYYY-MM-DD");
         });
         return BookingDatas;
     }
 
 
-    async GetActiveUserBookings(){
+    async GetActiveUserBookings() {
         let SqlStatement = `SELECT *
             FROM booking 
             WHERE (BookingDate > CURDATE() OR (BookingDate = CURDATE() AND ENDTIME >= CURTIME())) AND userId = ?
             ORDER BY BookingDate ASC, StartTime ASC`;
         try {
             const [BookingDatas] = await connection.query(SqlStatement, [this.UserId]);
-            
+
             return this.DateTimeFormatting(BookingDatas);
         } catch (error) {
-            console.error(error.message);
+            res.status(500).send(error.message);
         }
     }
 
@@ -131,34 +131,12 @@ class Book {
             Data.FormattedStartTime = moment(Data.StartTime, "HH:mm").format("hh:mm A");
             Data.FormattedEndTime = moment(Data.EndTime, "HH:mm").format("hh:mm A");
             Data.FormattedNumericalDate = moment(Data.BookingDate).format("YYYY-MM-DD");
-           
+
         });
 
         return BookingDatas;
     }
 
-    // async GetPendingBookings(RoomId = null) {
-    //     if (RoomId) {
-    //         let SqlStatement = `SELECT * FROM booking WHERE Decision IS NULL AND RoomId = ? ORDER BY BookingDate ASC, StartTime ASC`;
-
-    //         try {
-    //             let [BookingDatas] = await connection.query(SqlStatement, [RoomId]);
-    //             return BookingDatas
-    //         } catch (error) {
-    //             console.error(error.message);
-    //         }
-
-    //     } else {
-    //         try {
-    //             let SqlStatement = `SELECT * FROM booking WHERE Decision IS NULL ORDER BY BookingDate ASC, StartTime ASC`;
-    //             let [BookingDatas] = await connection.query(SqlStatement)
-    //             return BookingDatas
-    //         } catch (error) {
-    //             console.error(error.message);
-
-    //         }
-    //     }
-    // }
 
     async GetQuantityOfBookings(Days) {
         let SqlStatement = `SELECT  COUNT(*) AS total_quantity
@@ -170,7 +148,7 @@ class Book {
             return BookingDatas[0].total_quantity;
         }
         catch (error) {
-            console.error(error.message);
+            res.status(500).send(error.message);
         }
     }
 
@@ -184,39 +162,23 @@ class Book {
             return BookingDatas[0].total_quantity;
         }
         catch (error) {
-            console.error(error.message);
+            res.status(500).send(error.message);
         }
     }
 
-
-    // async GetQuantityRejectedBookings(Days) {
-    //     let SqlStatement = `
-    //         SELECT COUNT(*) AS total_quantity
-    //         FROM booking 
-    //         WHERE Decision = 0 AND BookingDate >= NOW() - INTERVAL ? DAY
-    //     `
-    //     try {
-    //         const [BookingDatas] = await connection.query(SqlStatement, [Days]);
-    //         return BookingDatas[0].total_quantity;
-
-    //     } catch (error) {
-    //         console.error(error.message);
-
-    //     }
-    // }
-
     async GetQuantityAcceptedBookings(Days) {
-        let SqlStatement = `
-            SELECT COUNT(*) AS total_quantity
-            FROM booking 
-            WHERE BookingDate >= NOW() - INTERVAL ? DAY
+        let SqlStatement = `SELECT COUNT(b.BookingId) as total_quantity
+            FROM booking b
+            LEFT JOIN bookingreport br
+            ON b.BookingId = br.BookingId 
+            WHERE br.BookingId IS NULL AND b.BookingDate <= NOW() 
         `
         try {
             const [BookingDatas] = await connection.query(SqlStatement, [Days]);
             return BookingDatas[0].total_quantity;
 
         } catch (error) {
-            console.error(error.message);
+            res.status(500).send(error.message);
 
         }
     }
@@ -235,16 +197,21 @@ class Book {
             return BookingDatas[0].total_quantity;
         }
         catch (error) {
-            console.error(error.message);
+            res.status(500).send(error.message);
         }
     }
 
     async GetQuantityBookingsPerRoom(Days = 7) {
+
+
+
         let SqlStatement = `SELECT r.RoomId, 
         COUNT(b.RoomId) AS total_quantity
         FROM room r
         LEFT JOIN booking b
-        ON r.RoomId = b.RoomId AND b.BookingDate >= NOW() - INTERVAL ? DAY
+        ON r.RoomId = b.RoomId AND b.BookingDate <= NOW()
+        LEFT JOIN bookingreport br
+        ON b.BookingId = br.BookingId WHERE br.BookingId IS NULL
         GROUP BY r.RoomId`
 
         try {
@@ -252,26 +219,9 @@ class Book {
             return BookingDatas;
         }
         catch (error) {
-            console.error(error.message);
+            res.status(500).send(error.message);
         }
     }
-
-    // async GetQuantityOfPendingBookingPerRoom(Days = 7) {
-    //     let SqlStatement = `SELECT r.RoomId, 
-    //     COUNT(b.RoomId) AS total_quantity
-    //     FROM room r
-    //     LEFT JOIN booking b
-    //     ON r.RoomId = b.RoomId AND b.Decision IS NULL AND  b.BookingDate >= NOW() - INTERVAL ? DAY
-    //     GROUP BY r.RoomId`
-
-    //     try {
-    //         const [BookingDatas] = await connection.query(SqlStatement, [Days]);
-    //         return BookingDatas;
-    //     }
-    //     catch (error) {
-    //         console.error(error.message);
-    //     }
-    // }
 
     async GetQuantityDueReportsPerRoom() {
         let SqlStatement = `SELECT r.Room_Name,
@@ -290,10 +240,10 @@ class Book {
                     r.RoomId, r.Room_Name;`
 
         try {
-            const [BookingDatas] = await connection.query(SqlStatement,);
+            const [BookingDatas] = await connection.query(SqlStatement);
             return BookingDatas;
         } catch (error) {
-            console.error(error.message);
+            res.status(500).send(error.message);
         }
     }
 
@@ -311,7 +261,7 @@ class Book {
                 const [BookingDatas] = await connection.query(SqlStatement, [RoomId]);
                 return BookingDatas;
             } catch (error) {
-                console.error(error.message);
+                res.status(500).send(error.message);
             }
         } else {
             let SqlStatement = `SELECT booking.*
@@ -325,7 +275,7 @@ class Book {
                 const [BookingDatas] = await connection.query(SqlStatement);
                 return BookingDatas;
             } catch (error) {
-                console.error(error.message);
+                res.status(500).send(error.message);
             }
         }
 
@@ -341,7 +291,7 @@ class Book {
             const [BookingDatas] = await connection.query(SqlStatement, [Id]);
             return BookingDatas;
         } catch (error) {
-            console.error(error.message);
+            res.status(500).send(error.message);
         }
     }
 
@@ -353,12 +303,12 @@ class Book {
             LEFT JOIN bookingreport br
             ON b.BookingId = br.BookingId 
             WHERE br.BookingReportId IS NOT NULL AND b.RoomId = ?`;
-            
+
             try {
                 const [BookingDatas] = await connection.query(SqlStatement, [RoomId]);
                 return BookingDatas
             } catch (error) {
-                console.error(error.message);
+                res.status(500).send(error.message);
             }
 
         } else if (BookingId) {
@@ -373,10 +323,26 @@ class Book {
                 const [BookingDatas] = await connection.query(SqlStatement, [BookingId]);
                 return BookingDatas
             } catch (error) {
-                console.error(error.message);
+                res.status(500).send(error.message);
             }
         }
+    }
 
+    async getHistoryBookingQuantity() {
+        try {
+            let SqlStatement = `SELECT COUNT( br.BookingReportId) AS total_quantity
+            FROM room r
+            LEFT JOIN booking b
+            ON r.RoomId = b.RoomId
+            LEFT JOIN bookingreport br
+            ON b.BookingId = br.BookingId
+            GROUP BY r.RoomId`;
+            const [BookingData] = await connection.query(SqlStatement);
+            return BookingData
+        }
+        catch (error) {
+            res.status(500).send(error.message);
+        }
     }
 }
 module.exports = Book;

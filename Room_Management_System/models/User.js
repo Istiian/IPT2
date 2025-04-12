@@ -56,8 +56,8 @@ class User {
     }
 
     async isUsernameExist(username) {
-
-        const [result] = await connection.query("SELECT username FROM user WHERE username = ?", [username]);
+        let SqlStatement = `SELECT username FROM user WHERE username = ?`
+        const [result] = await connection.query(SqlStatement, [username]);
 
         if (result.length > 0) {   
             return true;
@@ -81,8 +81,8 @@ class User {
                     password: HashedPassword,
                     email: this.email,
                 }
-
-                const [AddingUserInfo] = await connection.query('INSERT INTO user SET ?', NewUser);
+                let SqlStatement = `INSERT INTO user SET ?`
+                const [AddingUserInfo] = await connection.query(SqlStatement, NewUser);
                 
                 res.redirect('/AdCreateAccountRoute?Created=true&Message=A new user is successfully created. ')
 

@@ -3,6 +3,7 @@ var express = require('express'); // for express framework
 var path = require('path');// for path manipulation
 var cookieParser = require('cookie-parser'); // for cookie parsing
 var logger = require('morgan'); // for logging
+var winston = require('winston')
 var mysql = require('mysql2'); // for mysql connection
 const bcrypt = require('bcrypt'); // for password hashing
 const methodOverride = require("method-override"); // for method override
@@ -29,6 +30,7 @@ var UsScheduleRouter= require('./routes/UsScheduleRoute');// for user schedule m
 var UsReportSubmissionRouter= require('./routes/UsReportSubmissionRoute');// for user report submission
 var UsReportFormRouter= require('./routes/UsReportFormRoute');// for user report form
 var UsEditRouter = require('./routes/UsEditRoute');
+const checkAccess = require('./middleware/Authenticate');
 
 app.use(session({
   secret: 'secret-key', 
@@ -44,6 +46,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+// app.use(checkAccess)
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

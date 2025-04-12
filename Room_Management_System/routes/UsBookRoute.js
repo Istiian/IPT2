@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router()
 const moment = require("moment-timezone")
 var mysql = require('mysql2/promise');
+const checkAccess = require("../middleware/Authenticate");
+
 
 (async () => {
     try {
@@ -11,17 +13,18 @@ var mysql = require('mysql2/promise');
             password: '12345',
             database: 'room_management'
         });
-        console.log('User: Connection Success');
+        
     } catch (err) {
         console.error('Connection Not Success:', err.message);
     }
 })();
 
 
-router.get("/", async function (req, res) {
+router.get("/", checkAccess, async function (req, res) {
     const UserId = req.session.UserId;
     const Username = req.session.Username;
-    const [RoomInfos] = await connection.query("SELECT * FROM room");
+    let SqlStatement = `SELECT * FROM room`
+    const [RoomInfos] = await connection.query(SqlStatement);
 
     const updatedRoomInfos = await AddSchedule(RoomInfos);
     
@@ -36,8 +39,10 @@ router.get("/", async function (req, res) {
 
 async function AddSchedule(RoomInfos) {
     for (const RoomInfo of RoomInfos) {
-        let [FixedSched] = await connection.query(`SELECT * FROM schedule WHERE RoomId = ${RoomInfo.RoomId}`);
-        let [BookSched] = await connection.query(`SELECT * FROM booking WHERE RoomId = ${RoomInfo.RoomId}`);
+        let FixStatement = `SELECT * FROM schedule WHERE RoomId = ${RoomInfo.RoomId}`;
+        let BookStatement = `SELECT * FROM booking WHERE RoomId = ${RoomInfo.RoomId}`
+        let [FixedSched] = await connection.query(FixStatement);
+        let [BookSched] = await connection.query(BookStatement);
         let FullSched = [];
 
         if (Array.isArray(FixedSched) && FixedSched.length > 0) {
@@ -50,8 +55,6 @@ async function AddSchedule(RoomInfos) {
         if (Array.isArray(BookSched) && BookSched.length > 0) {
             BookSched.forEach(Sched => {
                 let formattedDate = moment(Sched.BookingDate).tz('Asia/Manila').format("YYYY-MM-DD HH:mm:ss");
-                console.log("raw: ", Sched.BookingDate )
-                console.log("formatted: ", formattedDate )
                 let events = BookEvents(formattedDate, Sched.StartTime, Sched.EndTime);
                 FullSched.push(...events);
             });
@@ -66,7 +69,7 @@ function BookEvents(SchedDate, StartTime, Endtime) {
     let DateStr = new Date(SchedDate).toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' });
 
    
-   console.log("start: ", `${DateStr}T${StartTime}`)
+
 
     events.push({
         title: "Occupied",
@@ -76,7 +79,7 @@ function BookEvents(SchedDate, StartTime, Endtime) {
         className: "OccupiedEvents"
     });
 
-    console.log(events)
+   
     return events
 }
 

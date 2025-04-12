@@ -1,26 +1,22 @@
 const express = require("express");
 const router = express.Router();
 const Book = require("../models/Book");
-const moment = require("moment-timezone")
+const moment = require("moment-timezone");
+const checkAccess = require("../middleware/Authenticate");
 
-router.get("/", async function (req, res) {
+router.get("/",checkAccess, async function (req, res) {
     const UserId = req.session.UserId;
     const Username = req.session.Username;
 
     if (UserId) {
-        const [RoomInfos] = await connection.query("SELECT * FROM room");
+        let SqlStatement = "SELECT * FROM room"
+        const [RoomInfos] = await connection.query(SqlStatement);
         const updatedRoomInfos = await AddSchedule(RoomInfos);
-
         const BookingDatas = await new Book(UserId).GetActiveUserBookings();
-       
         res.render("UsSchedule", { UserId, Username, BookingDatas, BookingPerRoom: updatedRoomInfos });
-
-
-
     } else {
         res.redirect("/UsLoginRoute?Error=Please login first");
     }
-
 });
 
 router.get("/Edit/:id", async function (req, res) {
@@ -29,12 +25,13 @@ router.get("/Edit/:id", async function (req, res) {
     const id = req.params.id
 
     try {
-        const [RoomInfos] = await connection.query("SELECT * FROM room");
+        let SqlStatement = "SELECT * FROM room"
+        const [RoomInfos] = await connection.query(SqlStatement);
 
         const updatedRoomInfos = await AddSchedule(RoomInfos);
 
         const BookingData = await new Book().GetBookingDetails(id);
-        res.render('UsEdit', {UserId, Username, BookingData, BookingPerRoom: updatedRoomInfos})
+        res.render('UsEdit', { UserId, Username, BookingData, BookingPerRoom: updatedRoomInfos })
     } catch (error) {
         console.error(error.message)
     }
@@ -42,8 +39,10 @@ router.get("/Edit/:id", async function (req, res) {
 
 async function AddSchedule(RoomInfos) {
     for (const RoomInfo of RoomInfos) {
-        let [FixedSched] = await connection.query(`SELECT * FROM schedule WHERE RoomId = ${RoomInfo.RoomId}`);
-        let [BookSched] = await connection.query(`SELECT * FROM booking WHERE RoomId = ${RoomInfo.RoomId}`);
+        let FixedStatement = `SELECT * FROM schedule WHERE RoomId = ${RoomInfo.RoomId}`;
+        let BookStatement = `SELECT * FROM booking WHERE RoomId = ${RoomInfo.RoomId}`
+        let [FixedSched] = await connection.query(FixedStatement);
+        let [BookSched] = await connection.query(BookStatement);
         let FullSched = [];
 
         if (Array.isArray(FixedSched) && FixedSched.length > 0) {
@@ -56,8 +55,6 @@ async function AddSchedule(RoomInfos) {
         if (Array.isArray(BookSched) && BookSched.length > 0) {
             BookSched.forEach(Sched => {
                 let formattedDate = moment(Sched.BookingDate).tz('Asia/Manila').format("YYYY-MM-DD HH:mm:ss");
-                console.log("raw: ", Sched.BookingDate )
-                console.log("formatted: ", formattedDate )
                 let events = BookEvents(formattedDate, Sched.StartTime, Sched.EndTime, Sched.BookingId);
                 FullSched.push(...events);
             });
@@ -71,8 +68,7 @@ function BookEvents(SchedDate, StartTime, Endtime, BookingId) {
     let events = []
     let DateStr = new Date(SchedDate).toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' });
 
-   
-   console.log("start: ", `${DateStr}T${StartTime}`)
+
 
     events.push({
         title: "Occupied",
@@ -83,7 +79,7 @@ function BookEvents(SchedDate, StartTime, Endtime, BookingId) {
         id: BookingId
     });
 
-    console.log(events)
+
     return events
 }
 
@@ -118,9 +114,9 @@ function FixedEvents(Day, StartTime, EndTime) {
             });
         }
         currentDate.setDate(currentDate.getDate() + 1);
-        
+
     }
-   
+
     return events;
 }
 

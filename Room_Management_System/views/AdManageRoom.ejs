@@ -49,7 +49,7 @@
             <!-- dropdown button -->
             <div class="Dropdown">
                 <button id="DropdownBtn">
-                    <label class="Username">Forlaje</label>
+                    <label class="Username"><%= Username %></label>
                     <i class="fa-solid fa-caret-down"></i>
                 </button>
                 
@@ -68,10 +68,10 @@
                 <div class="Room">
                     <h3><%= room.RoomName %></h3>
                     <nav>
-                        <a href="/AdManageRoomRoute/Reservation/<%= room.RoomId%>">Reservation Request: <i></i></a>
+                        <!-- <a href="/AdManageRoomRoute/Reservation/<%= room.RoomId%>">Reservation Request: <i></i></a> -->
                         <a href="/AdManageRoomRoute/Active/<%= room.RoomId%>">Accepted Reservations: <i><%= room.Accepted %></i></a>
                         <a href="/AdManageRoomRoute/DueReport/<%= room.RoomId%>">Due Reservation Reports: <i><%= room.DueReport %></i></a>
-                        <a href="/AdManageRoomRoute/History/<%= room.RoomId%>">Reservation History: <i><%= room.Accepted %></i></a>
+                        <a href="/AdManageRoomRoute/History/<%= room.RoomId%>">Reservation History: <i><%= room.History %></i></a>
                     </nav>
                 </div>
             <% }) %>
