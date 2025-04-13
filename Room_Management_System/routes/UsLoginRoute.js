@@ -9,7 +9,12 @@ router.get("/", function(req,res){
     const error = req.query.Error;
     const UserId = req.session.UserId;
     
-    res.render("UsLogin", {error, UserId});
+    if(UserId){
+        res.redirect("/UsBookRoute")
+    }else{
+        res.render("UsLogin", {error, UserId});
+    }
+    
     
 });
 
@@ -21,14 +26,7 @@ router.post("/Login", [
         username: req.body.Username,
         password: req.body.Password
     }
-
-    const errors = validationResult(req);
     
-    if (!errors.isEmpty()) {
-        // Return errors if validation fails
-        return res.status(400).json({ errors: errors.array() });
-    }
-
     let SqlStatement = `SELECT Username, Password, UserId FROM user WHERE username = ?`
     const [result] = await connection.query(SqlStatement, [Inputed.username])
     try {

@@ -10,7 +10,12 @@ router.get("/",checkAccess, function(req,res){
     const Username = req.session.Username;
     const {Id} = req.query;
 
-    res.render("UsReportForm", {UserId,Username,Id});
+    if(UserId){
+        res.render("UsReportForm", {UserId,Username,Id});
+    }else{
+        res.redirect("/UsLoginRoute")
+    }
+    
     
     
 });

@@ -13,7 +13,7 @@ form {
     flex-direction: column;
     width: 95%;
     max-width: 650px;
-    margin: 50px auto 20px;
+    margin: 20px auto 20px;
     background-color: var(--secondaryTwo);
     padding: 20px;
     border-radius: 10px;
@@ -129,4 +129,33 @@ button[type="submit"]:hover{
     background-color: var(--secondaryOne);
     color: var(--secondaryTwo);
     transform: scale(0.95);
+}
+
+.btnContainer{
+    width: 100%;
+    max-width: 700px;
+    margin: 40px auto 0px;
+}
+
+.btnContainer button i{
+    color:#515151;
+}
+.btnContainer button{
+    padding: 5px;
+    width: 65px;
+    color: #515151;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: none;
+    border: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    
+}
+
+.btnContainer button:hover{
+    background-color: rgba(0, 0, 0, 0.1);    
 }

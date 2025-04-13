@@ -131,7 +131,7 @@ input[type =submit]{
     font-weight: 600;
     height: 40px;
     border-radius: 10px;
-    border: 1px solid var(--accent);
+    border: none;
     transition: 0.3s ease;
     cursor: pointer;
     margin-bottom: 20px;
@@ -139,6 +139,8 @@ input[type =submit]{
 }
 .SubmitBtn:hover{
     scale: 98%;
+    color: var(--secondaryTwo);
+    background-color: var(--secondaryOne);
 }
 .MsgBox{
     position: absolute;

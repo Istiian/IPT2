@@ -23,7 +23,7 @@ router.get("/", checkAccess, async function (req, res) {
             Accepted: room.total_quantity || 0,
             History: HistoryPerRoom[index].total_quantity
         }));
-        console.log(Summary)
+
         res.render('AdManageRoom', { Summary, Username });
     } else {
         res.redirect("/AdLoginRoute")

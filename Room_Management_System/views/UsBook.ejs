@@ -16,6 +16,7 @@
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="stylesheet" href="/stylesheets/Navigation.css">
     <link rel="stylesheet" href="/stylesheets/UsBook.css">
+    <link rel="stylesheet" href="/stylesheets/Chatbot.css">
 </head>
 
 <!-- header navigation -->
@@ -42,7 +43,7 @@
                     <i class="fa-solid fa-user-gear"></i>
                     <label for="">Profile</label>
                 </a>
-                <a href="">
+                <a href="/LogoutRoute">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <label for="">Logout</label>
                 </a>
@@ -99,6 +100,31 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Chatbot -->
+            <div class="ChatBotContainer">
+                <div class=" Inactive" id="ChatContainer">
+                    <div id="Header">
+                        
+                    </div>
+                    <div id="MessageArea">
+                        
+                        <div class="Message AI">
+                            How can I help you?
+                        </div>
+                        
+                    </div>
+                    <div class="InputMessage">
+                        <textarea name="" id="Input"></textarea>
+                        <button id="SendMessageBtn" onclick="sendMessage()">Send</button>
+                    </div>
+
+
+
+                </div>
+                <div id="ChatHead"><i class="fa-solid fa-comment-nodes" style="color: #f2f2f2; font-size: 25px;"></i></div>
+            </div>
+
         </section>
     </main>
     <!-- APPOINTMENT FORM -->
@@ -146,6 +172,9 @@
         <i class="fa-solid fa-xmark" id="XZoomedImg"></i>
     </div>
 
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
+    <script src="/javascripts/Chatbot.js"></script>
+
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -155,6 +184,7 @@
         window.roominfo = JSON.parse('<%- JSON.stringify(RoomInfos) %>'); // ✅ No need for JSON.parse()
     </script>
     <script src="/javascripts/UsBook.js"></script>
+    
 
 </body>
 

@@ -8,8 +8,11 @@ router.get("/", checkAccess, function(req,res){
     const UserId = req.session.UserId;
     const Username = req.session.Username
 
-    
-    res.render("UsEdit", {error, UserId, Username});
+    if(UserId){
+        res.render("UsEdit", {error, UserId, Username});
+    }else{
+        res.redirect("UsLoginRoute")
+    }
     
 });
 

@@ -80,6 +80,8 @@ body {
     background: none;
     cursor: pointer;
     width: fit-content;
+    border-radius: 10px;
+    transition: 0.2s ease;
 }
 
 #DropdownBtn i {
@@ -94,8 +96,8 @@ body {
     cursor: pointer;
 }
 
-.Dropdown button:hover {
-    background-color: rgba(1, 35, 98, 0.3);
+#DropdownBtn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 #DropdownContent {

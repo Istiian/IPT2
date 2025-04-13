@@ -137,6 +137,8 @@
 
 #BookBtn:hover {
     transform: scale(0.95);
+    color: var(--secondaryTwo);
+    background-color: var(--secondaryOne);
 }
 
 .FeatureContainer {
@@ -396,6 +398,9 @@ input {
     font-size: 10px;
 }
 
+.fc-day-today {
+    background: none !important; /* Change to your desired color */
+}
 
 #Reason {
     width: 100%;

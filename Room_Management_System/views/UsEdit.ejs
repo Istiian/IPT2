@@ -38,11 +38,11 @@
             </button>
 
             <div id="DropdownContent">
-                <a href="">
+                <a href="/UsProfileRoute">
                     <i class="fa-solid fa-user-gear"></i>
-                    <label for="">Change Password</label>
+                    <label for="">Profile</label>
                 </a>
-                <a href="">
+                <a href="/LogoutRoute">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <label for="">Logout</label>
                 </a>
@@ -60,11 +60,11 @@
                     <i class="fa-solid fa-calendar-plus"></i>
                     <label for="" class="SideNavLabel">Appointment</label>
                 </a>
-                <a href="/UsScheduleRoute" class="SideNavLink">
+                <a href="/UsScheduleRoute" class="SideNavLink active">
                     <i class="fa-solid fa-calendar-days"></i>
                     <label for="" class="SideNavLabel">Schedule</label>
                 </a>
-                <a href="/UsReportSubmission" class="SideNavLink active">
+                <a href="/UsReportSubmission" class="SideNavLink">
                     <i class="fa-solid fa-file"></i>
                     <label class="SideNavLabel">Report</label>
                 </a>
@@ -73,9 +73,11 @@
 
         <!-- MAIN CONTENTS CONTAINER -->
          <section class="ContentContainer">
+
+            <div class="btnContainer"><button onclick="history.back()" id="BackBtn"><i class="fa-solid fa-arrow-left"></i>Back</button></div>
             <form action="/UserRoute/Book/Edit/<%= BookingData.BookingId %>?_method=PATCH"  method="post" id="BookForm">
                
-    
+                
                 <div class="Inputs">
                     <label for="">Room:</label>
                     
@@ -104,7 +106,7 @@
                         <input type="time" id="StartTime" name="StartTime" readonly  required value="<%= BookingData.StartTime %>">
                         <input type="time" id="EndTime" name="EndTime" readonly  required value="<%= BookingData.EndTime %>">
                     </div>
-                    <div id="calendarContainer" class="Inactive">
+                    <div id="calendarContainer" class="">
                         <i class="fa-solid fa-xmark" id="XCalendar"></i>
                         <div id='calendar'></div>
                     </div>

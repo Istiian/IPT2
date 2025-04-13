@@ -33,37 +33,36 @@ th{
 
 td{
     font-family: var(--bodyFont);
+    
 }
 
-button{
+.SubmitBtn{
     width: 75px;
-    margin-inline: 5px;
+    margin-inline: auto;
     padding: 5px;
     font-family: var(--bodyFont);
     font-weight: bold;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: var(--secondaryOne);
+    color:var(--secondaryTwo);
+    font-size: 12px;
 }
-
-td button:hover{
+.SubmitBtn i{
+    color: var(--secondaryTwo);
+    font-size: 10px;
+}
+.SubmitBtn:hover{
     transform: scale(0.95);
+    
 }
 
-.SubmitBtn{
-    background-color: var(--accent);
-    color:var(--black)
-}
-.EditBtn{
-    background-color: #C0BEBE
-}
-.RowData{
-    transition: background-color 0.2s ease
-}
-.Conflict{
-    background-color: rgba(193, 25, 25, 0.5);
-}
+
 
 .OuterForm{
     width: 100%;

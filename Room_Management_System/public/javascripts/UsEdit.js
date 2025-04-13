@@ -13,7 +13,7 @@ const DateTimeInput = document.getElementById("DateTimeInput");
 const CalendarContainer = document.getElementById("calendarContainer");
 const xCalendar = document.getElementById("XCalendar");
 
-let userAddedEvent = false;
+let userAddedEvent = true;
 let calendar;
 
 RoomInput.addEventListener("change", () => {
@@ -56,12 +56,12 @@ RoomInput.addEventListener("change", () => {
             break;
     }
 
-    alert(RoomIdInput.value)
     DateInput.value = ""
     StartTime.value = ""
     EndTime.value = ""
 
     changeCalendarEvents(roominfo[RoomIdInput.value - 1].FullSchedule);
+    userAddedEvent = false
 })
 
 DateTimeInput.addEventListener("click", () => {
@@ -77,22 +77,31 @@ xCalendar.addEventListener("click", () => {
 })
 
 function isTimeAvailable(calendar, start, end, eventId) {
+    console.log("TIME:", start)
     return calendar.getEvents().every(event =>
         (event.id === eventId || start >= event.end || end <= event.start));
 }
 
+function isTimeValid(calendar, start, end, eventId) {
+    const now = new Date();
+    console.log("Start: ", start)
+    console.log("now: ", now)
+    return now < start
+}
+
+
+
 function changeCalendarEvents(Schedules) {
     calendar.getEvents().forEach(event => event.remove());
     Schedules.forEach(Schedule => calendar.addEvent(Schedule));
-    console.log(Schedules);
-    userAddedEvent = false // enable user to create another event(their desired schedule) on calendar
+    console.log(Schedules); // enable user to create another event(their desired schedule) on calendar
     calendar.render();
 }
 
 
 document.addEventListener("DOMContentLoaded", () => {
     const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setDate(tomorrow.getDate());
     console.log(tomorrow.toLocaleDateString('en-CA'));
     calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
         initialView: window.innerWidth < 768 ? "timeGridDay" : "timeGridWeek", // adjust calendar based on user's screen size
@@ -100,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
         slotMinTime: "7:00:00",
         slotMaxTime: "20:30:00",
         allDaySlot: false,
-        initialDate: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 10), // today's date
+        initialDate: new Date(new Date().setDate(new Date().getDate())).toISOString().slice(0, 10), // today's date
         validRange: {
             start: tomorrow.toLocaleDateString('en-CA'), // tommorow's date
             end: new Date(new Date().setDate(new Date().getDate() + 7)).toISOString().slice(0, 10) // 7 days from today
@@ -125,30 +134,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
         select: function (info) {
             if (!userAddedEvent) {
-                if (isTimeAvailable(calendar, info.start, info.end)) {
-                    calendar.addEvent({
-                        id: String(Date.now()),
-                        title: 'Selected Time',
-                        start: info.startStr,
-                        end: info.endStr,
-                        editable: true,
-                        className: "SelectedTime"
-                    });
-
-                    DateInput.value = info.startStr.slice(0, 10);
-                    StartTime.value = info.startStr.slice(11, 19);
-                    EndTime.value = info.endStr.slice(11, 19);
-
-                    userAddedEvent = true;
-                } else {
-                    alert('Selected time is already occupied.');
+                if(isTimeValid(calendar, info.start, info.end)){
+                    if (isTimeAvailable(calendar, info.start, info.end)) {
+                        calendar.addEvent({
+                            id: String(Date.now()),
+                            title: 'Selected Time',
+                            start: info.startStr,
+                            end: info.endStr,
+                            editable: true,
+                            className: "SelectedTime"
+                        });
+                        DateInput.value = info.startStr.slice(0, 10);
+                        StartTime.value = info.startStr.slice(11, 19);
+                        EndTime.value = info.endStr.slice(11, 19);
+    
+                        userAddedEvent = true;
+                    } else {
+                        alert('Selected time is already occupied.');
+                    }
+                }else{
+                    alert('Invalid Time');
+                    info.revert()
                 }
+                
             } else {
                 alert('You could only select time schedule at once.');
             }
         },
         eventClick: function (info) {
-
+            
             if (!info.event.extendedProps.nonDeletable) {
                 info.event.remove(); // Deletes the event
                 userAddedEvent = false;
@@ -158,20 +172,25 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         },
         eventDrop: function (info) {
-            if (isTimeAvailable(calendar, info.event.start, info.event.end, info.event.id)) {
+            if(isTimeValid(calendar, info.event.start, info.event.end)){
+                if (isTimeAvailable(calendar, info.event.start, info.event.end, info.event.id)) {
 
-                DateInput.value = info.event.startStr.slice(0, 10);
-                StartTime.value = info.event.startStr.slice(11, 19);
-                EndTime.value = info.event.endStr.slice(11, 19);
+                    DateInput.value = info.event.startStr.slice(0, 10);
+                    StartTime.value = info.event.startStr.slice(11, 19);
+                    EndTime.value = info.event.endStr.slice(11, 19);
 
-            } else {
-                alert('Selected time is already occupied.');
-                info.revert();
+                } else {
+                    alert('Selected time is already occupied.');
+                    info.revert();
+                }
+            }else{
+                alert('Invalid Time');
+                info.revert()
             }
         },
+
         eventResize: function (info) {
             if (isTimeAvailable(calendar, info.event.start, info.event.end, info.event.id)) {
-
                 DateInput.value = info.event.startStr.slice(0, 10);
                 StartTime.value = info.event.startStr.slice(11, 19);
                 EndTime.value = info.event.endStr.slice(11, 19);
@@ -179,6 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert('Selected time is already occupied.');
                 info.revert();
             }
+
         }
     });
     calendar.render();

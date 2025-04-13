@@ -112,6 +112,12 @@ function changeCalendarEvents(Schedules) {
     userAddedEvent = false // enable user to create another event(their desired schedule) on calendar
     calendar.render();
 }
+function isTimeValid(calendar, start, end, eventId) {
+    const now = new Date();
+    console.log("Start: ", start)
+    console.log("now: ", now)
+    return now < start
+}
 
 class Map {
     constructor(MapName) {
@@ -256,8 +262,8 @@ class Stairs extends NonReservableRoom {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate() + 1);
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate());
 console.log(tomorrow.toLocaleDateString('en-CA'));
     calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
         initialView: window.innerWidth < 768 ? "timeGridDay" : "timeGridWeek", // adjust calendar based on user's screen size
@@ -265,7 +271,7 @@ console.log(tomorrow.toLocaleDateString('en-CA'));
         slotMinTime: "7:00:00",
         slotMaxTime: "20:30:00",
         allDaySlot: false,
-        initialDate: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 10), // today's date
+        initialDate: new Date(new Date().setDate(new Date().getDate())).toISOString().slice(0, 10), // today's date
         validRange: {
             start: tomorrow.toLocaleDateString('en-CA'), // tommorow's date
             end: new Date(new Date().setDate(new Date().getDate() + 7)).toISOString().slice(0, 10) // 7 days from today
@@ -290,25 +296,29 @@ console.log(tomorrow.toLocaleDateString('en-CA'));
 
         select: function (info) {
             if (!userAddedEvent) {
-                if (isTimeAvailable(calendar, info.start, info.end)) {
-                    calendar.addEvent({
-                        id: String(Date.now()),
-                        title: 'Selected Time',
-                        start: info.startStr,
-                        end: info.endStr,
-                        editable: true, 
-                        className: "SelectedTime"
-                        
-                    });
-                    
-                    DateInput.value = info.startStr.slice(0, 10);
-                    StartTime.value = info.startStr.slice(11, 19);
-                    EndTime.value = info.endStr.slice(11, 19);
-
-                    userAddedEvent = true;
-                } else {
-                    alert('Selected time is already occupied.');
+                if(isTimeValid(calendar, info.start, info.end)){
+                    if (isTimeAvailable(calendar, info.start, info.end)) {
+                        calendar.addEvent({
+                            id: String(Date.now()),
+                            title: 'Selected Time',
+                            start: info.startStr,
+                            end: info.endStr,
+                            editable: true,
+                            className: "SelectedTime"
+                        });
+                        DateInput.value = info.startStr.slice(0, 10);
+                        StartTime.value = info.startStr.slice(11, 19);
+                        EndTime.value = info.endStr.slice(11, 19);
+    
+                        userAddedEvent = true;
+                    } else {
+                        alert('Selected time is already occupied.');
+                    }
+                }else{
+                    alert('Invalid Time');
+                    info.revert()
                 }
+                
             } else {
                 alert('You could only select time schedule at once.');
             }
@@ -324,15 +334,20 @@ console.log(tomorrow.toLocaleDateString('en-CA'));
             }
         },
         eventDrop: function (info) {
-            if (isTimeAvailable(calendar, info.event.start, info.event.end, info.event.id)) {
-                
-                DateInput.value = info.event.startStr.slice(0, 10);
-                StartTime.value = info.event.startStr.slice(11, 19);
-                EndTime.value = info.event.endStr.slice(11, 19);
-                
-            } else {
-                alert('Selected time is already occupied.');
-                info.revert();
+            if(isTimeValid(calendar, info.event.start, info.event.end)){
+                if (isTimeAvailable(calendar, info.event.start, info.event.end, info.event.id)) {
+
+                    DateInput.value = info.event.startStr.slice(0, 10);
+                    StartTime.value = info.event.startStr.slice(11, 19);
+                    EndTime.value = info.event.endStr.slice(11, 19);
+
+                } else {
+                    alert('Selected time is already occupied.');
+                    info.revert();
+                }
+            }else{
+                alert('Invalid Time');
+                info.revert()
             }
         },
         eventResize: function (info) {

@@ -13,7 +13,7 @@ const checkAccess = require("../middleware/Authenticate");
             password: '12345',
             database: 'room_management'
         });
-        
+
     } catch (err) {
         console.error('Connection Not Success:', err.message);
     }
@@ -23,18 +23,16 @@ const checkAccess = require("../middleware/Authenticate");
 router.get("/", checkAccess, async function (req, res) {
     const UserId = req.session.UserId;
     const Username = req.session.Username;
-    let SqlStatement = `SELECT * FROM room`
-    const [RoomInfos] = await connection.query(SqlStatement);
 
-    const updatedRoomInfos = await AddSchedule(RoomInfos);
-    
     if (UserId) {
+        let SqlStatement = `SELECT * FROM room`
+        const [RoomInfos] = await connection.query(SqlStatement);
+        const updatedRoomInfos = await AddSchedule(RoomInfos);
         res.render("UsBook", { UserId, Username, RoomInfos: updatedRoomInfos });
-        
+
     } else {
         res.redirect("/UsLoginRoute");
     }
-    
 });
 
 async function AddSchedule(RoomInfos) {
@@ -68,9 +66,6 @@ function BookEvents(SchedDate, StartTime, Endtime) {
     let events = []
     let DateStr = new Date(SchedDate).toLocaleDateString('en-CA', { timeZone: 'Asia/Manila' });
 
-   
-
-
     events.push({
         title: "Occupied",
         start: `${DateStr}T${StartTime}`,
@@ -79,7 +74,6 @@ function BookEvents(SchedDate, StartTime, Endtime) {
         className: "OccupiedEvents"
     });
 
-   
     return events
 }
 
@@ -114,9 +108,9 @@ function FixedEvents(Day, StartTime, EndTime) {
             });
         }
         currentDate.setDate(currentDate.getDate() + 1);
-        
+
     }
-   
+
     return events;
 }
 module.exports = router

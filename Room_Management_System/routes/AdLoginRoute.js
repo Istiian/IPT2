@@ -5,8 +5,15 @@ const Admin = require("../models/Admin")
 const { body, validationResult,matchedData  } = require('express-validator');
 
 router.get("/", function(req,res){
-    const error = req.query.Error;
-    res.render("AdLogin", {error});
+    const UserId = req.session.UserId;
+    const Username = req.session.Username;
+
+    if(UserId){
+        res.redirect("/AdDashboardRoute")
+    }else{
+        const error = req.query.Error;
+        res.render("AdLogin", {error});
+    }
 });
 
 router.post("/Login",

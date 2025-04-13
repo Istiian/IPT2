@@ -11,9 +11,8 @@ router.get("/",checkAccess, async function (req, res) {
     const UserId = req.session.UserId;
     const Username = req.session.Username;
 
-    const BookingDatas = await new Book(UserId, null, null, null, null, null, null).ToGetToBeEvalutedBookings();
-
     if (UserId) {
+        const BookingDatas = await new Book(UserId, null, null, null, null, null, null).ToGetToBeEvalutedBookings();
         res.render("UsReportSubmission", { Username: Username, BookingDatas: BookingDatas });
     } else {
         res.redirect("/UsLoginRoute")

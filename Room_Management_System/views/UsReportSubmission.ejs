@@ -38,11 +38,11 @@
             </button>
 
             <div id="DropdownContent">
-                <a href="">
+                <a href="/UsProfileRoute">
                     <i class="fa-solid fa-user-gear"></i>
-                    <label for="">Change Password</label>
+                    <label for="">Profile</label>
                 </a>
-                <a href="">
+                <a href="/LogoutRoute">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <label for="">Logout</label>
                 </a>
@@ -89,7 +89,7 @@
                             <td><%= Data.FormattedDate %></td>
                             <td><%= Data.FormattedStartTime %> - <%= Data.FormattedEndTime %></td>
                             <td>
-                                <button class="SubmitBtn" onclick="location.href='/UsReportFormRoute?Id=<%= Data.BookingId %>'">Submit</button>
+                                <button class="SubmitBtn" onclick="location.href='/UsReportFormRoute?Id=<%= Data.BookingId %>'"><i class="fa-solid fa-pen"></i>Report</button>
                             </td>
                         </tr>
                     <% }) %>

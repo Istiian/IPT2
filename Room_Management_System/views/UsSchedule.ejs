@@ -15,7 +15,8 @@
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="stylesheet" href="/stylesheets/Navigation.css">
     <link rel="stylesheet" href="/stylesheets/UsSchedule.css">
-
+    <link rel="stylesheet" href="/stylesheets/Chatbot.css">
+    <link rel="stylesheet" href="/stylesheets/line-of-dots.css">
 </head>
 
 <!-- header navigation -->
@@ -41,11 +42,11 @@
             </button>
 
             <div id="DropdownContent">
-                <a href="">
+                <a href="/UsProfileRoute">
                     <i class="fa-solid fa-user-gear"></i>
-                    <label for="">Change Password</label>
+                    <label for="">Profile</label>
                 </a>
-                <a href="">
+                <a href="/LogoutRoute">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <label for="">Logout</label>
                 </a>
@@ -66,7 +67,7 @@
                     <i class="fa-solid fa-calendar-days"></i>
                     <label for="" class="SideNavLabel">Schedule</label>
                 </a>
-                <a href="" class="SideNavLink">
+                <a href="/UsReportSubmissionRoute" class="SideNavLink">
                     <i class="fa-solid fa-file"></i>
                     <label class="SideNavLabel">Report</label>
                 </a>
@@ -109,7 +110,7 @@
                                 <div class="BtnContainer">
                                     <button id="EditBtn" onclick="window.location.href='UsScheduleRoute/Edit/<%= Data.BookingId %>'">Edit</button>
                                     <form action="UserRoute/Book/Cancel/<%= Data.BookingId %>?_method=DELETE" method="post">
-                                        <button id="CancelBtn">Cancel</button>
+                                        <button id="CancelBtn"></i>Cancel</button>
                                     </form>
                                 </div>
                                 
@@ -124,71 +125,44 @@
                 <% } %>
 
             </table>
+
+
+            <!-- Chatbot -->
+            <div class="ChatBotContainer">
+                <div class=" Inactive" id="ChatContainer">
+                    <div id="Header">
+                        
+                    </div>
+                    <div id="MessageArea">
+                        
+                        <div class="Message AI">
+                            How can I help you?
+                        </div>
+                        
+                    </div>
+                    <div class="InputMessage">
+                        <textarea name="" id="Input"></textarea>
+                        <button id="SendMessageBtn" onclick="sendMessage()">Send</button>
+                    </div>
+
+
+
+                </div>
+                <div id="ChatHead"><i class="fa-solid fa-comment-nodes" style="color: #f2f2f2; font-size: 25px;"></i></div>
+            </div>
+
         </section>
     </main>
-    <div class="BookFormOuter Inactive" id="BookFormOuter">
-        <form action="/UserRoute/Book/Edit/Book" method="post" id="BookForm">
-            <i class="fa-solid fa-xmark" id="XBookForm"></i>
 
-            <div class="Inputs">
-                <label for="">Room:</label>
-
-                <select name="RoomName" id="RoomName">
-                    <option value="">Select Room</option>
-                    <option value="CCS 101">CCS 101</option>
-                    <option value="CCS 102">CCS 102</option>
-                    <option value="CCS 104">CCS 104</option>
-                    <option value="CCS 105">CCS 105</option>
-                    <option value="CCS 106">CCS 106</option>
-                    <option value="CCS 201">CCS 201</option>
-                    <option value="CCS 202">CCS 202</option>
-                    <option value="CCS 203">CCS 203</option>
-                    <option value="CCS 204">CCS 204</option>
-                    <option value="Acer Lab 1"> Acer Lab 1</option>
-                    <option value="CCS Lab 2">CCS Lab 2</option>
-                    <option value="CCS Lab 1">CCS Lab 1</option>
-                </select>
-                <input type="hidden" id="RoomId" name="RoomId">
-            </div>
-
-            <div id="DateTime">
-                <label for=" ">Date and Time:</label>
-                <div id="DateTimeInput">
-                    <input type="text" id="Date" name="Date" readonly required>
-                    <input type="time" id="StartTime" name="StartTime" readonly required>
-                    <input type="time" id="EndTime" name="EndTime" readonly required>
-                </div>
-                <div id="calendarContainer" class="Inactive">
-                    <i class="fa-solid fa-xmark" id="XCalendar"></i>
-                    <div id='calendar'></div>
-                </div>
-            </div>
-
-            <div class="Inputs">
-                <label for="Purpose">Purpose: </label><br>
-                <select name="Purpose" id="PurposeInput" required>
-                    <option value=""></option>
-                    <option value="Lecture">Lecture</option>
-                    <option value="Extra-Curricular Activities">Extra-Curricular Activities</option>
-                    <option value="Access to Specialized Equipment">Access to Specialized Equipment</option>
-                    <option value="Research Activities">Research Activities</option>
-                </select>
-            </div>
-
-            <button type="submit" id="SubmitButton">Submit</button>
-
-        </form>
-    </div>
-
+    
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
     <script src="/javascripts/Navigation.js"></script>
     <script>
         window.roominfo = JSON.parse('<%- JSON.stringify(BookingPerRoom) %>');
         window.BookingInfo = JSON.parse('<%- JSON.stringify(BookingDatas) %>');
     </script>
-    <script src="/javascripts/UsSchedule.js"></script>
-
-
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
+    <script src="/javascripts/Chatbot.js"></script>
 </body>
 
 </html>

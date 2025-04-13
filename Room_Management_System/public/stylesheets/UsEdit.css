@@ -12,7 +12,7 @@
 form {
     width: 100%;
     max-width: 800px;
-    margin: 100px auto;
+    margin: 25px auto;
     background-color: var(--secondaryTwo);
     padding: 15px;
     border-radius: 10px;
@@ -78,6 +78,7 @@ form label {
     border-radius: 50%;
     transition: 0.15s ease;
     cursor: pointer;
+    display: none;
 }
 
 #XCalendar:hover {
@@ -90,8 +91,6 @@ form label {
     border: none;
     padding: 3px 5px;
     width: fit-content;
-
-
 }
 
 input {
@@ -142,11 +141,11 @@ input {
 
 #calendar {
     width: 100%;
-    height: 90%;
+    height: 100%;
 }
 
 #calendarContainer {
-    position: absolute;
+    /* position: absolute; */
     margin-inline: auto;
     width: 100%;
     height: 350px;
@@ -175,6 +174,9 @@ input {
     border: none;
     padding: 5px 10px;
     border-radius: 5px;
+}
+.fc-day-today {
+    background: none !important; /* Change to your desired color */
 }
 
 .OccupiedEvents {
@@ -233,4 +235,35 @@ input {
 
 #SubmitButton:hover {
     transform: scale(0.95);
+    background-color: var(--secondaryOne);
+    color: var(--secondaryTwo);
+}
+
+.btnContainer{
+    width: 100%;
+    max-width: 850px;
+    margin: 30px auto 0px;
+}
+
+.btnContainer button i{
+    color:#515151;
+}
+.btnContainer button{
+    padding: 5px;
+    width: 65px;
+    color: #515151;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: none;
+    border: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    
+}
+
+.btnContainer button:hover{
+    background-color: rgba(0, 0, 0, 0.1);    
 }

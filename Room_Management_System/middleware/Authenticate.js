@@ -6,7 +6,7 @@ const checkAccess = (req, res, next) => {
     const userRole = req.session.role; // fallback role
     const baseUrl = req.baseUrl;
     const path = req.path;
-    console.log(userRole)
+    // console.log(userRole)
     // Normalize path (remove trailing slash unless it's just "/")
     let fullPath = baseUrl + path;
 
@@ -21,13 +21,20 @@ const checkAccess = (req, res, next) => {
     const accessibleRoutes = roles[userRole] || [];
     // const hasAccess = accessibleRoutes.includes(fullPath);
     const hasAccess = accessibleRoutes.some(route => fullPath.startsWith(route));
-    console.log("accessing: ", fullPath)
-    console.log("Accessible Routes:", accessibleRoutes);
-    console.log("Has Access:", hasAccess);
+    // console.log("accessing: ", fullPath)
+    // console.log("Accessible Routes:", accessibleRoutes);
+    // console.log("Has Access:", hasAccess);
 
     if (!hasAccess) {
         console.log("Access Denied for Path:", fullPath);
         return res.status(403).send('Access Denied');
+        // if(userRole == "admin"){
+        //     res.redirect("/AdLoginRoute")
+        // }else if(userRole == "user"){
+        //     res.redirect("/UsLoginRoute")
+        // }else{
+        //     return res.status(403).send('Access Denied');
+        // }
     }
 
     // ✅ Always call next if allowed
