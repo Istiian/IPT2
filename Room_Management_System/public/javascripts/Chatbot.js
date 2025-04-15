@@ -18,26 +18,30 @@ let loading = null;
 
 const sendMessage = () => {
     const message = document.getElementById("Input");
-    socket.emit('SendMessage', message.value); // Emit the correct event
-    // Add the user's message to the chat area
-    const MessageArea = document.getElementById('MessageArea');
-    const newElement = document.createElement('div');
-    newElement.className = 'Message Human';
-    newElement.innerHTML = message.value;
-    MessageArea.appendChild(newElement);
 
-    loading = document.createElement('div');
-    loading.className = "loader";
-    loading.innerHTML = `
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    `;
-    MessageArea.appendChild(loading);
-
-    MessageArea.scrollTop = MessageArea.scrollHeight;
-    message.value = "";
+    if(message.value){
+        socket.emit('SendMessage', message.value); // Emit the correct event
+        // Add the user's message to the chat area
+        const MessageArea = document.getElementById('MessageArea');
+        const newElement = document.createElement('div');
+        newElement.className = 'Message Human';
+        newElement.innerHTML = message.value;
+        MessageArea.appendChild(newElement);
+    
+        loading = document.createElement('div');
+        loading.className = "loader";
+        loading.innerHTML = `
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        `;
+        MessageArea.appendChild(loading);
+    
+        MessageArea.scrollTop = MessageArea.scrollHeight;
+        message.value = "";
+    }
+   
 };
 
 // Listen for the correct event emitted by the server

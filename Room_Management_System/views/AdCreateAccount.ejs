@@ -14,6 +14,7 @@
 </head>
 <link rel="stylesheet" href="/stylesheets/NavigationAdmin.css">
 <link rel="stylesheet" href="/stylesheets/AdCreateAccount.css">
+<link rel="stylesheet" href="/stylesheets/Notification.css">
 
 <body>
 
@@ -62,6 +63,13 @@
                 </div>
             </div>
         </header>
+        
+        <% if(created==="true"){%>
+            <div class="Notif Success" style="top: 60px;">
+                <h3>You successfully edit your reservation. </h3>
+                <div class="timer"></div>
+            </div>
+        <% } %>
 
         <div class="SignUpContainer">
             <form action="/AdminRoute/CreateAccount" method="post">
@@ -178,13 +186,13 @@
 
     </main>
 
-    <% if(created==="true"){%>
+    <!-- <% if(created==="true"){%>
         <div class="MsgBox" id="MsgBox">
             <i class="fa-solid fa-user-check"></i>
             <p><%= message %></p>
             <i class="fa-solid fa-x" id="XBtn"></i>
         </div>
-    <% } %>
+    <% } %> -->
     
 </body>
 
