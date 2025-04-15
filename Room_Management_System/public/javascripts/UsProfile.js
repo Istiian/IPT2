@@ -32,7 +32,7 @@ ChangePassContainer.addEventListener("submit", function(event){
 
 function isStrong(Input, Small){
     if(Input.value.length < 8){
-        Small.innerText = "Password must contain at least 12 Characters."
+        Small.innerText = "Password must contain at least 8 Characters."
         Small.classList.add("Active")
         Input.classList.add("Invalid")
         return false

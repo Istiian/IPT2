@@ -184,6 +184,31 @@ body {
     color: #212121
 }
 
+.ReportIconContainer{
+    width: fit-content; 
+    display: flex; 
+    align-items: flex-end;
+    position: relative;
+    
+}
+.ReportIconContainer span {
+    font-size: smaller;
+    color: var(--secondaryTwo);
+    position: absolute;
+    bottom: -8px;
+    right: -8px;
+    background-color: #DC143C;
+    font-family: var(--bodyFont);
+    font-size: 10px;
+    border-radius: 50%;
+    width:16px ; 
+    height: 16px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+
+}
+
 .SideNavLabel {
     margin-left: 10px;
     font-style: none;
@@ -221,6 +246,7 @@ body {
     min-height: 93vh;
     margin-left: 60px;
     transition: margin-left 0.3s ease;
+    position: relative;
 }
 
 .SideNavContainer.active ~ .ContentContainer {

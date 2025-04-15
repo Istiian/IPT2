@@ -42,6 +42,18 @@ class BookingReport extends Book{
             }
     
         }
+    async getUserDueReport(UserId){
+        try {
+            let SqlStatement = `SELECT count(b.UserId) AS DueReport
+                FROM booking b
+                LEFT JOIN bookingreport br
+                ON b.bookingId = br.BookingId WHERE br.BookingId IS NULL AND b.BookingDate <= NOW() AND b.UserId = ?;`
+            const [Data] = await connection.query(SqlStatement, [UserId]);
+            return Data[0].DueReport;
+        } catch (error) {
+            console.error(error.message)
+        }
+    }
 }
 
 module.exports = BookingReport;

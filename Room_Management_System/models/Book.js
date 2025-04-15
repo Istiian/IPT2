@@ -170,8 +170,8 @@ class Book {
         let SqlStatement = `SELECT COUNT(b.BookingId) as total_quantity
             FROM booking b
             LEFT JOIN bookingreport br
-            ON b.BookingId = br.BookingId 
-            WHERE br.BookingId IS NULL AND b.BookingDate <= NOW() 
+            ON b.BookingId = br.BookingId  AND b.BookingDate <= NOW()
+            WHERE br.BookingId IS NULL
         `
         try {
             const [BookingDatas] = await connection.query(SqlStatement, [Days]);
@@ -203,16 +203,12 @@ class Book {
 
     async GetQuantityBookingsPerRoom(Days = 7) {
 
-
-
-        let SqlStatement = `SELECT r.RoomId, 
-        COUNT(b.RoomId) AS total_quantity
-        FROM room r
-        LEFT JOIN booking b
-        ON r.RoomId = b.RoomId AND b.BookingDate <= NOW()
-        LEFT JOIN bookingreport br
-        ON b.BookingId = br.BookingId WHERE br.BookingId IS NULL
-        GROUP BY r.RoomId`
+        let SqlStatement = `SELECT r.RoomId, COUNT(b.BookingId) AS total_quantity
+            FROM room r
+            LEFT JOIN booking b
+            ON r.RoomId = b.RoomId AND (BookingDate > CURDATE() OR (BookingDate = CURDATE() AND ENDTIME >= CURTIME()))
+            GROUP BY r.RoomId
+            `
 
         try {
             const [BookingDatas] = await connection.query(SqlStatement, [Days]);
@@ -295,6 +291,21 @@ class Book {
         }
     }
 
+    async getQuantityHistory(){
+        let SqlStatement = `SELECT COUNT(br.BookingReportId) AS total_quantity
+            FROM booking b
+            LEFT JOIN bookingreport br
+            ON b.BookingId = br.BookingId 
+            WHERE br.BookingReportId IS NOT NULL
+        `
+        try {
+            const [BookingDatas] = await connection.query(SqlStatement);
+            return BookingDatas[0].total_quantity;
+        }
+        catch (error) {
+            res.status(500).send(error.message);
+        }
+    }
     async getHistoryBooking(RoomId, BookingId) {
 
         if (RoomId) {

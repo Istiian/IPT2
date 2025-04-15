@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/stylesheets/Navigation.css">
     <link rel="stylesheet" href="/stylesheets/UsBook.css">
     <link rel="stylesheet" href="/stylesheets/Chatbot.css">
+    <link rel="stylesheet" href="/stylesheets/Notification.css">
 </head>
 
 <!-- header navigation -->
@@ -66,7 +67,12 @@
                     <label for="" class="SideNavLabel">Schedule</label>
                 </a>
                 <a href="/UsReportSubmissionRoute" class="SideNavLink">
-                    <i class="fa-solid fa-file"></i>
+                    <div class="ReportIconContainer">
+                        <i class="fa-solid fa-file"></i>
+                        <% if (PendingDue) { %>
+                            <span><%= PendingDue %></span>
+                        <% } %>
+                    </div>
                     <label class="SideNavLabel">Report</label>
                 </a>
             </nav>
@@ -74,6 +80,12 @@
 
         <!-- MAIN CONTENTS CONTAINER -->
         <section class="ContentContainer">
+            <%if (book === "success"){%>
+                <div class="Notif Success">
+                    <h3>You successfully cancel your reservation. </h3>
+                    <div class="timer"></div>
+                </div>
+            <%}%>
             <!-- MAPS  -->
             <div class="MapContainer">
                 <select name="" id="FloorList">
@@ -102,7 +114,7 @@
             </div>
 
             <!-- Chatbot -->
-            <div class="ChatBotContainer">
+            <div class="ChatBotContainer Inactive">
                 <div class="Inactive" id="ChatContainer">
                     <div id="Header">
                         
@@ -146,7 +158,7 @@
                     <input type="time" id="EndTime" name="EndTime" readonly  required>
                 </div>
                 <div id="calendarContainer" class="Inactive">
-                    <i class="fa-solid fa-xmark" id="XCalendar"></i>
+                    <!-- <i class="fa-solid fa-xmark" id="XCalendar"></i> -->
                     <div id='calendar'></div>
                 </div>
             </div>
@@ -174,7 +186,6 @@
 
     <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
     <script src="/javascripts/Chatbot.js"></script>
-
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>

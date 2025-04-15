@@ -3,7 +3,7 @@ const router = express.Router()
 const moment = require("moment-timezone")
 var mysql = require('mysql2/promise');
 const checkAccess = require("../middleware/Authenticate");
-
+const BookingReport = require("../models/BookingReport");
 
 (async () => {
     try {
@@ -23,12 +23,15 @@ const checkAccess = require("../middleware/Authenticate");
 router.get("/", checkAccess, async function (req, res) {
     const UserId = req.session.UserId;
     const Username = req.session.Username;
-
+    const book = req.query.book
+    console.log(UserId)
     if (UserId) {
+        let PendingDue = await new BookingReport().getUserDueReport(UserId)
+        console.log(PendingDue)
         let SqlStatement = `SELECT * FROM room`
         const [RoomInfos] = await connection.query(SqlStatement);
         const updatedRoomInfos = await AddSchedule(RoomInfos);
-        res.render("UsBook", { UserId, Username, RoomInfos: updatedRoomInfos });
+        res.render("UsBook", { UserId, Username, RoomInfos: updatedRoomInfos,PendingDue,book });
 
     } else {
         res.redirect("/UsLoginRoute");

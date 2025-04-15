@@ -16,6 +16,7 @@
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="stylesheet" href="/stylesheets/Navigation.css">
     <link rel="stylesheet" href="/stylesheets/UsReportForm.css">
+    <link rel="stylesheet" href="/stylesheets/Chatbot.css">
 </head>
 
 <!-- header navigation -->
@@ -65,7 +66,12 @@
                     <label for="" class="SideNavLabel">Schedule</label>
                 </a>
                 <a href="/UsReportSubmission" class="SideNavLink active">
-                    <i class="fa-solid fa-file"></i>
+                    <div class="ReportIconContainer">
+                        <i class="fa-solid fa-file"></i>
+                        <% if (PendingDue) { %>
+                            <span><%= PendingDue %></span>
+                        <% } %>
+                    </div>
                     <label class="SideNavLabel">Report</label>
                 </a>
             </nav>
@@ -116,12 +122,36 @@
     
     
             </form>
+            <!-- Chatbot -->
+            <div class="ChatBotContainer Inactive">
+                <div class="Inactive" id="ChatContainer">
+                    <div id="Header">
+                        
+                    </div>
+                    <div id="MessageArea">
+                        
+                        <div class="Message AI">
+                            How can I help you?
+                        </div>
+                        
+                    </div>
+                    <div class="InputMessage">
+                        <textarea name="" id="Input" placeholder="Ask me"></textarea>
+                        <button id="SendMessageBtn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
 
+
+
+                </div>
+                <div id="ChatHead"><i class="fa-solid fa-comment-nodes" style="color: #f2f2f2; font-size: 25px;"></i></div>
+            </div>
             
         </section>
     </main>
     <!-- APPOINTMENT FORM -->
 
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js" integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+" crossorigin="anonymous"></script>
+    <script src="/javascripts/Chatbot.js"></script>
     <script>
         const BeforeImage = document.getElementById("BeforeImage");
         const AfterImage = document.getElementById("AfterImage");
@@ -130,18 +160,12 @@
 
         BeforeImage.addEventListener("change", function () {
             const files = BeforeImage.files;
-
             ShowUploadedImage(files, BeforeFileUploaded);
-
-            
         });
 
         AfterImage.addEventListener("change", function () {
             const files = AfterImage.files;
-
             ShowUploadedImage(files, AfterFileUploaded);
-
-            
         });
 
         function ShowUploadedImage(files, fileContainer){

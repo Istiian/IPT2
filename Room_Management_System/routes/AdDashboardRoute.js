@@ -18,6 +18,7 @@ router.get("/",checkAccess, async function (req, res) {
             Accepted : await new Book().GetQuantityAcceptedBookings(7),
             BookingPerRoom: await new Book().GetQuantityBookingsPerRoom(),
             DueReportsPerRoom: await new Book().GetQuantityDueReportsPerRoom(),
+            History: await new Book().getQuantityHistory()
         }
         res.render("AdDashboard", {
             title: "Dashboard",

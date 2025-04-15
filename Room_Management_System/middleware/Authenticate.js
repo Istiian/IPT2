@@ -27,16 +27,26 @@ const checkAccess = (req, res, next) => {
 
     if (!hasAccess) {
         console.log("Access Denied for Path:", fullPath);
-        return res.status(403).send('Access Denied');
-        // if(userRole == "admin"){
-        //     res.redirect("/AdLoginRoute")
-        // }else if(userRole == "user"){
-        //     res.redirect("/UsLoginRoute")
-        // }else{
-        //     return res.status(403).send('Access Denied');
-        // }
+    
+        // Determine the redirection path
+        let redirectPath;
+    
+        if (userRole === "admin") {
+            redirectPath = "/AdLoginRoute";
+        } else if (userRole === "user") {
+            redirectPath = "/UsLoginRoute";
+        } else if (fullPath.includes("/Ad")) {
+            redirectPath = "/AdLoginRoute";
+        } else if (fullPath.includes("/Us")) {
+            redirectPath = "/UsLoginRoute";
+        }
+    
+        // Perform a single redirect
+        if (redirectPath) {
+            return res.redirect(redirectPath);
+        }
     }
-
+    
     // ✅ Always call next if allowed
     return next();
 };

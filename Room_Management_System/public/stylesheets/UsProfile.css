@@ -153,21 +153,25 @@ input.Invalid{
 
 input[type =submit]{
     width: 95%;
-    color: var(--primary);
+    color: var(--black);
     background-color: var(--accent);
     font-family: var(--bodyFont);
     font-size: 15px;
     font-weight: 600;
     height: 40px;
     border-radius: 10px;
-    border: 1px solid var(--accent);
+    border: none;
     transition: 0.3s ease;
     cursor: pointer;
     margin-bottom: 20px;
 }
 
+
+
 .SubmitBtn:hover{
     scale: 98%;
+    color: var(--primary);
+    background-color: var(--secondaryOne);
 }
 
 @media screen and (max-width: 450px){

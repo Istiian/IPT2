@@ -46,18 +46,18 @@ router.patch("/ChangePassword",
             user.setPassword(hashedPasswordFromDb);
             const isMatch = await user.VerifyPassword(Input.CurrentPassword);
             if (!isMatch) {
-                return res.redirect("/UsProfileRoute?ChangePass = Incorrect Current Password")
+                return res.redirect("/UsProfileRoute?ChangePass=Incorrect")
             }
 
             if (Input.NewPassword !== Input.ConfirmPassword) {
-                return res.redirect("/UsProfileRoute?ChangePass = Password not match")
+                return res.redirect("/UsProfileRoute?ChangePass =NotMatch")
             }
 
             const newHashedPassword = await bcrypt.hash(Input.NewPassword, 10);
             let SqlStatement = `UPDATE user SET Password = ? WHERE UserId = ?`
 
             const [updateResult] = await connection.query(SqlStatement, [newHashedPassword, UserId]);
-            res.redirect("/UsProfileRoute?ChangePass = Success")
+            res.redirect("/UsProfileRoute?ChangePass=Success")
         } catch (error) {
             console.error("Error changing password:", error);
         }
@@ -118,7 +118,7 @@ router.delete("/Book/Cancel/:id", async (req, res) => {
         const id = req.params.id;
 
         const Delete = new Book().CancelBooking(id)
-        res.redirect("/UsScheduleRoute")
+        res.redirect("/UsScheduleRoute?Cancel=Success")
     } catch (error) {
         console.error(error.message)
     }

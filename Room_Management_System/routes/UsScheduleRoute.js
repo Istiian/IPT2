@@ -3,17 +3,20 @@ const router = express.Router();
 const Book = require("../models/Book");
 const moment = require("moment-timezone");
 const checkAccess = require("../middleware/Authenticate");
+const BookingReport = require("../models/BookingReport");
 
 router.get("/",checkAccess, async function (req, res) {
     const UserId = req.session.UserId;
     const Username = req.session.Username;
-
+    const Edit = req.query.Edit;
+    const Cancel = req.query.Cancel;
     if (UserId) {
         let SqlStatement = "SELECT * FROM room"
         const [RoomInfos] = await connection.query(SqlStatement);
         const updatedRoomInfos = await AddSchedule(RoomInfos);
         const BookingDatas = await new Book(UserId).GetActiveUserBookings();
-        res.render("UsSchedule", { UserId, Username, BookingDatas, BookingPerRoom: updatedRoomInfos });
+        let PendingDue = await new BookingReport().getUserDueReport(UserId)
+        res.render("UsSchedule", { UserId, Username, BookingDatas, BookingPerRoom: updatedRoomInfos, PendingDue,Edit,Cancel });
     } else {
         res.redirect("/UsLoginRoute?Error=Please login first");
     }
@@ -23,15 +26,15 @@ router.get("/Edit/:id", async function (req, res) {
     const UserId = req.session.UserId;
     const Username = req.session.Username;
     const id = req.params.id
-
+    
     try {
         let SqlStatement = "SELECT * FROM room"
         const [RoomInfos] = await connection.query(SqlStatement);
 
         const updatedRoomInfos = await AddSchedule(RoomInfos);
-
+        let PendingDue = await new BookingReport().getUserDueReport(UserId)
         const BookingData = await new Book().GetBookingDetails(id);
-        res.render('UsEdit', { UserId, Username, BookingData, BookingPerRoom: updatedRoomInfos })
+        res.render('UsEdit', { UserId, Username, BookingData, BookingPerRoom: updatedRoomInfos,PendingDue })
     } catch (error) {
         console.error(error.message)
     }

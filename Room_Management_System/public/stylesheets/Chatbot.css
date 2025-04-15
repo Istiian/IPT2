@@ -17,7 +17,15 @@
   bottom: 25px;
   right: 2%;
   z-index: 99;
+  visibility: visible;
+  opacity: 10;
+  z-index: 4;
+
+}
+.ChatBotContainer.Inactive{
+  z-index: 0;
   
+
 }
 
 /* CHAT CONTAINER */
@@ -27,13 +35,15 @@
   border: 1px solid var(--black);
   margin-bottom: 10px;
   transition: all 0.3s ease;
-
+  z-index: 100;
+  background-color: var(--primary);
 }
 
 #ChatContainer.Inactive{
   transform: translateY(10px);
   opacity: 0;
   visibility: hidden;
+  z-index: 1;
 }
 
 /* Chat head and use to show the chatbot  */
@@ -49,6 +59,7 @@
   align-items: center;
   transition: all 0.3s ease;
   cursor: pointer;
+  z-index: 100
 }
 
 #ChatHead:hover {
@@ -60,6 +71,7 @@
   display: flex;
   margin: 10px 10px;
   border: 1px solid var(--black);
+ 
 }
 
 #SendMessageBtn {

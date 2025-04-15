@@ -15,7 +15,8 @@ router.get("/", checkAccess, async function (req, res) {
         const BookingPerRoom = await new Book().GetQuantityBookingsPerRoom()
         const DueReportsPerRoom = await new Book().GetQuantityDueReportsPerRoom()
         const HistoryPerRoom = await new Book().getHistoryBookingQuantity()
-        console.log(HistoryPerRoom)
+
+        
         const Summary = BookingPerRoom.map((room, index) => ({
             RoomId: room.RoomId,
             RoomName: DueReportsPerRoom[index]?.Room_Name || "Unknown Room Name",
@@ -23,6 +24,11 @@ router.get("/", checkAccess, async function (req, res) {
             Accepted: room.total_quantity || 0,
             History: HistoryPerRoom[index].total_quantity
         }));
+
+        console.log("BookingPerRoom",BookingPerRoom)
+        console.log("DueReportsPerRoom",DueReportsPerRoom )
+        console.log("HistoryPerRoom",HistoryPerRoom )
+
 
         res.render('AdManageRoom', { Summary, Username });
     } else {

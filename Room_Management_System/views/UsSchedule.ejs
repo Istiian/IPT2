@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="/stylesheets/Navigation.css">
     <link rel="stylesheet" href="/stylesheets/UsSchedule.css">
     <link rel="stylesheet" href="/stylesheets/Chatbot.css">
-    <link rel="stylesheet" href="/stylesheets/line-of-dots.css">
+    <link rel="stylesheet" href="/stylesheets/Notification.css">
 </head>
 
 <!-- header navigation -->
@@ -68,7 +68,12 @@
                     <label for="" class="SideNavLabel">Schedule</label>
                 </a>
                 <a href="/UsReportSubmissionRoute" class="SideNavLink">
-                    <i class="fa-solid fa-file"></i>
+                    <div class="ReportIconContainer">
+                        <i class="fa-solid fa-file"></i>
+                        <% if (PendingDue) { %>
+                            <span><%= PendingDue %></span>
+                        <% } %>
+                    </div>
                     <label class="SideNavLabel">Report</label>
                 </a>
             </nav>
@@ -80,6 +85,19 @@
                 <p>Course: Bachelor of Science in Information Technology</p>
                 <p>Year & Section: BSIT - 3G</p>
             </div> -->
+            <% if(Edit === "Sucess"){%>
+                <div class="Notif Success">
+                    <h3>You successfully edit your reservation. </h3>
+                    <div class="timer"></div>
+                </div>
+            <%}else if (Cancel === "Success"){%>
+                <div class="Notif Success">
+                    <h3>You successfully cancel your reservation. </h3>
+                    <div class="timer"></div>
+                </div>
+            <%}%>
+
+
 
             <table class="table">
                 <tr>
@@ -128,8 +146,8 @@
 
 
             <!-- Chatbot -->
-            <div class="ChatBotContainer">
-                <div class=" Inactive" id="ChatContainer">
+            <div class="ChatBotContainer Inactive">
+                <div class="Inactive" id="ChatContainer">
                     <div id="Header">
                         
                     </div>
@@ -141,8 +159,8 @@
                         
                     </div>
                     <div class="InputMessage">
-                        <textarea name="" id="Input"></textarea>
-                        <button id="SendMessageBtn" onclick="sendMessage()">Send</button>
+                        <textarea name="" id="Input" placeholder="Ask me"></textarea>
+                        <button id="SendMessageBtn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
                     </div>
 
 

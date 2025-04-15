@@ -28,7 +28,7 @@ body{
     box-shadow: 10px 10px 16px 0px rgba(0,0,0,0.50);
     border-radius: 10px;
     height: fit-content;
-    background-color: var(--secondaryTwo);
+  
 }
 
 .CMUImage{
@@ -98,7 +98,11 @@ form button{
 
 form button:hover{
     transform: scale(0.95);
+    color: var(--primary);
+    background-color: var(--secondaryOne);
 }
+
+
 
 form label{
     font-size: 16px;

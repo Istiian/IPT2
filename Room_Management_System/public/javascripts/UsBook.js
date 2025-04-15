@@ -18,7 +18,7 @@ const BookBtn = document.getElementById("BookBtn");
 const XBookForm = document.getElementById("XBookForm");
 const FloorName = document.getElementById("FloorName");
 const RoomFeatures = document.getElementById("RoomFeatures")
-const Images = document.querySelectorAll(".ImagesContainer img"); 
+const Images = document.querySelectorAll(".ImagesContainer img");
 const OuterImage = document.getElementsByClassName("OuterImage")[0]
 const XZoomedImg = document.getElementById("XZoomedImg")
 const ZoomedImg = document.getElementById("ZoomedImg")
@@ -53,20 +53,20 @@ FloorInfoXbtn.addEventListener("click", () => FloorInfo.classList.add("Inactive"
 BookBtn.addEventListener("click", () => BookFormOuter.classList.remove("Inactive"));
 
 Images.forEach(Image => {
-    Image.addEventListener("click", ()=>{
+    Image.addEventListener("click", () => {
         ZoomedImg.src = Image.src
         OuterImage.classList.remove("Inactive")
         OuterImage.classList.add("Active")
     })
 });
-XZoomedImg.addEventListener("click", ()=>{
+XZoomedImg.addEventListener("click", () => {
     OuterImage.classList.add("Inactive")
     OuterImage.classList.remove("Active")
 })
 
 XBookForm.addEventListener("click", () => {
 
-    CalendarContainer.classList.remove("Active"); 
+    CalendarContainer.classList.remove("Active");
     CalendarContainer.classList.add("Inactive");
     BookFormOuter.classList.add("Inactive");
     DateInput.value = ""
@@ -90,16 +90,16 @@ FloorList.addEventListener("change", () => {
 });
 
 DateTimeInput.addEventListener("click", () => {
-    CalendarContainer.classList.add("Active");
-    CalendarContainer.classList.remove("Inactive");
+    // CalendarContainer.classList.add("Active");
+    CalendarContainer.classList.toggle("Inactive");
     calendar.render();
 })
 
-xCalendar.addEventListener("click", () => {
-    CalendarContainer.classList.remove("Active");
-    CalendarContainer.classList.add("Inactive");
-    calendar.render();
-})
+// xCalendar.addEventListener("click", () => {
+//     CalendarContainer.classList.remove("Active");
+//     CalendarContainer.classList.add("Inactive");
+//     calendar.render();
+// })
 
 function isTimeAvailable(calendar, start, end, eventId) {
     return calendar.getEvents().every(event =>
@@ -108,16 +108,68 @@ function isTimeAvailable(calendar, start, end, eventId) {
 
 function changeCalendarEvents(Schedules) {
     calendar.getEvents().forEach(event => event.remove());
+    // calendar.addEvent({
+    //     start: get7AMTime(),
+    //     end: getCurrentDate(),
+    //     nonDeletable: true,
+    // });
     Schedules.forEach(Schedule => calendar.addEvent(Schedule));
     userAddedEvent = false // enable user to create another event(their desired schedule) on calendar
     calendar.render();
 }
 function isTimeValid(calendar, start, end, eventId) {
     const now = new Date();
-    console.log("Start: ", start)
-    console.log("now: ", now)
+    
     return now < start
 }
+
+
+function getCurrentDate() {
+    let date = new Date();
+    let mins = date.getMinutes();
+
+    // Round minutes to either 0 or 30
+    if (mins < 30) {
+        date.setMinutes(0); // Set minutes to 0
+    } else {
+        date.setMinutes(30); // Set minutes to 30
+    }
+    date.setSeconds(0); // Set seconds to 0 for consistency
+
+    // Format date to local time zone
+    let year = date.getFullYear();
+    let month = String(date.getMonth() + 1).padStart(2, '0');
+    let day = String(date.getDate()).padStart(2, '0');
+    let hours = String(date.getHours()).padStart(2, '0');
+    let minutes = String(date.getMinutes()).padStart(2, '0');
+
+    // Combine into desired format
+    let formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:00`;
+    return formattedDate;
+}
+
+
+function get7AMTime() {
+    let date = new Date();
+
+    // Set time to 7:00 AM
+    date.setHours(7);
+    date.setMinutes(0);
+    date.setSeconds(0);
+
+    // Format date to local time zone
+    let year = date.getFullYear();
+    let month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    let day = String(date.getDate()).padStart(2, '0');
+    let hours = String(date.getHours()).padStart(2, '0');
+    let minutes = String(date.getMinutes()).padStart(2, '0');
+
+    // Combine into desired format
+    let formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:00`;
+    return formattedDate;
+}
+console.log(get7AMTime(), getCurrentDate())
+
 
 class Map {
     constructor(MapName) {
@@ -152,7 +204,7 @@ class ReservableRoom {
         this.Color = Color;
         this.RoomId = RoomId;
         this.Features = Features,
-        this.FullSchedule = FullSchedule
+            this.FullSchedule = FullSchedule
         this.Images = Images
         this.addMapLocation();
     }
@@ -165,7 +217,7 @@ class ReservableRoom {
             fillColor: this.Color
         }).addTo(this.Floor);
 
-        
+
         room.bindTooltip(this.Name, {
             permanent: true,
             direction: "center",
@@ -194,9 +246,9 @@ class ReservableRoom {
             RoomFeatures.innerHTML = Features;
 
             Images.forEach((Image, index) => {
-                console.log( RoomImage[index])
+                console.log(RoomImage[index])
                 Image.src = RoomImage[index]
-                
+
             });
             changeCalendarEvents(FullSchedule);
         });
@@ -262,9 +314,9 @@ class Stairs extends NonReservableRoom {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-const tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate());
-console.log(tomorrow.toLocaleDateString('en-CA'));
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate());
+    console.log(tomorrow.toLocaleDateString('en-CA'));
     calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
         initialView: window.innerWidth < 768 ? "timeGridDay" : "timeGridWeek", // adjust calendar based on user's screen size
         selectable: true,
@@ -276,7 +328,6 @@ console.log(tomorrow.toLocaleDateString('en-CA'));
             start: tomorrow.toLocaleDateString('en-CA'), // tommorow's date
             end: new Date(new Date().setDate(new Date().getDate() + 7)).toISOString().slice(0, 10) // 7 days from today
         },
-
         headerToolbar: {
             left: 'prev,next',
             center: '',
@@ -296,7 +347,7 @@ console.log(tomorrow.toLocaleDateString('en-CA'));
 
         select: function (info) {
             if (!userAddedEvent) {
-                if(isTimeValid(calendar, info.start, info.end)){
+                if (isTimeValid(calendar, info.start, info.end)) {
                     if (isTimeAvailable(calendar, info.start, info.end)) {
                         calendar.addEvent({
                             id: String(Date.now()),
@@ -309,22 +360,23 @@ console.log(tomorrow.toLocaleDateString('en-CA'));
                         DateInput.value = info.startStr.slice(0, 10);
                         StartTime.value = info.startStr.slice(11, 19);
                         EndTime.value = info.endStr.slice(11, 19);
-    
+
                         userAddedEvent = true;
                     } else {
                         alert('Selected time is already occupied.');
+                        userAddedEvent = false;
                     }
-                }else{
+                } else {
                     alert('Invalid Time');
-                    info.revert()
+                    // info.revert()
                 }
-                
+
             } else {
                 alert('You could only select time schedule at once.');
             }
         },
-        eventClick: function(info) {
-            
+        eventClick: function (info) {
+
             if (!info.event.extendedProps.nonDeletable) {
                 info.event.remove(); // Deletes the event
                 userAddedEvent = false;
@@ -334,7 +386,7 @@ console.log(tomorrow.toLocaleDateString('en-CA'));
             }
         },
         eventDrop: function (info) {
-            if(isTimeValid(calendar, info.event.start, info.event.end)){
+            if (isTimeValid(calendar, info.event.start, info.event.end)) {
                 if (isTimeAvailable(calendar, info.event.start, info.event.end, info.event.id)) {
 
                     DateInput.value = info.event.startStr.slice(0, 10);
@@ -345,14 +397,14 @@ console.log(tomorrow.toLocaleDateString('en-CA'));
                     alert('Selected time is already occupied.');
                     info.revert();
                 }
-            }else{
+            } else {
                 alert('Invalid Time');
                 info.revert()
             }
         },
         eventResize: function (info) {
             if (isTimeAvailable(calendar, info.event.start, info.event.end, info.event.id)) {
-                
+
                 DateInput.value = info.event.startStr.slice(0, 10);
                 StartTime.value = info.event.startStr.slice(11, 19);
                 EndTime.value = info.event.endStr.slice(11, 19);
@@ -365,7 +417,6 @@ console.log(tomorrow.toLocaleDateString('en-CA'));
     calendar.render();
 });
 
-// [Top-left, Top-right, Bottom-right, Bottom-left]
 const Floor1 = new Map("Floor1")
 const Floor2 = new Map("Floor2");
 
@@ -384,7 +435,7 @@ let RoomImages = [
     ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS Lab 2
 ]
 
-roominfo.forEach((room , index) => {
+roominfo.forEach((room, index) => {
 
     if (room.RoomId <= 5) {
         new ReservableRoom(room.Coordinates, room.Room_Name, room.RoomId, room.Features, Floor1.map, room.FullSchedule, RoomImages[index])
@@ -393,7 +444,7 @@ roominfo.forEach((room , index) => {
         new ReservableRoom(room.Coordinates, room.Room_Name, room.RoomId, room.Features, Floor2.map, room.FullSchedule, RoomImages[index])
 
     }
-    
+
 
 });
 // [Top-left, Top-right, Bottom-right, Bottom-left]

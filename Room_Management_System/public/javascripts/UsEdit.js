@@ -151,10 +151,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         userAddedEvent = true;
                     } else {
                         alert('Selected time is already occupied.');
+                        userAddedEvent = false;
                     }
                 }else{
                     alert('Invalid Time');
-                    info.revert()
+                    // info.revert()
                 }
                 
             } else {

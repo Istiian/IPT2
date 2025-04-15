@@ -1,0 +1,69 @@
+:root {
+    --headingFont: "Poppins", "Arial";
+    --bodyFont: "Roboto", "Arial";
+    --accent: #DAA520;
+    --secondaryOne: #012362;
+    --secondaryTwo: #f2f2f2;
+    --primary: #fafafa;
+    --black: #0d0d0d;
+}
+
+.Notif{
+    width: 350px; 
+    height: 60px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    animation: disapper 3.1s linear forwards ;
+    z-index: 100;
+}
+.Notif.Inactive{
+    display: none;
+}
+.Notif h3{
+    font-size: 16px;
+    font-weight: bold;
+    font-family: var(--headingFont);
+    padding: 5px;
+    color: var(--primary);
+}
+
+.Success{
+    background-color: rgba(46, 125, 50, 0.7);
+    border: 1px solid rgb(46, 125, 50);
+    
+}
+
+
+.timer{
+    width: 10px;
+    height: 3px;
+    background-color: var(--primary);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    animation: timer 3s linear forwards;
+}
+
+@keyframes timer{
+    to{
+        width: 100%;
+       
+    }
+}
+@keyframes disapper{
+    to{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .Notif{
+        width: 300px;
+    }
+}

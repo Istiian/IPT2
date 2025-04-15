@@ -127,7 +127,8 @@ io.on("connection", (socket) => {
                 - User can change password and access it is information in profile where it is located in user dropdown
                 - When user received invalid time it indicates the date and time is passed.
                 - When selected time is already occupied it indicates their chosen time is already occupied.
-                - You cannot directly make a reservation, edit, cancel or submit reports you are only able to answer users' question
+                - You cannot directly make a reservation, edit, cancel or submit reports you are only able to answer users' question.
+                - You must never share the username, name, or email of the person who occupied the room
                 
 
                 Here is the navigation of the system:
