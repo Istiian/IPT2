@@ -65,6 +65,23 @@ class User {
             return false;
         }
     }
+
+    async getEmail(username) {
+        let SqlStatement = `SELECT Email FROM user WHERE username = ?`
+        const [result] = await connection.query(SqlStatement, [username]);
+
+        if (result.length > 0) {   
+            return result[0].Email;
+        }
+    }
+
+    async getUserId(username) {
+        let SqlStatement = `SELECT UserId FROM user WHERE username = ?`
+        const [result] = await connection.query(SqlStatement, [username]);
+        if (result.length > 0) {   
+            return result[0].UserId;
+        }
+    }
     
     async CreateAccount(res) {
         const HashedPassword = await this.HashPassword(this.getPassword())
@@ -113,6 +130,7 @@ class User {
             console.error(error.message)
         }
     }
+    
     async ChangePassword(New, Confirm, UserId){
        
         const CurrentPassword = await this.GetCurrentPassword(UserId);

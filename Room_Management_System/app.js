@@ -21,6 +21,10 @@ server.listen(3001, () => {
 });
 
 
+app.listen(3002, () => {
+  console.log("Listening")
+});
+
 var mysql = require('mysql2/promise');
 
 async function GetRoomData() { // Properly define your function
@@ -180,6 +184,7 @@ var AdManageBookingRouter = require('./routes/AdManageBookingRoute'); // for adm
 var AdManageRoomRouter = require('./routes/AdManageRoomRoute'); // for admin schedule creation
 var AdminRouter = require('./routes/AdminRoute');// for admin account management
 var AdDashboardRouter = require('./routes/AdDashboardRoute'); // for admin dashboard
+var ForgotPasswordRouter = require('./routes/ForgotPasswordRoute')
 
 
 var UserRouter = require('./routes/UserRoute'); // for user account management
@@ -215,6 +220,7 @@ app.use('/AdTrackRoute', AdTrackRouter)
 app.use('/AdManageBookingRoute', AdManageBookingRouter)
 app.use('/AdDashboardRoute', AdDashboardRouter)
 app.use('/AdManageRoomRoute', AdManageRoomRouter)
+app.use('/ForgotPasswordRoute', ForgotPasswordRouter)
 
 app.use('/UserRoute', UserRouter)
 app.use('/AdminRoute', AdminRouter)

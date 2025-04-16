@@ -1,6 +1,6 @@
 const roles = require('../roles');
 
-const PUBLIC_ROUTES = ['/UsLoginRoute', '/AdLoginRoute'];
+const PUBLIC_ROUTES = ['/UsLoginRoute', '/AdLoginRoute','/ForgotPasswordRoute'];
 
 const checkAccess = (req, res, next) => {
     const userRole = req.session.role; // fallback role

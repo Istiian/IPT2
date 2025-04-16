@@ -165,4 +165,11 @@ form a {
     text-decoration: none;
     float: right;
     font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+form a:hover{
+    color: var(--secondaryOne);
+    text-decoration: underline;
+    text-decoration-color: var(--secondaryOne);
 }
