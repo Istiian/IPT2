@@ -69,9 +69,9 @@
                     <h3><%= room.RoomName %></h3>
                     <nav>
                         <!-- <a href="/AdManageRoomRoute/Reservation/<%= room.RoomId%>">Reservation Request: <i></i></a> -->
-                        <a href="/AdManageRoomRoute/Active/<%= room.RoomId%>">Accepted Reservations: <i><%= room.Accepted %></i></a>
-                        <a href="/AdManageRoomRoute/DueReport/<%= room.RoomId%>">Due Reservation Reports: <i><%= room.DueReport %></i></a>
-                        <a href="/AdManageRoomRoute/History/<%= room.RoomId%>">Reservation History: <i><%= room.History %></i></a>
+                        <a href="/AdManageRoomRoute/Active/<%= room.RoomId%>?RoomName=<%= room.RoomName %>">Accepted Reservations: <i><%= room.Accepted %></i></a>
+                        <a href="/AdManageRoomRoute/DueReport/<%= room.RoomId%>?RoomName=<%- room.RoomName %>">Due Reservation Reports: <i><%= room.DueReport %></i></a>
+                        <a href="/AdManageRoomRoute/History/<%= room.RoomId%>?RoomName=<%- room.RoomName %>">Reservation History: <i><%= room.History %></i></a>
                     </nav>
                 </div>
             <% }) %>

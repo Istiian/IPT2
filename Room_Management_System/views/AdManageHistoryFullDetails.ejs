@@ -61,10 +61,15 @@
 
         <section class="InformationContainer">
             <button onclick="history.back()" id="BackBtn"><i class="fa-solid fa-arrow-left"></i>Back</button>
+
+            
             <div class="BookingDetails">
+                <p><strong>Name:</strong> <%= BookingDatas[0].Name %> </p>
+                <p><strong>Email:</strong> <%= BookingDatas[0].Email %> </p>
+                <p><strong>Department:</strong> <%= BookingDatas[0].Department %> </p>
                 <p><strong>Room name:</strong> <%= BookingDatas[0].RoomName %> </p>
+                <p><strong>Purpose:</strong> <%= BookingDatas[0].FormattedDate %> </p>
                 <p><strong>Date:</strong> <%= BookingDatas[0].FormattedDate %> </p>
-                <p><strong>Username:</strong> <%= BookingDatas[0].Username %> </p>
                 <p><strong>Time:</strong> <%= BookingDatas[0].FormattedStartTime %> - <%= BookingDatas[0].FormattedEndTime %> </p>
             </div>
             

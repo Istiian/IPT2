@@ -24,15 +24,12 @@ router.get("/", checkAccess, async function (req, res) {
     const UserId = req.session.UserId;
     const Username = req.session.Username;
     const book = req.query.book
-    console.log(UserId)
     if (UserId) {
         let PendingDue = await new BookingReport().getUserDueReport(UserId)
-        console.log(PendingDue)
         let SqlStatement = `SELECT * FROM room`
         const [RoomInfos] = await connection.query(SqlStatement);
         const updatedRoomInfos = await AddSchedule(RoomInfos);
         res.render("UsBook", { UserId, Username, RoomInfos: updatedRoomInfos,PendingDue,book });
-
     } else {
         res.redirect("/UsLoginRoute");
     }
@@ -40,10 +37,14 @@ router.get("/", checkAccess, async function (req, res) {
 
 async function AddSchedule(RoomInfos) {
     for (const RoomInfo of RoomInfos) {
-        let FixStatement = `SELECT * FROM schedule WHERE RoomId = ${RoomInfo.RoomId}`;
-        let BookStatement = `SELECT * FROM booking WHERE RoomId = ${RoomInfo.RoomId}`
-        let [FixedSched] = await connection.query(FixStatement);
-        let [BookSched] = await connection.query(BookStatement);
+        let FixStatement = `SELECT * FROM schedule
+            WHERE ScheduledDay <> DAYNAME(CURDATE()) 
+            OR (ScheduledDay = DAYNAME(CURDATE()) AND CURTIME() <= EndTime) AND RoomId =?`;
+        let BookStatement = `SELECT * FROM booking 
+            WHERE (BookingDate > CURDATE() OR (BookingDate = CURDATE() 
+            AND EndTime >= CURTIME())) AND RoomId = ?`
+        let [FixedSched] = await connection.query(FixStatement,[RoomInfo.RoomId]);
+        let [BookSched] = await connection.query(BookStatement,[RoomInfo.RoomId]);
         let FullSched = [];
 
         if (Array.isArray(FixedSched) && FixedSched.length > 0) {

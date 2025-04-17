@@ -81,6 +81,7 @@ router.get("/DueReport/:id",checkAccess, async function (req, res) {
 router.get("/Active/:id",checkAccess, async function (req, res) {
     let UserId = req.session.UserId;
     let Username = req.session.Username;
+    let RoomName = req.query.RoomName
 
     if (UserId) {
         const RoomId = req.params.id;
@@ -91,7 +92,7 @@ router.get("/Active/:id",checkAccess, async function (req, res) {
             Data.FormattedEndTime = moment(Data.EndTime, "HH:mm").format("hh:mm A");
             Data.FormattedNumericalDate = moment(Data.BookingDate).format("YYYY-MM-DD");
         });
-        res.render("AdManageActive", { BookingDatas: BookingDatas, Username });
+        res.render("AdManageActive", { BookingDatas: BookingDatas, Username,RoomName });
     }else{
         res.redirect("/AdLoginRoute")
     }
@@ -123,7 +124,8 @@ router.get("/History/FullDetails/:id",checkAccess, async function (req, res) {
 
     if (UserId) {
         const BookingId = req.params.id;
-        const BookingDatas = await new Book().getHistoryBooking(null, BookingId);
+        const BookingDatas = await new Book().getHistoryBooking(null, BookingId, res);
+        console.log(BookingDatas)
         BookingDatas.forEach(Data => {
             Data.FormattedDate = moment(Data.BookingDate).format("MMMM Do YYYY");
             Data.FormattedStartTime = moment(Data.StartTime, "HH:mm").format("hh:mm A");

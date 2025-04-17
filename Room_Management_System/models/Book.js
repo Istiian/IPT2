@@ -25,7 +25,6 @@ class Book {
         this.StartTime = StartTime;
         this.EndTime = EndTime;
         this.Purpose = Purpose;
-
     }
 
     async Appoint(res) {
@@ -245,13 +244,16 @@ class Book {
 
     async GetDueReportsDetails(RoomId) {
         if (RoomId) {
-            let SqlStatement = `SELECT booking.*
-            FROM booking LEFT JOIN bookingreport
-            on booking.BookingId = bookingreport.BookingId
-            WHERE bookingreport.BookingId IS null 
-            AND booking.RoomId = ?
-            AND (BookingDate < CURDATE() OR (BookingDate = CURDATE() AND ENDTIME <= CURTIME()))
-            ORDER BY BookingDate ASC, StartTime ASC`
+            let SqlStatement = `SELECT b.*, CONCAT(u.FirstName, ' ', u.MiddleName, ' ', u.LastName, ' ', u.ExtensionName) AS Name, u.Email, u.Department
+            FROM user u 
+            LEFT JOIN booking b
+            ON u.UserId = b.UserId
+            LEFT JOIN bookingreport br
+            ON b.BookingId=br.BookingId
+            WHERE br.BookingId IS null 
+            AND b.RoomId = ?
+            AND (b.BookingDate < CURDATE() OR (b.BookingDate = CURDATE() AND ENDTIME <= CURTIME()))
+            ORDER BY BookingDate ASC, StartTime ASC;`
 
             try {
                 const [BookingDatas] = await connection.query(SqlStatement, [RoomId]);
@@ -278,8 +280,11 @@ class Book {
     }
 
     async GetActiveReservation(Id) {
-        let SqlStatement = `SELECT * FROM booking 
-        WHERE booking.RoomId = ?
+        let SqlStatement = `SELECT b.*, CONCAT(u.FirstName, ' ', u.MiddleName, ' ', u.LastName, ' ', u.ExtensionName) AS Name, u.Email, u.Department
+        FROM user u
+        LEFT JOIN booking b
+        ON b.UserId = u.UserId
+        WHERE b.RoomId = ?
         AND (BookingDate > CURDATE() OR (BookingDate = CURDATE() AND ENDTIME >= CURTIME()))
         ORDER BY BookingDate ASC, StartTime ASC`;
 
@@ -324,11 +329,13 @@ class Book {
 
         } else if (BookingId) {
 
-            let SqlStatement = `SELECT br.BookingReportId, b.RoomName, b.StartTime, b.EndTime,b.BookingDate, b.Username, br.AfterImages, br.BeforeImages, br.Remarks 
-            FROM booking b
-            LEFT JOIN bookingreport br
-            ON b.BookingId = br.BookingId 
-            WHERE br.BookingReportId IS NOT NULL AND br.BookingReportId = ?`;
+            let SqlStatement = `SELECT CONCAT(u.FirstName, ' ', u.MiddleName, ' ', u.LastName, ' ', u.ExtensionName) AS Name, u.Email, u.Department, br.BookingReportId, b.RoomName, b.StartTime, b.EndTime,b.BookingDate, b.Username, br.AfterImages, br.BeforeImages, br.Remarks 
+                FROM user u
+                LEFT JOIN booking b
+                ON u.UserId = b.UserId
+                LEFT JOIN bookingreport br
+                ON b.BookingId = br.BookingId
+                WHERE br.BookingReportId IS NOT NULL AND br.BookingReportId = ?    ;`;
 
             try {
                 const [BookingDatas] = await connection.query(SqlStatement, [BookingId]);

@@ -63,7 +63,10 @@
         <table >
             
             <tr>
-                <th>Username</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Email</th>
+                <th>Purpose</th>
                 <th>Room</th>
                 <th>Date</th>
                 <th>Time </th>
@@ -72,7 +75,10 @@
             <% if (BookingDatas && BookingDatas.length > 0){ %>
                 <% BookingDatas.forEach((Data) => { %>
                     <tr class="RowData">
-                        <td><%= Data.Username %></td>
+                        <td><%= Data.Name %></td>
+                        <td><%= Data.Department %></td>
+                        <td><%= Data.Email %></td>
+                        <td><%= Data.Purpose %></td>
                         <td><%= Data.RoomName %></td>
                         <td><%= Data.FormattedDate %></td>
                         <td><%= Data.FormattedStartTime %> - <%= Data.FormattedEndTime %></td>

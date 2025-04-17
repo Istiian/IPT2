@@ -174,25 +174,35 @@
     height: 95px;
     width: 95px;
     cursor: pointer;
+    transition: 0.3s ease;
 
+}
+.ImagesContainer img:hover{
+    transform: scale(0.95);
 }
 
 .OuterImage {
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.95);
+    background-color: rgba(0, 0, 0, 0.7);
     position: absolute;
     z-index: 10;
     top: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-
+    backdrop-filter: blur(5px);
 }
 
 #ZoomedImg {
     width: 50%;
     height: 50%;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.OuterImage.Active #ZoomedImg {
+    transform: scale(1);
 }
 
 #XZoomedImg {
@@ -205,6 +215,7 @@
     transition: background-color 0.3s ease;
     border-radius: 50%;
     cursor: pointer;
+    
 }
 
 #XZoomedImg:hover {
@@ -215,7 +226,8 @@
 .BookFormOuter {
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
     position: absolute;
     z-index: 50;
     top: 0;
@@ -247,7 +259,7 @@
 }
 
 .BookFormOuter form {
-    max-width: 500px;
+    max-width: 800px;
     width: 95%;
     height: fit-content;
     border: 1px solid black;

@@ -1,11 +1,3 @@
-// // In your JS file (e.g., public/js/calendar.js)
-// import { Calendar } from '@fullcalendar/core';
-// import dayGridPlugin from '@fullcalendar/daygrid';
-// import 'leaflet/dist/leaflet.css';
-// import L from 'leaflet';
-
-
-
 const FloorList = document.getElementById("FloorList");
 const FirstFloor = document.getElementById("Floor1");
 const SecondFloor = document.getElementById("Floor2");
@@ -421,15 +413,15 @@ const Floor1 = new Map("Floor1")
 const Floor2 = new Map("Floor2");
 
 let RoomImages = [
-    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 101
+    ["/images/101.jpg", "/images/101 (1).jpg", "/images/101 (2).jpg"], // CCS 101
     ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 102
     ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 104
-    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 105
-    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 106
-    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 201
-    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 202
-    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 203
-    ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS 204
+    ["/images/105.jpg", "/images/105 (1).jpg", "/images/105 (2).jpg"], // CCS 105
+    ["/images/106.jpg", "/images/106 (1).jpg", "/images/106 (2).jpg"], // CCS 106
+    ["/images/201.jpg", "/images/201 (1).jpg", "/images/201 (2).jpg"], // CCS 201
+    ["/images/202.jpg", "/images/202 (1).jpg", "/images/202 (2).jpg"], // CCS 202
+    ["/images/203.jpg", "/images/203 (1).jpg", "/images/203 (2).jpg"], // CCS 203
+    ["/images/204.jpg", "/images/204 (1).jpg", "/images/204 (2).jpg"], // CCS 204
     ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // Acer Lab 1
     ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS Lab 1
     ["/images/cmulogo.png", "/images/cmulogo.png", "/images/cmulogo.png"], // CCS Lab 2

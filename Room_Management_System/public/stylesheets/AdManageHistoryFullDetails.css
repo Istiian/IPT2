@@ -12,11 +12,8 @@
     width: 95%;
     margin: 50px auto;
     max-width: 900px;
- 
-    
     display: flex;
     flex-wrap: wrap;
-
 }
 
 .BookingDetails {
@@ -26,11 +23,22 @@
     width: 100%;
     height: fit-content;
     align-content: flex-start;
-    padding: 5px 5px 10px 5px;
+    padding: 5px 5px 5px 5px;
     border-bottom: 2px solid var(--black);
 }
 
-.BookingDetails p {
+.InformationDetails{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 100%;
+    height: fit-content;
+    align-content: flex-start;
+    padding: 5px 5px 10px 5px;
+    border-bottom: 2px dotted var(--black);
+}
+
+.BookingDetails p, .InformationDetails p {
     font-family: var(--bodyFont);
     font-size: 16px;
     color: var(--black);
@@ -38,7 +46,7 @@
     margin-top: 5px;
 }
 
-.BookingDetails strong {
+.BookingDetails strong, .InformationDetails ps {
     font-family: var(--headingFont);
 }
 .ReportDetails {
@@ -61,7 +69,6 @@
     color: var(--black);
 }
 .ImagesDetails{
-
     display: flex;
     flex-direction: column;
     margin-top: 10px;

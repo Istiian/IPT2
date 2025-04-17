@@ -18,7 +18,7 @@ router.get("/",checkAccess, async function (req, res) {
         let PendingDue = await new BookingReport().getUserDueReport(UserId)
         res.render("UsSchedule", { UserId, Username, BookingDatas, BookingPerRoom: updatedRoomInfos, PendingDue,Edit,Cancel });
     } else {
-        res.redirect("/UsLoginRoute?Error=Please login first");
+        res.redirect("/UsLoginRoute?Error=NotLogin");
     }
 });
 
@@ -26,26 +26,33 @@ router.get("/Edit/:id", async function (req, res) {
     const UserId = req.session.UserId;
     const Username = req.session.Username;
     const id = req.params.id
-    
-    try {
-        let SqlStatement = "SELECT * FROM room"
-        const [RoomInfos] = await connection.query(SqlStatement);
+    if (UserId) {
+        try {
+            let SqlStatement = "SELECT * FROM room"
+            const [RoomInfos] = await connection.query(SqlStatement);
 
-        const updatedRoomInfos = await AddSchedule(RoomInfos);
-        let PendingDue = await new BookingReport().getUserDueReport(UserId)
-        const BookingData = await new Book().GetBookingDetails(id);
-        res.render('UsEdit', { UserId, Username, BookingData, BookingPerRoom: updatedRoomInfos,PendingDue })
-    } catch (error) {
-        console.error(error.message)
+            const updatedRoomInfos = await AddSchedule(RoomInfos);
+            let PendingDue = await new BookingReport().getUserDueReport(UserId)
+            const BookingData = await new Book().GetBookingDetails(id);
+            res.render('UsEdit', { UserId, Username, BookingData, BookingPerRoom: updatedRoomInfos,PendingDue })
+        } catch (error) {
+            console.error(error.message)
+        }
+    }else{
+        res.redirect("/UsLoginRoute?Error=NotLogin");
     }
 });
 
 async function AddSchedule(RoomInfos) {
     for (const RoomInfo of RoomInfos) {
-        let FixedStatement = `SELECT * FROM schedule WHERE RoomId = ${RoomInfo.RoomId}`;
-        let BookStatement = `SELECT * FROM booking WHERE RoomId = ${RoomInfo.RoomId}`
-        let [FixedSched] = await connection.query(FixedStatement);
-        let [BookSched] = await connection.query(BookStatement);
+        let FixStatement = `SELECT * FROM schedule
+                WHERE ScheduledDay <> DAYNAME(CURDATE()) 
+                OR (ScheduledDay = DAYNAME(CURDATE()) AND CURTIME() <= EndTime) AND RoomId =?`;
+            let BookStatement = `SELECT * FROM booking 
+                WHERE (BookingDate > CURDATE() OR (BookingDate = CURDATE() 
+                AND EndTime >= CURTIME())) AND RoomId = ?`
+        let [FixedSched] = await connection.query(FixStatement,[RoomInfo.RoomId]);
+        let [BookSched] = await connection.query(BookStatement,[RoomInfo.RoomId]);
         let FullSched = [];
 
         if (Array.isArray(FixedSched) && FixedSched.length > 0) {

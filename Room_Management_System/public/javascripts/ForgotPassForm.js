@@ -5,6 +5,7 @@ const ConfirmPasswordInput = document.getElementById("ConfirmPassword")
 const ConfirmPasswordSmall = document.querySelector("#ConfirmPassword + small");
 const form = document.getElementById("#Form")
 
+
 PasswordInput.addEventListener("change", ()=>{
     isStrong(PasswordInput, PasswordSmall)
 });
@@ -13,20 +14,18 @@ ConfirmPasswordInput.addEventListener("change", ()=>{
     isStrong(ConfirmPasswordInput, ConfirmPasswordSmall)
 });
 
-ChangePassContainer.addEventListener("submit", function(event){
-    if(!isStrong(NewPassword, NewPasswordSmall) || !isStrong(ConfirmPassword, ConfirmPasswordSmall) || !(NewPassword.value === ConfirmPassword.value)){
+form.addEventListener("submit", function(event){
+    if(!isStrong(NewPassword, NewPasswordSmall) 
+        || !isStrong(ConfirmPassword, ConfirmPasswordSmall) || !(NewPassword.value === ConfirmPassword.value)){
         event.preventDefault();
-
         ConfirmPasswordSmall.classList.add("Active")
         ConfirmPassword.classList.add("Invalid")
         ConfirmPasswordSmall.innerText = "Password not match."
-
         NewPasswordSmall.classList.add("Active")
         NewPassword.classList.add("Invalid")
         NewPasswordSmall.innerText = "Password not match."
     }
 })
-
 
 function isStrong(Input, Small){
     if(Input.value.length < 8){

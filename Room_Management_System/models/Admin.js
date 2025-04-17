@@ -51,8 +51,8 @@ class Admin {
     }
 
     async isUsernameExist(username) {
-        let SqlStatement = `SELECT username FROM user WHERE username = ?`
-        const [result] = await connection.query(SqlStatement, [username]);
+  
+        const [result] = await connection.query(`SELECT username FROM user WHERE username = ${username}`);
 
         if (result.length > 0) {   
             return true;

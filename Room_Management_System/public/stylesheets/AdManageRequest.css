@@ -17,7 +17,7 @@ table, tr, td, th{
 .btnContainer{
     width: 90%;
     margin: 75px auto 0px;
-    max-width: 1100px;
+    max-width: 1250px;
 }
 #BackBtn{
     background: none;
@@ -27,6 +27,9 @@ table, tr, td, th{
     cursor: pointer;
     display: flex;
     align-items: center;
+    transition: all 0.3s ease;
+    padding: 5px;
+    border-radius: 10px;
 }
 
 #BackBtn i{
@@ -34,21 +37,29 @@ table, tr, td, th{
     font-size: 12px;
     color: #515151;
 }
-#BackBtn:hover, #BackBtn i:hover{
-    color: var(--secondaryOne);
-    transition: color 0.3s ease;
+#BackBtn:hover{
+    background-color: rgba(0, 0, 0, 0.2);
+    
 }
+
 table{
     width: 90%;
-    margin: 25px auto;
-    max-width: 1000px;
+    margin:10px auto;
+    max-width: 1200px;
+}
+
+h6{
+    font-family: var(--headingFont);
+    font-size: 36px;
+    color: var(--secondaryOne);
+    text-align: center;
 }
 
 th, td{
     width: fit-content;
     text-align: center;
     color: var(--black);
-    padding: 3px 0px;
+    padding: 5px;
 }
 
 th{
@@ -57,6 +68,7 @@ th{
 
 td{
     font-family: var(--bodyFont);
+    font-size: 14px
 }
 
 .AcceptBtn, .RejectBtn{
